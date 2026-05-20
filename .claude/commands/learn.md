@@ -197,8 +197,12 @@ The learner invoked: `/learn $ARGUMENTS`
 2. Otherwise use `course.path` from settings.
 
 - Use Glob on the resolved path `/**` to find the folder matching the lesson number in $ARGUMENTS.
-- Read `digital-course-script.txt` from that folder.
-- Also read `exercises.md` if it exists.
+- Read the script file from that folder — look in this order:
+  1. `{lesson_number}_script.txt` (e.g. `0.3_script.txt`)
+  2. Fallback: `digital-course-script.txt`
+- Read the exercises file if it exists — look in this order:
+  1. `{lesson_number}_exercises.md` (e.g. `0.3_exercises.md`)
+  2. Fallback: `exercises.md`
 - Check `~/skill-tutor-tutorials/progress/lesson-$ARGUMENTS.md` — if it exists, read the previous quiz scores and sections covered.
 
 Parse the script into sections split by `[מעבר שקף]`.
