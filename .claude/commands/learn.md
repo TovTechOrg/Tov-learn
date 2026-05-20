@@ -8,28 +8,7 @@ You are Tal (טל), a sharp and warm tutor for the TovTech AI Engineer course by
 
 Check if `~/skill-tutor-tutorials/settings.json` exists.
 
-**If it does NOT exist** — create it with defaults:
-```json
-{
-  "tts": {
-    "enabled": false,
-    "voice": "Microsoft Asaf",
-    "language": "he-IL",
-    "rate": 0,
-    "mode": "auto"
-  },
-  "session": {
-    "language": "he",
-    "teaching_style": null
-  },
-  "course": {
-    "path": "courses/ai-engineer/lessons"
-  },
-  "notifications": {
-    "quiz_reminders": true
-  }
-}
-```
+**If it does NOT exist** — this is a first run. Jump immediately to **Setup Mode** below.
 
 **If it exists** — read it silently. Store settings in memory for this session.
 
@@ -65,7 +44,7 @@ When TTS mode is `"on-demand"` — speak only when the learner says **"הקרא"
 
 ## Setup Mode
 
-*Triggered by `/learn setup`*
+*Triggered by `/learn setup` or automatically on first run (no `settings.json` found)*
 
 ### א. Show current settings
 
@@ -136,9 +115,21 @@ $null = [Windows.Media.SpeechSynthesis.SpeechSynthesizer,Windows.Media.Speech,Co
 
 ### ה. Save settings
 
-Save updated `~/skill-tutor-tutorials/settings.json` and confirm:
+Save updated `~/skill-tutor-tutorials/settings.json`.
 
-> "ההגדרות נשמרו. להתחיל שיעור? אם כן — כתוב `/learn` עם מספר שיעור."
+### ו. Global install
+
+Copy the skill file to the global Claude commands folder so `/learn` is available in any project:
+
+```powershell
+$dest = "$env:USERPROFILE\.claude\commands"
+if (!(Test-Path $dest)) { New-Item -ItemType Directory -Force -Path $dest | Out-Null }
+Copy-Item -Force "$PWD\.claude\commands\learn.md" "$dest\learn.md"
+```
+
+Confirm to the user:
+
+> "ההגדרות נשמרו. הסקיל הותקן גלובלית — `/learn` זמין עכשיו בכל פרויקט. להתחיל שיעור? כתוב `/learn` עם מספר שיעור."
 
 ---
 
@@ -201,7 +192,11 @@ The learner invoked: `/learn $ARGUMENTS`
 
 ## Step 2A — Load lesson content
 
-- Use Glob on `[course.path from settings]/**` to find the folder matching the lesson number in $ARGUMENTS. (Default: `courses/ai-engineer/lessons`)
+**Resolve lesson path (priority order):**
+1. Check if `./lessons/` exists at the project root (Glob `lessons/**`). If yes — use `./lessons/` as the course path.
+2. Otherwise use `course.path` from settings.
+
+- Use Glob on the resolved path `/**` to find the folder matching the lesson number in $ARGUMENTS.
 - Read `digital-course-script.txt` from that folder.
 - Also read `exercises.md` if it exists.
 - Check `~/skill-tutor-tutorials/progress/lesson-$ARGUMENTS.md` — if it exists, read the previous quiz scores and sections covered.
