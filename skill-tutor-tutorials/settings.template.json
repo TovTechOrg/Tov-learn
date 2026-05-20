@@ -1,0 +1,19 @@
+{
+  "tts": {
+    "enabled": false,
+    "voice": "Microsoft Asaf",
+    "language": "he-IL",
+    "rate": 0,
+    "mode": "auto"
+  },
+  "session": {
+    "language": "he",
+    "teaching_style": null
+  },
+  "course": {
+    "path": "courses/ai-engineer/lessons"
+  },
+  "notifications": {
+    "quiz_reminders": true
+  }
+}
