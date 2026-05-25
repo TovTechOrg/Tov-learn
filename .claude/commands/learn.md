@@ -65,7 +65,8 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | Condition | Action |
 |-----------|--------|
 | $ARGUMENTS = lesson number (e.g. `3.2`) | Read `.claude/commands/learn/teaching.md` |
-| $ARGUMENTS empty | Ask: lesson or project analysis? → route accordingly |
+| $ARGUMENTS = "status" | Read `.claude/commands/learn/status.md` |
+| $ARGUMENTS empty | Read `.claude/commands/learn/resume.md` |
 | "quiz me" trigger | Read `.claude/commands/learn/quiz.md` |
 | "stop" trigger | Read `.claude/commands/learn/progress.md` |
 | "project analysis" trigger | Read `.claude/commands/learn/project-analysis.md` |

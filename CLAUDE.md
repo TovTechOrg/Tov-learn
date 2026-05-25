@@ -12,9 +12,11 @@
 |-------|------|------|
 | Entry point + routing | `.claude/commands/learn.md` | Routing + TTS helper + Step 0-2 |
 | Setup | `.claude/commands/learn/setup.md` | הגדרות ראשוניות, קול, global install |
+| Resume | `.claude/commands/learn/resume.md` | Smart entry — suggests next action based on progress |
 | Teaching | `.claude/commands/learn/teaching.md` | טעינת שיעור, Journey format, לולאת הוראה |
 | Quiz | `.claude/commands/learn/quiz.md` | בחינה, ציונים, spaced repetition |
 | Progress | `.claude/commands/learn/progress.md` | שמירת tutorials, knowledge map |
+| Status | `.claude/commands/learn/status.md` | HTML dashboard — all lessons, scores, due reviews |
 | Project Analysis | `.claude/commands/learn/project-analysis.md` | סריקת קוד, ראיון ארכיטקט, מפת HTML |
 
 **כלל פיתוח:** כל מודול עצמאי — לא מניחים שמודול אחר כבר נטען. מידע שמודול צריך — הוא קורא בעצמו. TTS helper מוגדר ב-`learn.md` ונטען לפני כל מודול.

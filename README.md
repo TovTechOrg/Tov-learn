@@ -39,9 +39,9 @@ That's it. Type `/learn 0.1` to start the first lesson.
 
 ```
 /learn setup        — configure language, TTS, and course path (run once)
-/learn 0.1          — start lesson 0.1
-/learn 1.3          — start lesson 1.3
-/learn              — open menu: choose lesson or project analysis
+/learn              — smart resume: shows what to do next based on your progress
+/learn 0.1          — start lesson 0.1 directly
+/learn status       — generate a visual progress dashboard (HTML)
 ```
 
 ### Choosing a lesson
@@ -69,6 +69,30 @@ Choose **project analysis** from the menu. The tutor will:
 3. Generate a visual architecture map saved as an HTML file you can open in a browser
 
 This is useful before starting a lesson — the tutor uses your project as a concrete example throughout the session.
+
+### Smart Resume — `/learn`
+
+Typing `/learn` with no arguments doesn't just ask "what do you want to do?" — it reads your actual progress and tells you:
+
+- Which lessons are **overdue** for review (spaced repetition)
+- Which lessons are **in progress**
+- What the **next new lesson** is
+
+Example output after a few sessions:
+```
+Welcome back. Here's where things stand:
+
+🔁 Due for review: Lesson 0.2 — What is ML (3 days overdue)
+📖 Continue: Lesson 1.1 — Prompt Engineering Basics (in progress)
+📖 Next new: Lesson 1.2 — Few-shot and Chain of Thought
+🔍 Project analysis
+
+What would you like to do?
+```
+
+### Progress Dashboard — `/learn status`
+
+Generates an HTML file at `~/skill-tutor-tutorials/dashboard.html` showing all lessons color-coded by status (mastered / in progress / not started), quiz scores, and what's due for review. Open it in a browser.
 
 ### Commands during a session
 
