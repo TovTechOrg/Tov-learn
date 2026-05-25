@@ -1,5 +1,9 @@
 # Tov-learn
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-blueviolet)](https://claude.ai/code)
+[![Spaced Repetition](https://img.shields.io/badge/Learning-Spaced%20Repetition-green)](https://en.wikipedia.org/wiki/Spaced_repetition)
+
 Interactive AI tutor for the TovTech AI Engineer course, built as a Claude Code skill.
 
 ---
