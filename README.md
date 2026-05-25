@@ -44,6 +44,32 @@ That's it. Type `/learn 0.1` to start the first lesson.
 /learn              — open menu: choose lesson or project analysis
 ```
 
+### Choosing a lesson
+
+Lessons are numbered by module and index — `0.1`, `0.2`, `1.1`, etc. Browse available lessons in `courses/ai-engineer/COURSE.md`, which lists all modules and their topics.
+
+To start a lesson:
+```
+/learn 0.1
+```
+
+The tutor loads the script, greets you, asks what you already know, and walks through each section interactively. At any point you can type `quiz me` to test yourself, or `stop` to end the session and get a next-step recommendation.
+
+### Analyzing your own project
+
+If you want the tutor to help you understand how a concept applies to a project you're building, open Claude Code inside that project and run:
+
+```
+/learn
+```
+
+Choose **project analysis** from the menu. The tutor will:
+1. Silently scan your codebase (package.json, folder structure, config files)
+2. Ask you 5 short questions about the project's purpose, users, and pain points
+3. Generate a visual architecture map saved as an HTML file you can open in a browser
+
+This is useful before starting a lesson — the tutor uses your project as a concrete example throughout the session.
+
 ### Commands during a session
 
 | Command | Action |
