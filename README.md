@@ -12,7 +12,7 @@
 
 Interactive AI tutor for the TovTech AI Engineer course, built as a Claude Code skill.
 
-> Built and maintained by [TovTech](https://tovtech.org) — tailored tech training for people with disabilities.
+> Built and maintained by [TovTech](https://tovtech.org)
 
 ---
 
