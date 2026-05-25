@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://tovtech.org">
-    <img src="https://tovtech.org/favicon.png" alt="TovTech" width="48"/>
+    <img src="assets/tov-learn-banner.png" alt="Tov-learn" width="400"/>
   </a>
 </p>
 
