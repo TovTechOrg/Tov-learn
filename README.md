@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://tovtech.org">
+    <img src="https://tovtech.org/favicon.png" alt="TovTech" width="48"/>
+  </a>
+</p>
+
 # Tov-learn
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -5,6 +11,8 @@
 [![Spaced Repetition](https://img.shields.io/badge/Learning-Spaced%20Repetition-green)](https://en.wikipedia.org/wiki/Spaced_repetition)
 
 Interactive AI tutor for the TovTech AI Engineer course, built as a Claude Code skill.
+
+> Built and maintained by [TovTech](https://tovtech.org) — tailored tech training for people with disabilities.
 
 ---
 
