@@ -11,25 +11,15 @@ Interactive AI tutor for the TovTech AI Engineer course, built as a Claude Code 
 - [Claude Code](https://claude.ai/code) installed (Pro plan or higher)
 - Git
 
-### Step 2 — Clone the repo into your project
-
-Open Claude Code inside your project folder and run:
+### Step 2 — Clone and open
 
 ```bash
-git clone https://github.com/RazHadas/Tov-learn.git .tov-learn
+git clone https://github.com/TovTechOrg/Tov-learn.git
 ```
 
-Then copy the skill files:
-
-```bash
-# Windows (PowerShell)
-Copy-Item -Recurse .tov-learn\.claude\commands\learn .claude\commands\learn
-Copy-Item .tov-learn\.claude\commands\learn.md .claude\commands\learn.md
-```
+Open the cloned folder in Claude Code.
 
 ### Step 3 — Run setup
-
-Inside Claude Code, type:
 
 ```
 /learn setup
@@ -39,7 +29,7 @@ This will:
 - Ask for your preferred session language (Hebrew / English)
 - Ask for your course content folder path
 - Optionally configure a TTS voice
-- Install `/learn` globally so it works in any future project
+- **Install `/learn` globally** — from this point on, `/learn` works in any project on your machine
 
 That's it. Type `/learn 0.1` to start the first lesson.
 
