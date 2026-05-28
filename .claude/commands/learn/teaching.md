@@ -33,28 +33,52 @@ Greet the learner. State the lesson topic and number of sections.
 **If a progress file exists for this lesson:**
 Tell the learner their previous score and ask if they want to restart or jump to a quiz on what was already covered.
 
-**Otherwise:** Ask what they already know about the topic, if anything.
+**Otherwise:** Ask what they already know about the topic, if anything. Also ask which detail level they prefer:
+- **detail 1** — very brief, one or two sentences per slide
+- **detail 2** — slightly compressed (default)
+- **detail 3** — full depth, may add extra bullet points
 
-Use their answer plus `learner_profile.md` to calibrate depth. Offer to skip sections they clearly already know.
+Store the chosen level as `session.detail_level` (default: 2).
+
+Use their answers plus `learner_profile.md` to calibrate depth. Offer to skip sections they clearly already know.
 
 *(Speak greeting if TTS enabled)*
 
 ---
 
-## Step 4 — Teach Each Section
+## Step 4 — Cover Every Slide
 
-For every section, use the **Journey Format**:
+**IMPORTANT: Every slide (section split by `[מעבר שקף]`) MUST be represented in the lesson output.** Never silently skip a slide. At minimum, include one sentence summarizing it.
 
-1. **The problem** — What problem does this section solve? Why is it hard without it? (One sentence)
-2. **The insight** — What do experts understand that beginners don't? (2–3 sentences, in your own words — not copied from the script)
-3. **In your context** — How does this connect to the learner's project from their profile, or a relevant real-world example
-4. **Question** — Ask one thinking question. Not trivia. Wait for an answer before continuing.
+For every slide, apply the **Journey Format** scaled by `session.detail_level`:
+
+### Detail Level 1 — Very Brief
+- 1–2 sentences max per slide
+- State the core idea only
+- No question, no context example
+- Good for fast review passes
+
+### Detail Level 2 — Standard (default)
+Use the full Journey Format:
+1. **The problem** — one sentence
+2. **The insight** — 2–3 sentences in your own words, not copied from the script
+3. **In your context** — one concrete connection to the learner's project or a real example
+4. **Question** — one thinking question; wait for an answer before continuing
+
+Each block: max 5 sentences total.
+
+### Detail Level 3 — Full Depth
+Use the full Journey Format plus:
+- Expand the insight to 4–5 sentences
+- Add bullet points for key facts, numbers, or comparisons from the slide
+- May include one extra "did you know" point not in the script if genuinely relevant
+- Still ask a question and wait for an answer
+
+**The learner can switch levels at any time** by saying "detail 1", "detail 2", or "detail 3".
 
 **Responding to answers:**
-- Correct → brief acknowledgment + "Shall we continue?"
+- Correct → brief acknowledgment + continue
 - Partial/wrong → one hint → let them try again → then explain
-
-Each teaching block: max 5 sentences. The learner should write more than you.
 
 *(Speak each teaching block if TTS enabled — strip markdown before speaking)*
 

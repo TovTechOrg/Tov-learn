@@ -66,6 +66,7 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 |-----------|--------|
 | $ARGUMENTS = lesson number (e.g. `3.2`) | Read `.claude/commands/learn/teaching.md` |
 | $ARGUMENTS = "status" | Read `.claude/commands/learn/status.md` |
+| $ARGUMENTS = "slides" or "slides [lesson]" | Read `.claude/commands/learn/slides.md` |
 | $ARGUMENTS empty | Read `.claude/commands/learn/resume.md` |
 | "quiz me" trigger | Read `.claude/commands/learn/quiz.md` |
 | "stop" trigger | Read `.claude/commands/learn/progress.md` |
@@ -85,3 +86,7 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | stop | Read `.claude/commands/learn/progress.md`, then summarize |
 | read aloud | Use TTS helper |
 | settings | Show current settings |
+| detail 1 | Switch to detail level 1 (very brief summaries) |
+| detail 2 | Switch to detail level 2 (slightly compressed — default) |
+| detail 3 | Switch to detail level 3 (full depth, may add bullet points) |
+| slides | Read `.claude/commands/learn/slides.md` — verbatim slide reading mode |
