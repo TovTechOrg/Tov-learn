@@ -33,22 +33,33 @@ Tell the learner:
 
 ---
 
-## Step 3 — Read Slides Verbatim
+## Step 3 — Launch Viewer
 
-For each slide:
-1. Display the slide content as-is (translated to `session.language` if the script is in a different language)
-2. Open the slide image in the browser using PowerShell:
-   - Slide images are at: `C:\Users\yuval\ai-track\courses\ai-engineer\lessons\[module]\[lesson]\digital-course-screenshots\slide-NN.png`
-   - Use zero-padded numbers: slide-01.png, slide-02.png, etc.
-   - Run this PowerShell to open the image:
+On entry to Slides Mode, start the slide server and generate the HTML viewer:
+
+1. **Start the server** (if not already running on port 7823):
    ```powershell
-   Start-Process "SLIDE_IMAGE_PATH"
+   Start-Process powershell -ArgumentList "-NoProfile -File `"C:\Users\yuval\Tov-learn\.claude\scripts\slide-server.ps1`"" -WindowStyle Normal
+   Start-Sleep -Seconds 2
    ```
-3. Run TTS from the per-slide TTS script file if it exists:
-   - TTS scripts are at: `C:\Users\yuval\ai-track\courses\ai-engineer\lessons\[module]\[lesson]\digital-course-tts-scripts\slide-NN.txt`
-   - Read the file content and speak it using the TTS helper
-   - If no TTS script file exists, speak the slide text directly
-4. Wait for the learner to say **next** before advancing
+
+2. **Resolve the lesson's absolute path** on disk:
+   - Slide images are at: `C:\Users\yuval\ai-track\courses\ai-engineer\lessons\[module]\[lesson]\digital-course-screenshots\`
+   - TTS scripts are at: `C:\Users\yuval\ai-track\courses\ai-engineer\lessons\[module]\[lesson]\digital-course-tts-scripts\`
+
+3. **Generate and open the viewer**:
+   ```powershell
+   & "C:\Users\yuval\Tov-learn\.claude\scripts\generate-slideshow.ps1" -LessonPath "ABSOLUTE_LESSON_PATH"
+   Start-Process "$env:TEMP\tov_slideshow.html"
+   ```
+
+4. **For each slide**, display the text verbatim (translated to `session.language`), then advance the server to that slide so TTS plays automatically:
+   ```powershell
+   "SLIDE_NUMBER" | Set-Content "$env:TEMP\tov_current_slide.txt"
+   Invoke-RestMethod -Uri "http://localhost:7823/" -Method POST -Body "SLIDE_NUMBER" | Out-Null
+   ```
+
+5. Wait for the learner to say **next** before advancing.
 
 **Do not** apply Journey Format. **Do not** ask thinking questions between slides.
 

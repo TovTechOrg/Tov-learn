@@ -18,6 +18,9 @@
 | Progress | `.claude/commands/learn/progress.md` | שמירת tutorials, knowledge map |
 | Status | `.claude/commands/learn/status.md` | HTML dashboard — all lessons, scores, due reviews |
 | Project Analysis | `.claude/commands/learn/project-analysis.md` | סריקת קוד, ראיון ארכיטקט, מפת HTML |
+| Slides | `.claude/commands/learn/slides.md` | קריאה מילה במילה מסקריפטים, viewer אינטראקטיבי, TTS אוטומטי |
+
+סקריפטים תומכים נמצאים ב-`.claude/scripts/` (PowerShell — slide server, HTML generator).
 
 **כלל פיתוח:** כל מודול עצמאי — לא מניחים שמודול אחר כבר נטען. מידע שמודול צריך — הוא קורא בעצמו. TTS helper מוגדר ב-`learn.md` ונטען לפני כל מודול.
 
