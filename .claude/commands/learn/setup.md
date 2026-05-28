@@ -24,23 +24,29 @@ Set `session.language` to `"he"` or `"en"`. Use this language for all communicat
 
 ## C. Course Selection
 
-Show the learner this menu:
+Use the `AskUserQuestion` tool to display a course picker:
 
 ```
-באיזה קורס תרצה ללמוד?
-
-1. AI Dev — פיתוח מוצרי AI עם Claude Code ו-API (ברירת מחדל)
-2. AI Engineer — אוטומציות ו-AI לאנשי ביזנס ומקצוע
-3. נתיב מותאם אישית
+question: "באיזה קורס תרצה ללמוד?"
+header: "בחירת קורס"
+options:
+  - label: "AI Dev"
+    description: "פיתוח מוצרי AI עם Claude Code ו-API (ברירת מחדל)"
+  - label: "AI Engineer"
+    description: "אוטומציות ו-AI לאנשי ביזנס ומקצוע"
+  - label: "נתיב מותאם אישית"
+    description: "הגדרת נתיב קורס ידנית"
 ```
+
+Map the selection to settings:
 
 | בחירה | course.name | course.path |
 |-------|-------------|-------------|
-| 1 / Enter / ai-dev | `ai-dev` | `courses/ai-dev/lessons` |
-| 2 / ai-engineer | `ai-engineer` | `courses/ai-engineer/lessons` |
-| 3 / custom | (שאל שם) | (שאל נתיב) |
+| AI Dev | `ai-dev` | `courses/ai-dev/lessons` |
+| AI Engineer | `ai-engineer` | `courses/ai-engineer/lessons` |
+| נתיב מותאם אישית | (שאל שם) | (שאל נתיב) |
 
-If the learner presses Enter or says "1" or "ai-dev" — select AI Dev as default.
+If the learner types "Other" with free text — treat as custom path.
 
 ---
 
