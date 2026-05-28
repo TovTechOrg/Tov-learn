@@ -16,7 +16,17 @@ If the file does not exist — skip directly to section B.
 
 ## B. Session Language
 
-Ask: "In which language would you like the session to run? (Hebrew / English)"
+Use the `AskUserQuestion` tool:
+
+```
+question: "In which language would you like the session to run?"
+header: "Session Language"
+options:
+  - label: "עברית"
+    description: "המערכת תתקשר איתך בעברית"
+  - label: "English"
+    description: "The system will communicate with you in English"
+```
 
 Set `session.language` to `"he"` or `"en"`. Use this language for all communication from this point on.
 
@@ -52,7 +62,17 @@ If the learner types "Other" with free text — treat as custom path.
 
 ## D. TTS Setup
 
-Ask: "Would you like the tutor to speak aloud? (yes / no)"
+Use the `AskUserQuestion` tool:
+
+```
+question: "האם תרצה שהמורה ידבר בקול?"
+header: "קול מורה"
+options:
+  - label: "כן"
+    description: "המערכת תקרא את התשובות בקול"
+  - label: "לא"
+    description: "טקסט בלבד"
+```
 
 **If yes:**
 
@@ -63,15 +83,51 @@ $null = [Windows.Media.SpeechSynthesis.SpeechSynthesizer,Windows.Media.Speech,Co
 [Windows.Media.SpeechSynthesis.SpeechSynthesizer]::AllVoices | ForEach-Object { "$($_.DisplayName) — $($_.Language)" }
 ```
 
-2. Show the list and ask which voice they want.
+2. Show the list and ask which voice they want (free text — list is dynamic).
 
-3. Ask for speaking rate: 0 = normal, -5 = very slow, 5 = very fast.
+3. Use the `AskUserQuestion` tool for speaking rate:
 
-4. Ask for TTS mode: (a) automatic — speaks after every response, (b) on-demand — only when triggered.
+```
+question: "באיזה קצב תרצה שהמורה ידבר?"
+header: "קצב דיבור"
+options:
+  - label: "רגיל"
+    description: "קצב ברירת מחדל (0)"
+  - label: "איטי"
+    description: "מומלץ למתחילים (-2)"
+  - label: "מהיר"
+    description: "למי שרוצה להאיץ (+2)"
+```
+
+Map: רגיל → 0, איטי → -2, מהיר → 2.
+
+4. Use the `AskUserQuestion` tool for TTS mode:
+
+```
+question: "מתי תרצה שהמורה ידבר?"
+header: "מצב קול"
+options:
+  - label: "אוטומטי"
+    description: "מדבר אחרי כל תשובה"
+  - label: "לפי דרישה"
+    description: "רק כשתבקש"
+```
+
+Map: אוטומטי → `"auto"`, לפי דרישה → `"on-demand"`.
 
 5. Test the voice by speaking a greeting in the configured session language.
 
-6. Ask: "Does it sound good? (yes / no / change)" — if "change", go back to step 2.
+6. Use the `AskUserQuestion` tool:
+
+```
+question: "הקול נשמע טוב?"
+header: "בדיקת קול"
+options:
+  - label: "כן, מעולה"
+    description: "שמור את ההגדרות"
+  - label: "לא, שנה קול"
+    description: "חזור לבחירת קול (שלב 2)"
+```
 
 **If no:** set `tts.enabled = false`.
 
