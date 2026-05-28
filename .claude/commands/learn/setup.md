@@ -22,15 +22,25 @@ Set `session.language` to `"he"` or `"en"`. Use this language for all communicat
 
 ---
 
-## C. Course Path
+## C. Course Selection
 
-Ask the learner for the path to their lessons folder, relative to their project root.
+Show the learner this menu:
 
-Provide examples:
-- `courses/ai-engineer/lessons` — Tov-learn default
-- `lessons` — if lessons are at the project root
+```
+באיזה קורס תרצה ללמוד?
 
-If the learner presses Enter or says "default" — use `courses/ai-engineer/lessons`.
+1. AI Dev — פיתוח מוצרי AI עם Claude Code ו-API (ברירת מחדל)
+2. AI Engineer — אוטומציות ו-AI לאנשי ביזנס ומקצוע
+3. נתיב מותאם אישית
+```
+
+| בחירה | course.name | course.path |
+|-------|-------------|-------------|
+| 1 / Enter / ai-dev | `ai-dev` | `courses/ai-dev/lessons` |
+| 2 / ai-engineer | `ai-engineer` | `courses/ai-engineer/lessons` |
+| 3 / custom | (שאל שם) | (שאל נתיב) |
+
+If the learner presses Enter or says "1" or "ai-dev" — select AI Dev as default.
 
 ---
 
@@ -71,7 +81,8 @@ Save `~/skill-tutor-tutorials/settings.json`:
     "language": "he"
   },
   "course": {
-    "path": "courses/ai-engineer/lessons"
+    "name": "ai-dev",
+    "path": "courses/ai-dev/lessons"
   },
   "tts": {
     "enabled": true,

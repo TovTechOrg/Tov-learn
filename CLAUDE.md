@@ -40,6 +40,7 @@ courses/
 
 | קורס | תיקייה | course.path ברירת מחדל |
 |------|--------|----------------------|
+| AI Dev | `courses/ai-dev/` | `courses/ai-dev/lessons` |
 | AI Engineer | `courses/ai-engineer/` | `courses/ai-engineer/lessons` |
 
 ---
@@ -49,7 +50,7 @@ courses/
 נשמר ב-`~/skill-tutor-tutorials/`:
 
 ```
-settings.json                          ← שפה, TTS, course.path
+settings.json                          ← שפה, TTS, course.name, course.path
 learner_profile.md                     ← פרופיל אישי + לומד נוכחי
 tutorials/lesson-X.Y.md               ← סיכומי שיעורים + Q&A
 progress/lesson-X.Y.md                ← ציונים + תאריך חזרה מומלץ
