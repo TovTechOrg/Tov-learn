@@ -53,13 +53,21 @@ On entry to Slides Mode, start the slide server and generate the HTML viewer:
    Start-Process "$env:TEMP\tov_slideshow.html"
    ```
 
-4. **For each slide**, display the text verbatim (translated to `session.language`), then advance the server to that slide so TTS plays automatically:
-   ```powershell
-   "SLIDE_NUMBER" | Set-Content "$env:TEMP\tov_current_slide.txt"
-   Invoke-RestMethod -Uri "http://localhost:7823/" -Method POST -Body "SLIDE_NUMBER" | Out-Null
-   ```
+---
 
-5. Wait for the learner to say **next** before advancing.
+## Step 4 — Per-Slide Loop
+
+Repeat this sequence for every slide, starting at slide 1:
+
+**a. Display text** — show the verbatim slide content (translated to `session.language`).
+
+**b. Fire TTS — MANDATORY, do not skip.** Immediately after displaying the text, run:
+```powershell
+Invoke-RestMethod -Uri "http://localhost:7823/" -Method POST -Body "SLIDE_NUMBER" | Out-Null
+```
+Replace `SLIDE_NUMBER` with the current slide number (integer). This tells the server to speak the slide and sync the viewer. TTS fires automatically on every slide — the learner should never have to ask for it.
+
+**c. Wait** for the learner to say **next** before advancing.
 
 **Do not** apply Journey Format. **Do not** ask thinking questions between slides.
 
