@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/sea/skill-tutor-tutorials/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\sea\\skill-tutor-tutorials"
+    ]
+  }
+}
