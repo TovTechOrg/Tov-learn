@@ -78,7 +78,8 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | Command | Action |
 |---------|--------|
 | continue | Move to next section |
-| quiz me | Read `.claude/commands/learn/quiz.md` |
+| quiz me | Read `.claude/commands/learn/quiz.md` (covered sections) |
+| quiz me full | Read `.claude/commands/learn/quiz.md` (whole lesson, 8 Qs) |
 | explain again | Re-explain from a different angle |
 | summary | Bullet-point of everything covered |
 | exercises | Show lesson exercises |
