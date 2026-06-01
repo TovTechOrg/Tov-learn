@@ -43,3 +43,5 @@ Modifications made while testing the `/learn` user flow on the AI Dev course (le
 ## Possible follow-up (not yet implemented)
 
 - A normal `quiz me` can mark a lesson as "Mastered" (score 8+) even if only a few sections were covered. Consider requiring full coverage — or `quiz me full` — before granting mastery in the knowledge map.
+- still need to add a FAQ and maybe a walkthrough to help with onboarding.
+- also to teach about adding RTL support for claude code https://marketplace.visualstudio.com/items?itemName=yechielby.claude-code-rtl
