@@ -159,11 +159,11 @@ $slideImgTags
     paused = !paused;
     const btn = document.getElementById('pause-btn');
     if (paused) {
-      fetch('http://localhost:7823/', { method: 'POST', body: 'stop' }).catch(() => {});
+      fetch('http://localhost:7823/', { method: 'POST', body: 'pause' }).catch(() => {});
       btn.innerHTML = '&#x25B6; &#x05D4;&#x05DE;&#x05E9;&#x05DA;';
       btn.classList.add('paused');
     } else {
-      postSlide(current);
+      fetch('http://localhost:7823/', { method: 'POST', body: 'resume' }).catch(() => {});
       btn.innerHTML = '&#x23F8; &#x05D4;&#x05E9;&#x05D4;&#x05D4;';
       btn.classList.remove('paused');
     }

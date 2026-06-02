@@ -1,7 +1,9 @@
 # Tov-learn Slide Server — localhost:7823
-# GET  /        → returns current slide number
-# POST / {num}  → advance to slide N + speak TTS
-# POST / stop   → kill current TTS only
+# GET  /         → returns current slide number
+# POST / {num}   → advance to slide N + speak TTS
+# POST / pause   → pause current TTS in place
+# POST / resume  → resume from exact pause point
+# POST / stop    → stop current TTS
 
 param([int]$Port = 7823)
 
@@ -9,12 +11,13 @@ $slideFile   = "$env:TEMP\tov_current_slide.txt"
 $lessonFile  = "$env:TEMP\tov_current_lesson.txt"
 $ttsTextFile = "$env:TEMP\tov_tts_text.txt"
 $ttsRunFile  = "$env:TEMP\tov_tts_run.ps1"
+$controlFile = "$env:TEMP\tov_tts_control.txt"
 
 if (!(Test-Path $slideFile)) { "1" | Set-Content $slideFile }
 
 $script:ttsProcess    = $null
 $script:loadedLesson  = ""
-$script:ttsScripts    = @{}   # [int]slideNum → [string]text
+$script:ttsScripts    = @{}
 
 function Load-Lesson {
     param([string]$lessonPath)
@@ -32,6 +35,8 @@ function Load-Lesson {
 }
 
 function Kill-TTS {
+    [System.IO.File]::WriteAllText($controlFile, "stop")
+    Start-Sleep -Milliseconds 200
     if ($script:ttsProcess -and !$script:ttsProcess.HasExited) {
         try { $script:ttsProcess.Kill() } catch {}
         $script:ttsProcess = $null
@@ -42,7 +47,6 @@ function Speak-Slide {
     param([int]$num)
     Kill-TTS
 
-    # Reload lesson if changed
     if (Test-Path $lessonFile) {
         $lesson = (Get-Content $lessonFile -Raw -Encoding UTF8).Trim()
         Load-Lesson $lesson
@@ -51,23 +55,31 @@ function Speak-Slide {
     $text = $script:ttsScripts[$num]
     if (!$text) { return }
 
-    # Write TTS text with BOM so runner reads Hebrew correctly
     [System.IO.File]::WriteAllText($ttsTextFile, $text, (New-Object System.Text.UTF8Encoding($true)))
+    [System.IO.File]::WriteAllText($controlFile, "play")
 
-    # Build runner script — backtick-dollar escapes PS vars in the here-string
     $runner = @"
 Add-Type -AssemblyName System.Speech
 `$s = New-Object System.Speech.Synthesis.SpeechSynthesizer
 `$hv = `$s.GetInstalledVoices() | Where-Object { `$_.VoiceInfo.Culture.Name -like 'he-*' } | Select-Object -First 1
 if (`$hv) { `$s.SelectVoice(`$hv.VoiceInfo.Name) }
 `$t = [System.IO.File]::ReadAllText('$ttsTextFile', [System.Text.Encoding]::UTF8)
-`$s.Speak(`$t)
+`$controlFile = '$controlFile'
+`$chunks = [System.Text.RegularExpressions.Regex]::Split(`$t, '(?<=[.!?])\s+|\r?\n') | Where-Object { `$_.Trim() -ne '' }
+foreach (`$chunk in `$chunks) {
+    while (`$true) {
+        `$ctrl = ([System.IO.File]::ReadAllText(`$controlFile)).Trim()
+        if (`$ctrl -eq 'stop') { exit }
+        if (`$ctrl -ne 'pause') { break }
+        Start-Sleep -Milliseconds 200
+    }
+    `$s.Speak(`$chunk)
+}
 "@
     [System.IO.File]::WriteAllText($ttsRunFile, $runner, (New-Object System.Text.UTF8Encoding($true)))
     $script:ttsProcess = Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -File `"$ttsRunFile`"" -PassThru
 }
 
-# Pre-load current lesson if already set
 if (Test-Path $lessonFile) {
     $lesson = (Get-Content $lessonFile -Raw -Encoding UTF8).Trim()
     Load-Lesson $lesson
@@ -91,6 +103,10 @@ while ($listener.IsListening) {
 
             if ($body -eq "stop") {
                 Kill-TTS
+            } elseif ($body -eq "pause") {
+                [System.IO.File]::WriteAllText($controlFile, "pause")
+            } elseif ($body -eq "resume") {
+                [System.IO.File]::WriteAllText($controlFile, "resume")
             } else {
                 $num = [int]$body
                 "$num" | Set-Content $slideFile
