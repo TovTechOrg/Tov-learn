@@ -16,27 +16,63 @@ If the file does not exist — skip directly to section B.
 
 ## B. Session Language
 
-Ask: "In which language would you like the session to run? (Hebrew / English)"
+Use the `AskUserQuestion` tool:
+
+```
+question: "In which language would you like the session to run?"
+header: "Session Language"
+options:
+  - label: "עברית"
+    description: "המערכת תתקשר איתך בעברית"
+  - label: "English"
+    description: "The system will communicate with you in English"
+```
 
 Set `session.language` to `"he"` or `"en"`. Use this language for all communication from this point on.
 
 ---
 
-## C. Course Path
+## C. Course Selection
 
-Ask the learner for the path to their lessons folder, relative to their project root.
+Use the `AskUserQuestion` tool to display a course picker:
 
-Provide examples:
-- `courses/ai-engineer/lessons` — Tov-learn default
-- `lessons` — if lessons are at the project root
+```
+question: "באיזה קורס תרצה ללמוד?"
+header: "בחירת קורס"
+options:
+  - label: "AI Dev"
+    description: "פיתוח מוצרי AI עם Claude Code ו-API (ברירת מחדל)"
+  - label: "AI Engineer"
+    description: "אוטומציות ו-AI לאנשי ביזנס ומקצוע"
+  - label: "נתיב מותאם אישית"
+    description: "הגדרת נתיב קורס ידנית"
+```
 
-If the learner presses Enter or says "default" — use `courses/ai-engineer/lessons`.
+Map the selection to settings:
+
+| בחירה | course.name | course.path |
+|-------|-------------|-------------|
+| AI Dev | `ai-dev` | `courses/ai-dev/lessons` |
+| AI Engineer | `ai-engineer` | `courses/ai-engineer/lessons` |
+| נתיב מותאם אישית | (שאל שם) | (שאל נתיב) |
+
+If the learner types "Other" with free text — treat as custom path.
 
 ---
 
 ## D. TTS Setup
 
-Ask: "Would you like the tutor to speak aloud? (yes / no)"
+Use the `AskUserQuestion` tool:
+
+```
+question: "האם תרצה שהמורה ידבר בקול?"
+header: "קול מורה"
+options:
+  - label: "כן"
+    description: "המערכת תקרא את התשובות בקול"
+  - label: "לא"
+    description: "טקסט בלבד"
+```
 
 **If yes:**
 
@@ -47,15 +83,51 @@ $null = [Windows.Media.SpeechSynthesis.SpeechSynthesizer,Windows.Media.Speech,Co
 [Windows.Media.SpeechSynthesis.SpeechSynthesizer]::AllVoices | ForEach-Object { "$($_.DisplayName) — $($_.Language)" }
 ```
 
-2. Show the list and ask which voice they want.
+2. Show the list and ask which voice they want (free text — list is dynamic).
 
-3. Ask for speaking rate: 0 = normal, -5 = very slow, 5 = very fast.
+3. Use the `AskUserQuestion` tool for speaking rate:
 
-4. Ask for TTS mode: (a) automatic — speaks after every response, (b) on-demand — only when triggered.
+```
+question: "באיזה קצב תרצה שהמורה ידבר?"
+header: "קצב דיבור"
+options:
+  - label: "רגיל"
+    description: "קצב ברירת מחדל (0)"
+  - label: "איטי"
+    description: "מומלץ למתחילים (-2)"
+  - label: "מהיר"
+    description: "למי שרוצה להאיץ (+2)"
+```
+
+Map: רגיל → 0, איטי → -2, מהיר → 2.
+
+4. Use the `AskUserQuestion` tool for TTS mode:
+
+```
+question: "מתי תרצה שהמורה ידבר?"
+header: "מצב קול"
+options:
+  - label: "אוטומטי"
+    description: "מדבר אחרי כל תשובה"
+  - label: "לפי דרישה"
+    description: "רק כשתבקש"
+```
+
+Map: אוטומטי → `"auto"`, לפי דרישה → `"on-demand"`.
 
 5. Test the voice by speaking a greeting in the configured session language.
 
-6. Ask: "Does it sound good? (yes / no / change)" — if "change", go back to step 2.
+6. Use the `AskUserQuestion` tool:
+
+```
+question: "הקול נשמע טוב?"
+header: "בדיקת קול"
+options:
+  - label: "כן, מעולה"
+    description: "שמור את ההגדרות"
+  - label: "לא, שנה קול"
+    description: "חזור לבחירת קול (שלב 2)"
+```
 
 **If no:** set `tts.enabled = false`.
 
@@ -71,7 +143,8 @@ Save `~/skill-tutor-tutorials/settings.json`:
     "language": "he"
   },
   "course": {
-    "path": "courses/ai-engineer/lessons"
+    "name": "ai-dev",
+    "path": "courses/ai-dev/lessons"
   },
   "tts": {
     "enabled": true,
@@ -85,9 +158,27 @@ Save `~/skill-tutor-tutorials/settings.json`:
 
 ---
 
-## F. Global Install
+## F. Global Install (optional)
 
-Copy all skill files to the global Claude commands folder:
+By default `/learn` works inside this repo — no install needed. Global install is only useful if the learner wants to run `/learn` from *other* projects (a future cross-repo use case).
+
+**Note the trade-off:** a global copy is a second source of truth. If the repo's modules are later edited, the global copy goes stale until re-synced. Most learners should say no.
+
+Use the `AskUserQuestion` tool:
+
+```
+question: "להתקין את /learn גם בפרויקטים אחרים? (רוב הלומדים: לא)"
+header: "התקנה גלובלית"
+options:
+  - label: "לא, רק בריפו הזה"
+    description: "/learn יעבוד בתוך הריפו. מומלץ — אין עותק כפול שעלול להתיישן."
+  - label: "כן, התקן גלובלית"
+    description: "אעתיק את המודולים ל-~/.claude/commands כדי שאפשר יהיה להשתמש מכל מקום."
+```
+
+**If no:** skip — confirm settings are saved and `/learn` is ready inside this repo.
+
+**If yes:** copy the skill files to the global Claude commands folder, then warn that future repo edits require re-running setup to re-sync.
 
 ```powershell
 $dest = "$env:USERPROFILE\.claude\commands"
@@ -98,5 +189,3 @@ $moduleDest = "$dest\learn"
 if (!(Test-Path $moduleDest)) { New-Item -ItemType Directory -Force -Path $moduleDest | Out-Null }
 Copy-Item -Force "$PWD\.claude\commands\learn\*.md" "$moduleDest\"
 ```
-
-Confirm to the learner that settings are saved and `/learn` is now available globally in any project.

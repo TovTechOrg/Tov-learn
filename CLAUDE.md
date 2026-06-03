@@ -43,6 +43,7 @@ courses/
 
 | קורס | תיקייה | course.path ברירת מחדל |
 |------|--------|----------------------|
+| AI Dev | `courses/ai-dev/` | `courses/ai-dev/lessons` |
 | AI Engineer | `courses/ai-engineer/` | `courses/ai-engineer/lessons` |
 
 ---
@@ -52,7 +53,7 @@ courses/
 נשמר ב-`~/skill-tutor-tutorials/`:
 
 ```
-settings.json                          ← שפה, TTS, course.path
+settings.json                          ← שפה, TTS, course.name, course.path
 learner_profile.md                     ← פרופיל אישי + לומד נוכחי
 tutorials/lesson-X.Y.md               ← סיכומי שיעורים + Q&A
 progress/lesson-X.Y.md                ← ציונים + תאריך חזרה מומלץ
@@ -67,4 +68,4 @@ architectures/[project-name].html     ← מפות ארכיטקטורה
 1. צור קובץ ב-`.claude/commands/learn/[module-name].md`
 2. הוסף שורה לטבלת ה-Modules למעלה
 3. הוסף routing ב-`learn.md` (Step 2 — Route table)
-4. עדכן את הפקודה לגלובל אינסטול ב-`setup.md`
+4. (אופציונלי) אם ההתקנה הגלובלית מופעלת — עדכן את רשימת הקבצים שמועתקים ב-`setup.md` סעיף F. ברירת מחדל: `/learn` רץ מתוך הריפו בלבד, ללא התקנה גלובלית.

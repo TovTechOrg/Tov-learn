@@ -14,6 +14,8 @@ Interactive AI tutor, built as a Claude Code skill.
 
 > Built and maintained by [TovTech](https://tovtech.org)
 
+⭐ **If this project helps you learn, please star the repo** — it helps us reach more developers and grow the community!
+
 ---
 
 ## Getting Started
@@ -206,3 +208,7 @@ CLAUDE.md                   ← architecture overview for contributors
 ## License
 
 MIT
+
+---
+
+Inspired by [skill-tutor](https://github.com/Nitzan94/claude-code-skills/tree/master/skills/skill-tutor) by Nitzan94.

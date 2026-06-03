@@ -33,7 +33,11 @@ Greet the learner. State the lesson topic and number of sections.
 **If a progress file exists for this lesson:**
 Tell the learner their previous score and ask if they want to restart or jump to a quiz on what was already covered.
 
-**Otherwise:** Ask what they already know about the topic, if anything. Also ask which detail level they prefer:
+**Otherwise:** Ask what they already know about the topic, if anything.
+
+- If the learner says they already know it well (e.g. "I know this", "familiar with this", "studied it before") — offer a skip quiz: "Want to prove it with a quick quiz? Pass and we'll mark this lesson done and move on." If they agree, read `quiz.md` in `quiz me full` mode. If they score ≥ 7, save progress and recommend the next lesson instead of teaching this one. If they score < 7, proceed with teaching from the beginning.
+
+Also ask which detail level they prefer:
 - **detail 1** — very brief, one or two sentences per slide
 - **detail 2** — slightly compressed (default)
 - **detail 3** — full depth, may add extra bullet points
@@ -97,25 +101,36 @@ Do not tell the learner you are saving — just do it.
 
 ---
 
-## End of Lesson
+## Step 5 — End of Lesson
 
-When all slides have been covered:
+After completing the **last section**, do the following in order:
 
-**1. Quiz or Mini Project** — ask the learner which they prefer, then deliver it:
-- **Quiz** — 3–5 questions covering the lesson's key concepts, one at a time
-- **Mini project** — a small hands-on task completable in 2–3 back-and-forth prompts with Claude (not an external tool unless the lesson topic is that tool)
+1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
 
-**2. Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+2. **Offer exercises** — Tell the learner that exercises are available for this lesson and ask:
+   > "רוצה לעשות את התרגילים של השיעור הזה?"  (adapt to `session.language`)
+   
+   - If **yes** → display the full content of the exercises file that was loaded in Step 2A. Walk through each exercise one at a time: present it, wait for the learner's response, give brief feedback, then move to the next.
+   - If **no** → acknowledge and move to step 3.
 
-```
-# Progress — Lesson X.Y
+3. **Offer quiz or mini project** — After exercises (or if skipped), ask which they prefer:
+   > "רוצה לעשות חידון קצר או מיני-פרויקט?"  (adapt to `session.language`)
+   
+   - **Quiz** → Read `.claude/commands/learn/quiz.md`
+   - **Mini project** → a small hands-on task completable in 2–3 prompts with Claude (not an external tool unless the lesson topic is that tool)
+   - **No** → skip to step 4.
 
-**Completed:** [timestamp]
-**Slides covered:** all [N]
-**Summary:** [2–3 sentence summary of what was taught this session]
-```
+4. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+   ```
+   # Progress — Lesson X.Y
 
-Preserve any existing quiz scores already in the file — only add/update the header block above. Do not tell the learner you are saving.
+   **Completed:** [timestamp]
+   **Slides covered:** all [N]
+   **Summary:** [2–3 sentence summary of what was taught this session]
+   ```
+   Preserve any existing quiz scores already in the file. Do not tell the learner you are saving. Then read `.claude/commands/learn/progress.md` and save full session summary.
+
+*(Speak the recap and offer if TTS enabled)*
 
 ---
 

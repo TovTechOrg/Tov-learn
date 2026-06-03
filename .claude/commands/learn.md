@@ -67,6 +67,7 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | $ARGUMENTS = lesson number (e.g. `3.2`) | Read `.claude/commands/learn/teaching.md` |
 | $ARGUMENTS = "status" | Read `.claude/commands/learn/status.md` |
 | $ARGUMENTS = "slides" or "slides [lesson]" | Read `.claude/commands/learn/slides.md` |
+| $ARGUMENTS = "project" | Read `.claude/commands/learn/project.md` |
 | $ARGUMENTS empty | Read `.claude/commands/learn/resume.md` |
 | "quiz me" trigger | Read `.claude/commands/learn/quiz.md` |
 | "stop" trigger | Read `.claude/commands/learn/progress.md` |
@@ -79,7 +80,8 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | Command | Action |
 |---------|--------|
 | continue | Move to next section |
-| quiz me | Read `.claude/commands/learn/quiz.md` |
+| quiz me | Read `.claude/commands/learn/quiz.md` (covered sections) |
+| quiz me full | Read `.claude/commands/learn/quiz.md` (whole lesson, 8 Qs) |
 | explain again | Re-explain from a different angle |
 | summary | Bullet-point of everything covered |
 | exercises | Show lesson exercises |
@@ -90,3 +92,4 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | detail 2 | Switch to detail level 2 (slightly compressed — default) |
 | detail 3 | Switch to detail level 3 (full depth, may add bullet points) |
 | slides | Read `.claude/commands/learn/slides.md` — verbatim slide reading mode |
+| project | Read `.claude/commands/learn/project.md` — final project mode |
