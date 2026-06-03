@@ -58,7 +58,7 @@ For every slide, apply the **Journey Format** scaled by `session.detail_level`:
 
 ### Detail Level 1 — Very Brief
 - 1–2 sentences max per slide
-- State the core idea only
+- **The goal is still to teach** — every sentence must make the concept land, not just restate it. Explain the *why* or the *so what*, even in one sentence.
 - No question, no context example
 - Good for fast review passes
 
@@ -136,6 +136,7 @@ After completing the **last section**, do the following in order:
 
 ## Teaching Principles
 
+- **The primary goal is always to teach** — detail levels control length and depth, never whether teaching is happening. A 1-sentence response at detail level 1 must still make the concept click, not just name it.
 - Use `session.language` for all output
 - Max 5 sentences per teaching block — then the learner speaks
 - Always emphasize **why** before **how**
