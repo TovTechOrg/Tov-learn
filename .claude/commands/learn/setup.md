@@ -158,9 +158,27 @@ Save `~/skill-tutor-tutorials/settings.json`:
 
 ---
 
-## F. Global Install
+## F. Global Install (optional)
 
-Copy all skill files to the global Claude commands folder:
+By default `/learn` works inside this repo — no install needed. Global install is only useful if the learner wants to run `/learn` from *other* projects (a future cross-repo use case).
+
+**Note the trade-off:** a global copy is a second source of truth. If the repo's modules are later edited, the global copy goes stale until re-synced. Most learners should say no.
+
+Use the `AskUserQuestion` tool:
+
+```
+question: "להתקין את /learn גם בפרויקטים אחרים? (רוב הלומדים: לא)"
+header: "התקנה גלובלית"
+options:
+  - label: "לא, רק בריפו הזה"
+    description: "/learn יעבוד בתוך הריפו. מומלץ — אין עותק כפול שעלול להתיישן."
+  - label: "כן, התקן גלובלית"
+    description: "אעתיק את המודולים ל-~/.claude/commands כדי שאפשר יהיה להשתמש מכל מקום."
+```
+
+**If no:** skip — confirm settings are saved and `/learn` is ready inside this repo.
+
+**If yes:** copy the skill files to the global Claude commands folder, then warn that future repo edits require re-running setup to re-sync.
 
 ```powershell
 $dest = "$env:USERPROFILE\.claude\commands"
@@ -171,5 +189,3 @@ $moduleDest = "$dest\learn"
 if (!(Test-Path $moduleDest)) { New-Item -ItemType Directory -Force -Path $moduleDest | Out-Null }
 Copy-Item -Force "$PWD\.claude\commands\learn\*.md" "$moduleDest\"
 ```
-
-Confirm to the learner that settings are saved and `/learn` is now available globally in any project.

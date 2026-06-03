@@ -65,4 +65,4 @@ architectures/[project-name].html     ← מפות ארכיטקטורה
 1. צור קובץ ב-`.claude/commands/learn/[module-name].md`
 2. הוסף שורה לטבלת ה-Modules למעלה
 3. הוסף routing ב-`learn.md` (Step 2 — Route table)
-4. עדכן את הפקודה לגלובל אינסטול ב-`setup.md`
+4. (אופציונלי) אם ההתקנה הגלובלית מופעלת — עדכן את רשימת הקבצים שמועתקים ב-`setup.md` סעיף F. ברירת מחדל: `/learn` רץ מתוך הריפו בלבד, ללא התקנה גלובלית.
