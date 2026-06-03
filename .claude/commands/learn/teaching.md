@@ -107,14 +107,15 @@ After completing the **last section**, do the following in order:
 
 1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
 
-2. **Offer exercises** — Tell the learner that exercises are available for this lesson and ask:
-   > "רוצה לעשות את התרגילים של השיעור הזה?"  (adapt to `session.language`)
-   
-   - If **yes** → display the full content of the exercises file that was loaded in Step 2A. Walk through each exercise one at a time: present it, wait for the learner's response, give brief feedback, then move to the next.
-   - If **no** → acknowledge and move to step 3.
+2. **Exercises — run automatically.** Do NOT use the exercises file verbatim. Write fresh hands-on exercises the learner can complete right here in the conversation with Claude:
+   - **Prompt practice**: give them a scenario, they write the actual prompt they'd use
+   - **Iteration**: respond to their prompt as if you're the AI tool, then ask them to improve it
+   - **Apply the concept**: small tasks that use the lesson's skill directly
+   - Never assign external tool tasks — exercises must be completable here with Claude
+   - The exercises file can inspire scenarios but rewrite them as interactive Claude prompts
+   Present one at a time, wait for response, give feedback, then continue.
 
-3. **Offer quiz or mini project** — After exercises (or if skipped), ask which they prefer:
-   > "רוצה לעשות חידון קצר או מיני-פרויקט?"  (adapt to `session.language`)
+3. **Quiz or mini project — offer once** after exercises:
    
    - **Quiz** → Read `.claude/commands/learn/quiz.md`
    - **Mini project** → a small hands-on task completable in 2–3 prompts with Claude (not an external tool unless the lesson topic is that tool)
