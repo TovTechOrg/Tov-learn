@@ -206,3 +206,7 @@ CLAUDE.md                   ← architecture overview for contributors
 ## License
 
 MIT
+
+---
+
+Inspired by [skill-tutor](https://github.com/Nitzan94/claude-code-skills/tree/master/skills/skill-tutor) by Nitzan94.
