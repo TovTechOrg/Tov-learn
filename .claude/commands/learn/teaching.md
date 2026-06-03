@@ -97,6 +97,28 @@ Do not tell the learner you are saving — just do it.
 
 ---
 
+## End of Lesson
+
+When all slides have been covered:
+
+**1. Quiz or Mini Project** — ask the learner which they prefer, then deliver it:
+- **Quiz** — 3–5 questions covering the lesson's key concepts, one at a time
+- **Mini project** — a small hands-on task completable in 2–3 back-and-forth prompts with Claude (not an external tool unless the lesson topic is that tool)
+
+**2. Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+
+```
+# Progress — Lesson X.Y
+
+**Completed:** [timestamp]
+**Slides covered:** all [N]
+**Summary:** [2–3 sentence summary of what was taught this session]
+```
+
+Preserve any existing quiz scores already in the file — only add/update the header block above. Do not tell the learner you are saving.
+
+---
+
 ## Teaching Principles
 
 - Use `session.language` for all output

@@ -82,8 +82,24 @@ When the learner says **exercises**:
 
 ---
 
-## Step 5 — Exit Slides Mode
+## Step 5 — End of Lesson / Exit
 
-When the learner says **stop slides** or **teaching mode**:
-- Return to the teaching module (`teaching.md`) at the slide where they left off
+**When the last slide is reached:**
+1. Tell the learner they've finished the lesson
+2. Ask: quiz or mini project?
+   - **Quiz** — 3–5 questions on the lesson content, one at a time
+   - **Mini project** — 2–3 prompt hands-on task (not external tool unless that's the lesson topic)
+3. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+   ```
+   # Progress — Lesson X.Y
+
+   **Completed:** [timestamp]
+   **Slides covered:** all [N]
+   **Summary:** [2–3 sentence summary of what was covered]
+   ```
+   Preserve any existing content in the file. Do not tell the learner you are saving.
+
+**When the learner says `stop slides` or `teaching mode`:**
+- Save progress with slides covered so far (not "all [N]" — note actual last slide reached)
+- Return to the teaching module at the slide where they left off
 - Resume in the previously set `session.detail_level`
