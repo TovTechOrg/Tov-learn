@@ -33,7 +33,11 @@ Greet the learner. State the lesson topic and number of sections.
 **If a progress file exists for this lesson:**
 Tell the learner their previous score and ask if they want to restart or jump to a quiz on what was already covered.
 
-**Otherwise:** Ask what they already know about the topic, if anything. Also ask which detail level they prefer:
+**Otherwise:** Ask what they already know about the topic, if anything.
+
+- If the learner says they already know it well (e.g. "I know this", "familiar with this", "studied it before") — offer a skip quiz: "Want to prove it with a quick quiz? Pass and we'll mark this lesson done and move on." If they agree, read `quiz.md` in `quiz me full` mode. If they score ≥ 7, save progress and recommend the next lesson instead of teaching this one. If they score < 7, proceed with teaching from the beginning.
+
+Also ask which detail level they prefer:
 - **detail 1** — very brief, one or two sentences per slide
 - **detail 2** — slightly compressed (default)
 - **detail 3** — full depth, may add extra bullet points
