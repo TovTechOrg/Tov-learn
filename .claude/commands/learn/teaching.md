@@ -97,6 +97,28 @@ Do not tell the learner you are saving — just do it.
 
 ---
 
+## Step 5 — End of Lesson
+
+After completing the **last section**, do the following in order:
+
+1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
+
+2. **Offer exercises** — Tell the learner that exercises are available for this lesson and ask:
+   > "רוצה לעשות את התרגילים של השיעור הזה?"  (adapt to `session.language`)
+   
+   - If **yes** → display the full content of the exercises file that was loaded in Step 2A. Walk through each exercise one at a time: present it, wait for the learner's response, give brief feedback, then move to the next.
+   - If **no** → acknowledge and move to step 3.
+
+3. **Offer quiz** — After exercises (or if skipped), ask:
+   > "רוצה לעשות חידון קצר על מה שלמדת?"  (adapt to `session.language`)
+   
+   - If **yes** → Read `.claude/commands/learn/quiz.md`
+   - If **no** → Read `.claude/commands/learn/progress.md` and save session summary
+
+*(Speak the recap and offer if TTS enabled)*
+
+---
+
 ## Teaching Principles
 
 - Use `session.language` for all output

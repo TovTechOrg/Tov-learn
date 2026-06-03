@@ -1,0 +1,269 @@
+Lesson 0.3 — Prompt Engineering: Writing Effective Prompts
+
+Welcome back, and welcome to Lesson 0.3 — the last lesson in Module Zero. In our previous lesson we took a deep dive into the leading AI tools: GPT-5.5, Claude Opus 4.7 and Sonnet 4.6, and Gemini 3.1 Pro. We explored what each one does best and when to reach for each. Today we take that knowledge one step further. Today we learn what may be the single most important skill in this entire course: Prompt Engineering — the art and science of writing instructions that get the best out of AI.
+
+Why do I call it the most important skill? Because everything we do from this point forward — automations, chatbots, AI agents, marketing systems — is built on top of prompts. A great prompt delivers a great result. A vague prompt delivers a frustrating one. The AI is often not the problem. The prompt is. And that is entirely within your control.
+
+[SLIDE TRANSITION]
+
+This lesson is four academic hours — the longest lesson in the module — because there is a lot of practical ground to cover. Here is what we will move through together. We will start with the fundamentals: what a prompt actually is and why its quality matters so much. Then we will learn six core techniques in ascending order of complexity. After that we will look at System Prompts — how to write standing instructions that define an AI's behavior in a product or automation. We will explore Extended Thinking and the new Adaptive Thinking mode in the latest Claude models. We will then step up to Context Engineering, which is the next level beyond prompting. And we will close by building your personal prompt library, which is the module project you will walk away with.
+
+[SLIDE TRANSITION]
+
+Let me start with a concrete example that makes everything clear. Two people ask Claude the exact same thing.
+
+Person A types: "Write me an email."
+
+Person B types: "You are a marketing manager at a B2B SaaS company. Write a follow-up email to a prospective client we met at a conference last week. Tone: professional but warm. Length: five to seven lines. Include one clear call to action."
+
+Who gets a better result? Person B, obviously. And here is the critical insight: the difference is not in the AI. Both people are using the same model. The difference is entirely in the prompt. Research published in 2026 confirms that the majority of failures with AI tools stem from ambiguity in the prompt, not from limitations of the model. A clear structure outperforms a clever phrase every single time.
+
+[SLIDE TRANSITION]
+
+So let us talk about structure. There is a simple formula that works in almost every situation. It has four components, and we call it RTCF.
+
+The R stands for Role. This tells the AI who it is. For example: "You are a digital marketing expert with ten years of experience in e-commerce."
+
+The T stands for Task. This tells the AI what to do. For example: "Write three variations of a promotional email."
+
+The C stands for Context. This gives the AI the background it needs. For example: "For an online jewelry store, target audience is women between twenty-five and forty-five."
+
+And the F stands for Format. This tells the AI how to present the output. For example: "Each variation should be no longer than five lines and include a subject line."
+
+Role, Task, Context, Format — RTCF. Different people use different names for this framework, but the underlying principle is always the same. Give the AI a clear role, a clear task, the right background, and a defined output shape.
+
+Now here is an important research finding from 2026: the sweet spot for prompt length is between one hundred fifty and three hundred words. Once you exceed three thousand tokens, the model's reasoning quality starts to decline. More is not always better. A focused, well-structured prompt consistently outperforms a long, sprawling one.
+
+One more nuance worth knowing. Aggressive language — phrases like "You must!", "Under no circumstances!", "Critical!!!" — actually hurts performance, especially with the newest Claude models. Calm, clear instructions outperform forceful ones. And Claude Sonnet 4.6 in particular follows instructions very literally. If you do not ask for something explicitly, you will not get it. Earlier versions were more initiative-taking. The current generation is more precise but less spontaneous, which means your prompts need to be more complete and specific.
+
+[SLIDE TRANSITION]
+
+Before we move to the six techniques, there is a distinction every AI engineer must understand. It is the difference between Casual Prompting and Production Prompting.
+
+Casual Prompting is what most people do every day. They open GPT-5.5 or Claude, type a question, read the answer, and iterate if needed. It is conversational and forgiving. The stakes are low because you are there to course-correct.
+
+Production Prompting is an entirely different discipline. The prompt is part of a system — an API call, a chatbot, an automation — and it runs thousands of times a day without any human watching over it. One bad output at scale is a real problem. The stakes are completely different.
+
+There are six rules that separate good production prompts from casual ones.
+
+First, version control. Treat prompts the way you treat code. Save versions and write a changelog. Something like: "System Prompt version one point three — fixed classification bias in customer inquiry routing." This sounds formal, but it will save you enormous headaches.
+
+Second, test before you deploy. Run your prompt against twenty to fifty representative examples before you wire it into a live system. A small change in a prompt can shift outputs in ways you do not expect.
+
+Third, define your output format. Production prompts return structured JSON, not free text. When the downstream system needs to parse the response, free text is a liability. JSON is a contract.
+
+Fourth, handle errors explicitly. What happens when the AI returns something that does not match the expected format? Write a fallback. Plan for it.
+
+Fifth, monitor your token costs. The formula is simple: number of tokens multiplied by the price per token multiplied by your call volume equals your monthly cost. Calculate it before you launch.
+
+Sixth, monitor quality over time. Models get updated. What worked perfectly six months ago may behave differently today. Track error rates and re-evaluate periodically.
+
+Anyone who wants to build AI products — not just use AI — must think with this Production Mindset from the start.
+
+[SLIDE TRANSITION]
+
+Now let us get into the six techniques. We will build from simplest to most sophisticated.
+
+Technique one is Zero-Shot prompting. This means sending a request to the AI with no examples whatsoever. You simply describe the task and ask for the result.
+
+Here is an example. "Classify the following text as positive, negative, or neutral: The pizza was delicious but the service was slow."
+
+In 2026, modern AI models are capable enough to handle a vast range of tasks without any examples at all. The recommendation is always to try Zero-Shot first. If the result is good, wonderful — you have saved tokens and kept your costs low. Only escalate to more complex techniques if Zero-Shot is not delivering the quality you need.
+
+Zero-Shot works well for standard tasks: summarization, translation, basic classification, general writing, and question answering. That covers roughly eighty percent of what you will encounter in real-world work.
+
+[SLIDE TRANSITION]
+
+Technique two is Few-Shot prompting. This means providing the AI with a small number of examples before the actual request. It is one of the highest-return techniques available. Three to five diverse, well-chosen examples can dramatically improve output quality.
+
+Here is how it works in practice. Say you want the AI to classify customer service inquiries. You provide examples first.
+
+Example one: Inquiry — "My product arrived broken." Category: complaint. Urgency: high.
+Example two: Inquiry — "When will you have a sale?" Category: question. Urgency: low.
+Example three: Inquiry — "I want to cancel my order." Category: cancellation. Urgency: medium.
+
+Then you send the real inquiry: "I never received my package." And the model classifies it correctly, because you showed it exactly what you expect.
+
+There is an important tip specific to Claude Sonnet 4.6: wrap your examples in XML tags. Use tags like examples and example around your demonstration inputs and outputs. Claude performs measurably better with XML-structured prompts than with Markdown-formatted ones. GPT-5.5, on the other hand, handles Markdown headers very well. Knowing which format to use for which model is part of being an effective AI engineer.
+
+[SLIDE TRANSITION]
+
+Technique three is Chain of Thought, or CoT. This is one of the most powerful techniques for complex reasoning, and research shows it can improve accuracy by up to nineteen percentage points on difficult multi-step tasks.
+
+The idea is straightforward. Instead of asking the AI for a direct answer, you ask it to think through the problem step by step.
+
+The simplest version is called Zero-Shot CoT, and it is almost embarrassingly simple: just add "Think through this step by step" to your prompt. It sounds trivial. It works.
+
+Here is a concrete example. "A store sells a product for one hundred dollars. The cost of the product is sixty dollars. Shipping costs fifteen dollars. The payment processor takes three percent. What is the net profit? Think through this step by step."
+
+The AI will work through it explicitly: one hundred dollars in revenue, minus sixty dollars cost, minus fifteen dollars shipping, minus three dollars processing fee, equals twenty-two dollars net profit.
+
+Without Chain of Thought, the AI might skip steps and arrive at the wrong number. With it, each step is visible and verifiable.
+
+There is one important caveat for 2026. Models that have reasoning built in — like Claude Sonnet 4.6 with its Adaptive Thinking mode, and GPT-5.5 in its thinking configuration — are already doing Chain of Thought internally. If you are using one of those reasoning modes, do not add "think step by step" to your prompt. The model is already doing it behind the scenes, and explicitly asking for it can actually interfere.
+
+[SLIDE TRANSITION]
+
+Technique four is Tree of Thought, or ToT. This is an advanced version of Chain of Thought where the AI explores multiple reasoning paths in parallel, like a tree branching in different directions.
+
+Here is an example. "I want to start a new business. Consider three completely different directions. For each direction, analyze the advantages, disadvantages, and likelihood of success. Then recommend the best option."
+
+The AI will generate three branches, evaluate each one, and then synthesize a recommendation.
+
+The honest recommendation for 2026 is this: do not use Tree of Thought routinely. It consumes significantly more tokens, which means it costs significantly more. In ninety-nine percent of situations, regular Chain of Thought is sufficient. Tree of Thought is worth the cost only for genuinely high-stakes decisions where exploring multiple paths before committing is truly important — a major strategic choice, a complex architectural decision, a significant investment.
+
+[SLIDE TRANSITION]
+
+Technique five is Role Prompting. We already introduced this as part of the RTCF formula, but it deserves its own deeper look because it is that impactful.
+
+When you give the AI a specific role to inhabit, it genuinely responds differently. "You are an SEO expert" produces a different answer than "You are a CEO." "You are an experienced copywriter for a consumer brand" produces a different tone than "You are an academic writer."
+
+The rule of thumb is simple: the more specific the role, the better the output.
+
+A weak role: "You are an assistant."
+A medium role: "You are a marketing expert."
+An excellent role: "You are a digital marketing manager at a B2B SaaS company with five years of experience specializing in small and medium business clients. You focus on email campaigns and conversion optimization."
+
+In 2026, Role Prompting is a standard component of every well-crafted System Prompt. It is not optional — it is foundational.
+
+[SLIDE TRANSITION]
+
+Technique six is Self-Consistency. The idea here is to ask the AI to generate multiple different answers to the same question, and then either select the most common answer or synthesize the best elements from all of them.
+
+A prompt that uses Self-Consistency might look like this: "Provide three distinct answers to the following question, each using a different reasoning approach. Then identify which answer is strongest and explain why."
+
+Self-Consistency is particularly valuable when you are dealing with uncertainty: legal analysis, complex business decisions, technical diagnosis. When the AI's three answers are very different from each other, that is itself valuable information — it signals that the question may be underspecified, or that the AI genuinely does not have high confidence. You can use that signal to ask better questions or to investigate further.
+
+[SLIDE TRANSITION]
+
+Let us consolidate the six techniques before moving on.
+
+Zero-Shot: fast and simple, try it first for standard tasks — it handles eighty percent of real-world use cases.
+Few-Shot: give three to five diverse examples, use XML tags for Claude, use Markdown for GPT-5.5 — one of the highest-ROI techniques available.
+Chain of Thought: ask for step-by-step reasoning, skip it if you are using a built-in reasoning mode.
+Tree of Thought: explore multiple paths in parallel, reserve this for genuinely high-stakes decisions only.
+Role Prompting: assign a specific, detailed role, and make it part of every System Prompt you write.
+Self-Consistency: generate multiple answers and compare, especially useful under uncertainty.
+
+Zero-Shot with RTCF covers eighty percent of what you will encounter professionally. The advanced techniques are your toolkit for the other twenty percent.
+
+[SLIDE TRANSITION]
+
+Now let us talk about System Prompts. A System Prompt is a standing instruction that defines how the AI behaves throughout an entire conversation or session. In the ChatGPT interface, this is called Custom Instructions. In Claude, it is the system parameter in the API. In any chatbot or automation you build, the System Prompt is the heart of the product.
+
+Think of a System Prompt like a contract. It has four essential clauses.
+
+First, Role. Who is this AI? "You are a customer service representative for a digital marketing agency."
+
+Second, Success Criteria. What does a good response look like? "A successful response answers the customer's question clearly in two or fewer sentences."
+
+Third, Constraints. What must the AI never do? "Never invent information. If you are not certain of an answer, say so explicitly."
+
+Fourth, Output Format. How should responses be structured? "Return a JSON object with three fields: answer, confidence, and source."
+
+For Claude Sonnet 4.6, use XML tags to structure your System Prompt — tags like instructions, context, and rules. Claude processes XML-structured prompts significantly better than Markdown-formatted ones. For GPT-5.5, Markdown with clear headers works very well.
+
+And here is one rule that applies to every model, without exception: give the AI explicit permission to say "I am not sure" or "I do not know." This single addition reduces hallucinations meaningfully. An AI that has been told it can admit uncertainty will do so. An AI that has been given no such permission tends to fill gaps with invented answers.
+
+[SLIDE TRANSITION]
+
+One of the most significant developments in AI through 2025 and 2026 has been the integration of reasoning directly into the leading models. You no longer have to manually prompt for step-by-step thinking — the models can do it automatically.
+
+In Claude, this started as a feature called Extended Thinking. The current version, available in both Claude Sonnet 4.6 and the more powerful Claude Opus 4.7, is called Adaptive Thinking. With Adaptive Thinking, the model evaluates how complex a problem is and decides internally how much reasoning effort to allocate. You can guide it by specifying an effort level — standard, high, or maximum — but you do not need to set manual token budgets. Simple questions get immediate answers. Complex multi-step problems get deep internal reasoning before any response is produced. For the most demanding tasks — deep code analysis, complex strategic decisions, multi-step research — Claude Opus 4.7 is the right choice. For everyday production work, Claude Sonnet 4.6 delivers excellent results at a lower cost.
+
+In GPT-5.5, the thinking mode shows you a reasoning plan before the final answer, and you can redirect it while it is still working through the problem.
+
+Gemini 3.1 Pro from Google has a comparable reasoning mode, and it operates on a one-million-token context window, which we will return to in a moment.
+
+The golden rule for all of these reasoning modes: if you are using Adaptive Thinking or any built-in reasoning mode, do not add "think step by step" to your prompt. The model is already doing internal Chain of Thought. Adding the instruction manually does not help and can actually interfere with the process.
+
+When should you use reasoning modes? Mathematical problems, complex code debugging, multi-step logical analysis, and high-stakes decision-making. When should you not? Writing an email, summarizing a document, generating a social media post. For simple tasks, reasoning mode wastes tokens and costs more for no benefit.
+
+[SLIDE TRANSITION]
+
+Now we come to the concept that defines where this field is heading in 2026: Context Engineering. What is it?
+
+Prompt Engineering is writing a good instruction. Context Engineering is architecting the entire environment in which the AI operates.
+
+The term was defined precisely by Andrej Karpathy, one of the pioneers of modern AI, as "the delicate art and science of filling the context window with just the right information for the next step." And Shopify CEO Tobias Lütke described it as the art of providing all the context for the task to be plausibly solvable by the AI. These are not academics — these are practitioners building real products.
+
+Context Engineering has five components.
+
+The first is the System Prompt — the standing instructions we just discussed.
+
+The second is conversation history — everything that has been said in the current session.
+
+The third is attached documents — files, data tables, reference material.
+
+The fourth is available tools — the actions the AI can take, such as sending an email, reading from a database, or querying a CRM.
+
+The fifth is memory and RAG — Retrieval-Augmented Generation — where the AI pulls relevant information from a knowledge base before responding.
+
+When an AI engineer builds an AI agent, they are not just writing a prompt. They are designing the entire informational environment in which that agent operates. That is Context Engineering.
+
+Here is a practical example. When you build a WhatsApp chatbot for a retail business, the context will include a System Prompt defining the bot's role, a product catalog retrieved through RAG, the customer's order history fetched through a tool call to the CRM, memory of previous conversations, and tools for sending quotes and booking appointments. Each of those elements is part of the context — and each one must be engineered deliberately.
+
+Gartner projects that forty percent of enterprise applications will include task-specific AI agents by late 2026. All of them will require robust Context Engineering. And the same research organization projects that by 2027, eighty percent of AI failures inside organizations will stem from poor context management — not from model limitations. Context Engineering is not a nice-to-have. It is the foundation.
+
+We will build on this deeply in Modules Two and Five when we work on AI agents and API integrations.
+
+[SLIDE TRANSITION]
+
+As a companion to Context Engineering, there is a practical topic that every production AI builder needs to understand: Context Management. This is about how you handle information within the context window.
+
+The leading models in 2026 — Claude Sonnet 4.6 and Gemini 3.1 Pro — support context windows of up to one million tokens. That sounds enormous. But there are three traps you need to know about.
+
+The first trap is called Lost in the Middle. Research consistently shows that AI models have a U-shaped attention curve across long contexts. They remember the beginning very well and the end very well. What sits in the middle tends to fade. This has been confirmed even in models with context windows larger than one hundred twenty-eight thousand tokens. The practical rule: put critical instructions at the very start of your System Prompt, and put your Few-Shot examples at the very end of the prompt, immediately before the actual request. This positioning is not cosmetic — it directly affects output quality.
+
+The second trap is Context Rot. As a conversation grows longer and fills more of the context window, the model's accuracy gradually decreases. The fix is compaction: automatically summarizing the earlier parts of a conversation so the essential information is preserved without consuming the full token space. Claude implements automatic compaction when a session reaches approximately eighty percent of the context window. If you are building long-running conversations, plan for this.
+
+The third trap is cost. Every token costs money. A long System Prompt, an extended conversation history, and large RAG documents all add up. In production, token management is cost management. Write System Prompts as concisely as you can without losing precision. Clear irrelevant history. Know how many tokens your typical prompt costs before you go live.
+
+The practical summary: place critical instructions at the start of your prompt; place examples at the end; use compaction for long conversations; and always calculate your token budget before deploying.
+
+[SLIDE TRANSITION]
+
+Now let us talk about the Module Zero project: building your personal prompt library.
+
+Every student in this course will build a library of at least ten prompts, each one customized to their own field or business. Think of this as your professional toolkit — a collection of ready-to-use AI instructions that you refine and return to throughout your career.
+
+Each prompt in your library should have six components.
+
+One: a name for the prompt.
+Two: a purpose — what task does this prompt accomplish?
+Three: the full prompt itself, written with RTCF and whichever technique is appropriate.
+Four: the technique used — Zero-Shot, Few-Shot, Chain of Thought, Role Prompting, and so on.
+Five: the recommended model — GPT-5.5, Claude Sonnet 4.6 for everyday tasks, Claude Opus 4.7 for complex reasoning, or Gemini 3.1 Pro — based on which one produces the best results for this type of task.
+Six: a sample output — paste in an actual result so you can compare future outputs against the baseline.
+
+You can build your library in Google Docs, Notion, or any format you prefer. The tool does not matter. The discipline does.
+
+[SLIDE TRANSITION]
+
+To give you a starting point, here are examples of the kinds of prompts worth including in your library. A sales email prompt, where you define your product, your target customer, and the email's goal. A meeting summary prompt that converts rough notes into structured action items. A competitor analysis prompt that systematically compares features, pricing, and positioning. A social media post generator tuned to your brand's voice and platform. A customer inquiry classifier that routes incoming requests by category and urgency. A proposal or quote generator for your service or product offering. An SEO content prompt that targets a specific keyword and audience. A customer review analyzer that extracts themes and sentiment patterns from feedback. A full System Prompt for a customer service chatbot. And an image prompt generator for creating product visuals or marketing materials.
+
+These are starting points. The prompts that will serve you best are the ones tuned to the specific situations you encounter in your work. The more precisely you tailor them, the more value they deliver.
+
+[SLIDE TRANSITION]
+
+Let us now bring the whole lesson together.
+
+We learned the foundational formula for every prompt: RTCF — Role, Task, Context, Format. This single framework, applied consistently, will improve every interaction you have with an AI tool. It is one of the most practical things you will take from this lesson.
+
+We learned the critical distinction between Casual Prompting and Production Prompting. If you are building anything that runs at scale, you need version control for your prompts, structured output formats, testing before deployment, error handling, cost monitoring, and ongoing quality tracking. Production Mindset is not optional for AI engineers.
+
+We learned six techniques. Zero-Shot as the starting point for every task — it handles the vast majority of real-world cases. Few-Shot with three to five diverse examples when you need consistency and precision. Chain of Thought for step-by-step reasoning through complex problems, and remember to skip it when reasoning mode is active. Tree of Thought for genuinely high-stakes decisions where exploring multiple paths before committing is worth the extra cost. Role Prompting as a standard ingredient in every System Prompt you write. And Self-Consistency for navigating uncertainty and validating outputs.
+
+We learned that System Prompts are the heart of every chatbot, bot, and AI-powered automation. A well-structured System Prompt — with a clear Role, Success Criteria, Constraints, and Output Format — is the difference between an AI that behaves professionally and one that goes off-script.
+
+We learned about Adaptive Thinking in Claude Sonnet 4.6 and the built-in reasoning modes in GPT-5.5 and Gemini 3.1 Pro. These models do their own Chain of Thought internally — leverage them for complex reasoning tasks, and do not add manual step-by-step instructions when they are already reasoning on your behalf.
+
+And we learned two concepts that will recur throughout this entire course. Context Engineering — the discipline of architecting the full informational environment in which an AI agent operates: System Prompts, conversation history, documents, tools, memory, and knowledge retrieval. And Context Management — the practical discipline of handling Lost in the Middle, Context Rot, and token costs in production systems. Every competent AI engineer understands both.
+
+[SLIDE TRANSITION]
+
+In our next lesson, we begin Module One: Business Automations. We will move straight into hands-on work with Make.com and build our first real automation from scratch. You will see immediately how everything we covered today — prompt structure, production mindset, System Prompts — connects directly to building smart, reliable automations. The skills from this lesson are not abstract. They are the wiring behind everything we build next.
+
+In the meantime, start your prompt library. Pick the ten use cases most relevant to your work or business. Write each one with RTCF. Test each one. Note which model performs best. The investment you make in that library now will pay dividends through every subsequent module.
+
+Thank you for your focus throughout this lesson. See you in Module One.
