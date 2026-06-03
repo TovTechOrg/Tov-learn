@@ -55,19 +55,24 @@ On entry to Slides Mode, start the slide server and generate the HTML viewer:
 
 ---
 
-## Step 4 — Per-Slide Loop
+## Step 4 — Viewer Launched — Go Silent
 
-Repeat this sequence for every slide, starting at slide 1:
+**Once the viewer is open, stop generating slide content. The viewer handles TTS and navigation entirely. Claude output = 0 tokens per slide.**
 
-**a. Display text** — show the verbatim slide content (translated to `session.language`).
+Tell the learner:
+> "הויואר פתוח. לחץ **A** (או כפתור ⏭ אוטו) להפעלה אוטומטית ידנית. ← / → לניווט ידני. P להשהיה."
 
-**b. Fire TTS — MANDATORY, do not skip.** Immediately after displaying the text, run:
-```powershell
-Invoke-RestMethod -Uri "http://localhost:7823/" -Method POST -Body "SLIDE_NUMBER" | Out-Null
-```
-Replace `SLIDE_NUMBER` with the current slide number (integer). This tells the server to speak the slide and sync the viewer. TTS fires automatically on every slide — the learner should never have to ask for it.
+Then **wait silently** for the learner to say something (e.g. "stop slides", a question, "exercises").
 
-**c. Wait** for the learner to say **next** before advancing.
+**Do NOT:**
+- Type out slide content
+- Call `Invoke-RestMethod` per slide — the viewer calls `postSlide()` automatically on every slide change
+- Count slides or narrate progress
+- Do anything until the learner speaks
+
+**Manual mode** (learner didn't enable auto): learner uses keyboard/clicks in the viewer, TTS fires automatically via `postSlide()` inside the viewer.
+
+**Auto mode** (learner pressed A or the Auto button): viewer auto-advances on `speaking→idle` TTS transition — completely hands-free, 0 Claude involvement.
 
 **Do not** apply Journey Format. **Do not** ask thinking questions between slides.
 

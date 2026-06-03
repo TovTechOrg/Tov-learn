@@ -77,6 +77,8 @@ $textCapture = $ttsTextFile
                     }
                     if (-not $aborted) { $s.Speak($chunk) }
                 }
+                # Signal natural completion so viewer can auto-advance
+                if (-not $aborted) { [System.IO.File]::WriteAllText($ctrlFile, "idle") }
             }
         } elseif ($ctrl -eq "exit") {
             break
@@ -166,7 +168,9 @@ while ($listener.IsListening) {
             }
         } else {
             $cur = if (Test-Path $slideFile) { (Get-Content $slideFile).Trim() } else { "1" }
-            $buf = [System.Text.Encoding]::UTF8.GetBytes($cur)
+            $ttsRaw = try { ([System.IO.File]::ReadAllText($controlFile)).Trim() } catch { "idle" }
+            $ttsState = if ($ttsRaw -eq "speaking" -or $ttsRaw -eq "pause") { $ttsRaw } elseif ($ttsRaw -eq "idle") { "idle" } else { "idle" }
+            $buf = [System.Text.Encoding]::UTF8.GetBytes("$cur|$ttsState")
             $res.ContentLength64 = $buf.Length
             $res.OutputStream.Write($buf, 0, $buf.Length)
             $res.OutputStream.Close()
