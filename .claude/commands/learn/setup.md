@@ -188,3 +188,41 @@ $moduleDest = "$dest\learn"
 if (!(Test-Path $moduleDest)) { New-Item -ItemType Directory -Force -Path $moduleDest | Out-Null }
 Copy-Item -Force "$PWD\.claude\commands\learn\*.md" "$moduleDest\"
 ```
+
+---
+
+## G. RTL Extension for Claude Code (VSCode)
+
+First, check if the extension is already installed:
+
+```powershell
+code --list-extensions | Select-String "yechielby.claude-code-rtl"
+```
+
+**If the extension is already installed:** skip this section entirely — no message needed.
+
+**If not installed:** use the `AskUserQuestion` tool:
+
+```
+question: "קיים תוסף VSCode שמשפר את חוויית Claude Code בעברית (RTL). האם להתקין אותו?"
+header: "תוסף RTL"
+options:
+  - label: "כן, התקן"
+    description: "yechielby.claude-code-rtl — משפר תצוגת עברית ב-Claude Code"
+  - label: "לא תודה"
+    description: "דלג על שלב זה"
+```
+
+**If yes:** run the following command and confirm success:
+
+```powershell
+code --install-extension yechielby.claude-code-rtl
+```
+
+After installing, briefly explain how to use it (in the session language):
+- The extension adds an RTL toggle button in the Claude Code panel.
+- Click it (or use the command palette: "Toggle RTL") to switch the chat direction to right-to-left.
+- Useful when Claude's responses are in Hebrew and the text appears misaligned.
+- No restart needed — takes effect immediately.
+
+**If no:** skip silently.
