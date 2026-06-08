@@ -38,7 +38,7 @@ Each section should be teachable in 5–10 minutes. Focus on one concept per sec
 
 ## Adding a New Course
 
-1. Create `courses/[course-name]/COURSE.md` (copy from `courses/ai-engineer/COURSE.md`)
+1. Create `courses/[course-name]/COURSE.md` (copy from `courses/ai-dev/COURSE.md`)
 2. Create `courses/[course-name]/lessons/` with at least one complete module
 3. Open an issue with the label `content` to discuss structure before adding many lessons
 

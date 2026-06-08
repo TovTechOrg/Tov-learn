@@ -41,9 +41,7 @@ question: "באיזה קורס תרצה ללמוד?"
 header: "בחירת קורס"
 options:
   - label: "AI Dev"
-    description: "פיתוח מוצרי AI עם Claude Code ו-API (ברירת מחדל)"
-  - label: "AI Engineer"
-    description: "אוטומציות ו-AI לאנשי ביזנס ומקצוע"
+    description: "פיתוח מוצרי AI עם Claude Code ו-API (הקורס הפעיל היחיד)"
   - label: "נתיב מותאם אישית"
     description: "הגדרת נתיב קורס ידנית"
 ```
@@ -53,8 +51,9 @@ Map the selection to settings:
 | בחירה | course.name | course.path |
 |-------|-------------|-------------|
 | AI Dev | `ai-dev` | `courses/ai-dev/lessons` |
-| AI Engineer | `ai-engineer` | `courses/ai-engineer/lessons` |
 | נתיב מותאם אישית | (שאל שם) | (שאל נתיב) |
+
+> קורס ה-AI Engineer הוֹעבר לארכיון תחת `courses/_archive/ai-engineer/`. אם לומד צריך אותו — אפשר להזין נתיב מותאם אישית: `courses/_archive/ai-engineer/lessons`.
 
 If the learner types "Other" with free text — treat as custom path.
 
