@@ -1,0 +1,9 @@
+# Per-machine Claude Code settings (paths, permissions, local overrides)
+.claude/settings.local.json
+
+# Learner data lives outside the repo (~/skill-tutor-tutorials); never commit a local copy
+skill-tutor-tutorials/settings.json
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store

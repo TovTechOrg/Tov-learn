@@ -1,8 +1,10 @@
 # AI Engineer Course
 
+> ⚠️ **בארכיון.** הקורס הוֹעבר ל-`courses/_archive/ai-engineer/`. הקורס הפעיל הוא AI Dev. כדי ללמוד את הקורס הזה, הזן ב-setup נתיב מותאם אישית: `courses/_archive/ai-engineer/lessons`.
+
 **שם:** AI Engineer by TovTech
 **תיאור:** קורס מעשי לבניית מוצרים עם AI — מיסודות ועד פרודקשן.
-**course.path ברירת מחדל:** `courses/ai-engineer/lessons`
+**course.path:** `courses/_archive/ai-engineer/lessons`
 
 ---
 
