@@ -2,7 +2,7 @@
 
 *Loaded after covering at least one section, and on the "stop" command.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 

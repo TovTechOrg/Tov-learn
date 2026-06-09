@@ -11,7 +11,8 @@
     "teaching_style": null
   },
   "course": {
-    "path": "courses/ai-engineer/lessons"
+    "name": "ai-dev",
+    "path": "courses/ai-dev/lessons"
   },
   "notifications": {
     "quiz_reminders": true

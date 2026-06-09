@@ -14,6 +14,8 @@ Interactive AI tutor, built as a Claude Code skill.
 
 > Built and maintained by [TovTech](https://tovtech.org)
 
+⭐ **If this project helps you learn, please star the repo** — it helps us reach more developers and grow the community!
+
 ---
 
 ## Getting Started
@@ -39,11 +41,13 @@ Open the cloned folder in Claude Code.
 
 This will:
 - Ask for your preferred session language (Hebrew / English)
-- Ask for your course content folder path
+- Let you pick a course — the active course is **AI Dev** (default)
 - Optionally configure a TTS voice
-- **Install `/learn` globally** — from this point on, `/learn` works in any project on your machine
+- Optionally install `/learn` globally so it works in other projects (off by default — most learners keep it repo-local)
 
 That's it. Type `/learn 0.1` to start the first lesson.
+
+> **Courses:** the active course is **AI Dev** (`courses/ai-dev/`). The older **AI Engineer** course has been archived under `courses/_archive/ai-engineer/`; to use it, choose a custom path at setup (`courses/_archive/ai-engineer/lessons`).
 
 ---
 
@@ -58,7 +62,7 @@ That's it. Type `/learn 0.1` to start the first lesson.
 
 ### Choosing a lesson
 
-Lessons are numbered by module and index — `0.1`, `0.2`, `1.1`, etc. Browse available lessons in `courses/ai-engineer/COURSE.md`, which lists all modules and their topics.
+Lessons are numbered by module and index — `0.1`, `0.2`, `1.1`, etc. Browse available lessons in `courses/ai-dev/COURSE.md`, which lists all modules and their topics.
 
 To start a lesson:
 ```
@@ -139,14 +143,14 @@ Lessons live in `courses/[course-name]/lessons/`:
 
 ```
 courses/
-  ai-engineer/
+  ai-dev/
     COURSE.md
     lessons/
       00-ai-fundamentals/
-        0.1-intro-to-ai/
+        0.1-mental-model-llms/
           0.1_script.txt       ← lesson script (split by [מעבר שקף])
           0.1_exercises.md     ← exercises
-      01-prompt-engineering/
+      01-claude-code/
         ...
 ```
 
@@ -183,7 +187,8 @@ All learner data is saved to `~/skill-tutor-tutorials/` (outside the repo):
     project-analysis.md     ← codebase scan + architecture map
     display.md              ← visual formatting conventions
 courses/
-  ai-engineer/              ← course content
+  ai-dev/                   ← active course content
+  _archive/                 ← archived courses (e.g. ai-engineer)
 CLAUDE.md                   ← architecture overview for contributors
 ```
 
@@ -206,3 +211,7 @@ CLAUDE.md                   ← architecture overview for contributors
 ## License
 
 MIT
+
+---
+
+Inspired by [skill-tutor](https://github.com/Nitzan94/claude-code-skills/tree/master/skills/skill-tutor) by Nitzan94.

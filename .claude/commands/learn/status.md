@@ -2,7 +2,7 @@
 
 *Loaded when $ARGUMENTS = "status". Generates an HTML progress dashboard.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 

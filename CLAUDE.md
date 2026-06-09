@@ -18,6 +18,9 @@
 | Progress | `.claude/commands/learn/progress.md` | שמירת tutorials, knowledge map |
 | Status | `.claude/commands/learn/status.md` | HTML dashboard — all lessons, scores, due reviews |
 | Project Analysis | `.claude/commands/learn/project-analysis.md` | סריקת קוד, ראיון ארכיטקט, מפת HTML |
+| Slides | `.claude/commands/learn/slides.md` | קריאה מילה במילה מסקריפטים, viewer אינטראקטיבי, TTS אוטומטי |
+
+סקריפטים תומכים נמצאים ב-`.claude/scripts/` (PowerShell — slide server, HTML generator).
 
 **כלל פיתוח:** כל מודול עצמאי — לא מניחים שמודול אחר כבר נטען. מידע שמודול צריך — הוא קורא בעצמו. TTS helper מוגדר ב-`learn.md` ונטען לפני כל מודול.
 
@@ -36,11 +39,12 @@ courses/
           [X.Y]_exercises.md           ← תרגילים
 ```
 
-קורסים זמינים:
+הקורס הפעיל היחיד הוא **AI Dev** — ברירת המחדל בכל מקום (setup, template, docs).
 
-| קורס | תיקייה | course.path ברירת מחדל |
-|------|--------|----------------------|
-| AI Engineer | `courses/ai-engineer/` | `courses/ai-engineer/lessons` |
+| קורס | תיקייה | course.path | סטטוס |
+|------|--------|-------------|-------|
+| AI Dev | `courses/ai-dev/` | `courses/ai-dev/lessons` | פעיל (ברירת מחדל) |
+| AI Engineer | `courses/_archive/ai-engineer/` | `courses/_archive/ai-engineer/lessons` | בארכיון — לא מוצע ב-setup; נגיש רק דרך נתיב מותאם אישית |
 
 ---
 
@@ -49,7 +53,7 @@ courses/
 נשמר ב-`~/skill-tutor-tutorials/`:
 
 ```
-settings.json                          ← שפה, TTS, course.path
+settings.json                          ← שפה, TTS, course.name, course.path
 learner_profile.md                     ← פרופיל אישי + לומד נוכחי
 tutorials/lesson-X.Y.md               ← סיכומי שיעורים + Q&A
 progress/lesson-X.Y.md                ← ציונים + תאריך חזרה מומלץ
@@ -64,4 +68,4 @@ architectures/[project-name].html     ← מפות ארכיטקטורה
 1. צור קובץ ב-`.claude/commands/learn/[module-name].md`
 2. הוסף שורה לטבלת ה-Modules למעלה
 3. הוסף routing ב-`learn.md` (Step 2 — Route table)
-4. עדכן את הפקודה לגלובל אינסטול ב-`setup.md`
+4. (אופציונלי) אם ההתקנה הגלובלית מופעלת — עדכן את רשימת הקבצים שמועתקים ב-`setup.md` סעיף F. ברירת מחדל: `/learn` רץ מתוך הריפו בלבד, ללא התקנה גלובלית.

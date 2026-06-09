@@ -2,7 +2,7 @@
 
 *Loaded when the learner chooses "project analysis".*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 
