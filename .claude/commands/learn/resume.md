@@ -2,7 +2,7 @@
 
 *Loaded when /learn is called with no arguments. Replaces the static "lesson or project analysis?" prompt with a smart suggestion based on actual progress.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 

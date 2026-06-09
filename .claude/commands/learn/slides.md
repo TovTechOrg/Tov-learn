@@ -2,7 +2,7 @@
 
 *Loaded when the learner types `/learn slides` or "slides" during a session. Switches to verbatim slide reading mode.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 
@@ -57,19 +57,24 @@ On entry to Slides Mode, start the slide server and generate the HTML viewer:
 
 ---
 
-## Step 4 — Per-Slide Loop
+## Step 4 — Viewer Launched — Go Silent
 
-Repeat this sequence for every slide, starting at slide 1:
+**Once the viewer is open, stop generating slide content. The viewer handles TTS and navigation entirely. Claude output = 0 tokens per slide.**
 
-**a. Display text** — show the verbatim slide content (translated to `session.language`).
+Tell the learner:
+> "הויואר פתוח. לחץ **A** (או כפתור ⏭ אוטו) להפעלה אוטומטית ידנית. ← / → לניווט ידני. P להשהיה."
 
-**b. Fire TTS — MANDATORY, do not skip.** Immediately after displaying the text, run:
-```powershell
-Invoke-RestMethod -Uri "http://localhost:7823/" -Method POST -Body "SLIDE_NUMBER" | Out-Null
-```
-Replace `SLIDE_NUMBER` with the current slide number (integer). This tells the server to speak the slide and sync the viewer. TTS fires automatically on every slide — the learner should never have to ask for it.
+Then **wait silently** for the learner to say something (e.g. "stop slides", a question, "exercises").
 
-**c. Wait** for the learner to say **next** before advancing.
+**Do NOT:**
+- Type out slide content
+- Call `Invoke-RestMethod` per slide — the viewer calls `postSlide()` automatically on every slide change
+- Count slides or narrate progress
+- Do anything until the learner speaks
+
+**Manual mode** (learner didn't enable auto): learner uses keyboard/clicks in the viewer, TTS fires automatically via `postSlide()` inside the viewer.
+
+**Auto mode** (learner pressed A or the Auto button): viewer auto-advances on `speaking→idle` TTS transition — completely hands-free, 0 Claude involvement.
 
 **Do not** apply Journey Format. **Do not** ask thinking questions between slides.
 
@@ -84,8 +89,24 @@ When the learner says **exercises**:
 
 ---
 
-## Step 5 — Exit Slides Mode
+## Step 5 — End of Lesson / Exit
 
-When the learner says **stop slides** or **teaching mode**:
-- Return to the teaching module (`teaching.md`) at the slide where they left off
+**When the last slide is reached:**
+1. Tell the learner they've finished the lesson
+2. Ask: quiz or mini project?
+   - **Quiz** — 3–5 questions on the lesson content, one at a time
+   - **Mini project** — 2–3 prompt hands-on task (not external tool unless that's the lesson topic)
+3. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+   ```
+   # Progress — Lesson X.Y
+
+   **Completed:** [timestamp]
+   **Slides covered:** all [N]
+   **Summary:** [2–3 sentence summary of what was covered]
+   ```
+   Preserve any existing content in the file. Do not tell the learner you are saving.
+
+**When the learner says `stop slides` or `teaching mode`:**
+- Save progress with slides covered so far (not "all [N]" — note actual last slide reached)
+- Return to the teaching module at the slide where they left off
 - Resume in the previously set `session.detail_level`

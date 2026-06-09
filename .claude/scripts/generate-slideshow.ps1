@@ -121,6 +121,7 @@ $slideImgTags
 
   <div class="extra-controls left-side">
     <button class="pill-btn" id="pause-btn" onclick="togglePause()">&#x23F8; &#x05D4;&#x05E9;&#x05D4;&#x05D4;</button>
+    <button class="pill-btn" id="auto-btn" onclick="toggleAutoNext()">&#x23ED; &#x05D0;&#x05D5;&#x05D8;&#x05D5;</button>
   </div>
   <div class="extra-controls right-side">
     <button class="pill-btn" id="fs-btn" onclick="toggleFullscreen()">&#x26F6; &#x05DE;&#x05E1;&#x05DA; &#x05DE;&#x05DC;&#x05D0;</button>
@@ -131,6 +132,8 @@ $slideImgTags
   let current = 1;
   const total = $total;
   let paused = false;
+  let autoNext = false;
+  let prevTtsState = '';
 
   function postSlide(num) {
     return fetch('http://localhost:7823/', { method: 'POST', body: String(num) }).catch(() => {});
@@ -143,10 +146,10 @@ $slideImgTags
     document.getElementById('slide-' + current).style.display = 'block';
     const prevO = document.getElementById('btn-prev-overlay');
     const nextO = document.getElementById('btn-next-overlay');
-    prevO.style.opacity       = current === 1     ? '0.3' : '1';
-    prevO.style.pointerEvents  = current === 1    ? 'none' : 'auto';
-    nextO.style.opacity       = current === total ? '0.3' : '1';
-    nextO.style.pointerEvents  = current === total ? 'none' : 'auto';
+    prevO.style.opacity      = current === 1     ? '0.3' : '1';
+    prevO.style.pointerEvents = current === 1    ? 'none' : 'auto';
+    nextO.style.opacity      = current === total ? '0.3' : '1';
+    nextO.style.pointerEvents = current === total ? 'none' : 'auto';
     if (triggerTts !== false) postSlide(current);
   }
 
@@ -169,6 +172,14 @@ $slideImgTags
     }
   }
 
+  function toggleAutoNext() {
+    autoNext = !autoNext;
+    const btn = document.getElementById('auto-btn');
+    btn.style.background = autoNext ? 'rgba(20,80,20,0.92)' : '';
+    btn.style.color      = autoNext ? '#aaffaa' : '';
+    btn.style.borderColor= autoNext ? 'rgba(80,200,80,0.5)' : '';
+  }
+
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
@@ -184,15 +195,25 @@ $slideImgTags
     if (e.key === 'ArrowRight' && !paused) changeSlide(-1);
     if (e.key === 'p' || e.key === 'P')    togglePause();
     if (e.key === 'f' || e.key === 'F')    toggleFullscreen();
+    if (e.key === 'a' || e.key === 'A')    toggleAutoNext();
   });
 
-  // Poll server for Claude-side advances
+  // Poll server: sync slide display + auto-advance on speaking→idle transition
   setInterval(async () => {
     if (paused) return;
     try {
       const r = await fetch('http://localhost:7823/?t=' + Date.now());
-      const n = parseInt(await r.text());
-      if (!isNaN(n) && n !== current) showSlide(n, false);
+      const text = (await r.text()).trim();
+      const parts = text.split('|');
+      const serverSlide = parseInt(parts[0]);
+      const ttsState = parts[1] || 'idle';
+
+      if (!isNaN(serverSlide) && serverSlide !== current) showSlide(serverSlide, false);
+
+      if (autoNext && ttsState === 'idle' && prevTtsState === 'speaking' && current < total) {
+        changeSlide(1);
+      }
+      prevTtsState = ttsState;
     } catch (e) {}
   }, 500);
 

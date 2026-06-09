@@ -2,7 +2,7 @@
 
 *Loaded by learn.md when the learner selects a lesson. TTS helper is defined in learn.md and available in this session.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 
@@ -33,20 +33,59 @@ Greet the learner. State the lesson topic and number of sections.
 **If a progress file exists for this lesson:**
 Tell the learner their previous score and ask if they want to restart or jump to a quiz on what was already covered.
 
-**Otherwise:** Ask what they already know about the topic, if anything.
+**Load saved learning style from `~/skill-tutor-tutorials/settings.json`:**
+
+- `session.mode` ← `learning_style.mode` (default: `"standard"`)
+- `session.detail_level` ← `learning_style.detail_level` (default: `2`)
+
+**If a saved style exists:** apply it silently — no question needed. Mention it once in the greeting so the learner knows (e.g. "נלמד במצב diagnostic, רמת פירוט 2 — כפי שהגדרת. אפשר לשנות בכל שלב.").
+
+**If no `learning_style` in settings (first-time or missing):** ask the learner explicitly:
+
+> **איך תרצה ללמוד?**
+> - **standard** — אסביר כל שקף ואשאל שאלה בסוף (ברירת מחדל)
+> - **diagnostic** — תבחן אותי קודם, למד אותי רק על מה שטעיתי, ואז נמשיך
+> - **socratic** — הדרך אותי דרך שאלות; אני אגלה את הרעיונות בעצמי
+
+And ask for detail level (1 / 2 / 3).
+
+After the session, if the learner changed mode or detail level mid-lesson, ask:
+> "רוצה לשמור את ההעדפה הזו לשיעורים הבאים?"
+If yes — update `learning_style` in `settings.json`.
+
+**Reminder — always valid:** "ניתן לעבור בין המצבים בכל שלב — פשוט אמור 'standard', 'diagnostic', 'socratic' או 'הסבר לי' / 'בחן אותי' / 'הדרך אותי'."
+
+---
+
+**If `session.mode == "diagnostic"`:** Skip all further questions in Step 3 — no prior-knowledge question, no skip-quiz offer — and go directly to **Step 3B**.
+
+**Otherwise (standard / socratic):**
+
+Ask what they already know about the topic, if anything.
 
 - If the learner says they already know it well (e.g. "I know this", "familiar with this", "studied it before") — offer a skip quiz: "Want to prove it with a quick quiz? Pass and we'll mark this lesson done and move on." If they agree, read `quiz.md` in `quiz me full` mode. If they score ≥ 7, save progress and recommend the next lesson instead of teaching this one. If they score < 7, proceed with teaching from the beginning.
 
-Also ask which detail level they prefer:
-- **detail 1** — very brief, one or two sentences per slide
-- **detail 2** — slightly compressed (default)
-- **detail 3** — full depth, may add extra bullet points
-
-Store the chosen level as `session.detail_level` (default: 2).
-
-Use their answers plus `learner_profile.md` to calibrate depth. Offer to skip sections they clearly already know.
+Use `learner_profile.md` to calibrate depth. Offer to skip sections they clearly already know.
 
 *(Speak greeting if TTS enabled)*
+
+---
+
+## Step 3B — Diagnostic Mode Entry
+
+*Only if `session.mode == "diagnostic"`*
+
+Before teaching anything:
+
+1. Read `quiz.md` in **`quiz me full`** mode — quiz on the entire lesson.
+2. After scoring, collect the list of **weak sections** (questions answered incorrectly or partially).
+3. Tell the learner:
+   > "קיבלת X/10. עכשיו נעבור רק על הנושאים שהיו פחות ברורים."
+   (adapt to `session.language`)
+4. Set `session.weak_sections` = list of slide indices or topics that map to wrong answers.
+5. Switch to Step 4 but **cover only weak sections** using the standard Journey Format (scaled by `session.detail_level`). Skip sections the learner answered correctly — at most, give them a one-sentence "you already know this" acknowledgment.
+6. After covering weak sections, offer a short follow-up quiz on those topics only (`quiz me` mode, scoped to weak sections).
+7. Then proceed to Step 5 (End of Lesson).
 
 ---
 
@@ -54,11 +93,33 @@ Use their answers plus `learner_profile.md` to calibrate depth. Offer to skip se
 
 **IMPORTANT: Every slide (section split by `[מעבר שקף]`) MUST be represented in the lesson output.** Never silently skip a slide. At minimum, include one sentence summarizing it.
 
+*In `diagnostic` mode — cover only `session.weak_sections`; all other slides get a single-sentence acknowledgment.*
+
+For every slide, choose the format based on `session.mode`:
+
+---
+
+### Mode: socratic
+
+Instead of explaining first, lead with a question:
+
+1. **Pose the challenge** — one sentence framing the problem or concept from the slide, without revealing the answer. E.g. "מה לדעתך קורה כשמודל שפה מקבל טקסט ארוך מידי?"
+2. **Wait** — let the learner respond. Do not give hints yet.
+3. **Guide, don't tell** — if the answer is wrong or incomplete, respond with a Socratic prompt (a question that nudges, not an explanation). Max 2 rounds of hints.
+4. **Confirm and complete** — once they reach the right idea, affirm it and add any key detail they missed (max 2 sentences).
+5. Move to the next slide.
+
+The learner drives the pace. If they ask "just explain it" mid-slide, switch to Journey Format for that slide only and continue socratic from the next.
+
+---
+
+### Mode: standard (default)
+
 For every slide, apply the **Journey Format** scaled by `session.detail_level`:
 
 ### Detail Level 1 — Very Brief
 - 1–2 sentences max per slide
-- State the core idea only
+- **The goal is still to teach** — every sentence must make the concept land, not just restate it. Explain the *why* or the *so what*, even in one sentence.
 - No question, no context example
 - Good for fast review passes
 
@@ -79,6 +140,8 @@ Use the full Journey Format plus:
 - Still ask a question and wait for an answer
 
 **The learner can switch levels at any time** by saying "detail 1", "detail 2", or "detail 3".
+
+**The learner can switch learning mode at any time** — "standard", "socratic", "diagnostic", or in Hebrew "הסבר לי" / "הדרך אותי" / "בחן אותי". Apply from the next slide onward.
 
 **Responding to answers:**
 - Correct → brief acknowledgment + continue
@@ -107,17 +170,29 @@ After completing the **last section**, do the following in order:
 
 1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
 
-2. **Offer exercises** — Tell the learner that exercises are available for this lesson and ask:
-   > "רוצה לעשות את התרגילים של השיעור הזה?"  (adapt to `session.language`)
-   
-   - If **yes** → display the full content of the exercises file that was loaded in Step 2A. Walk through each exercise one at a time: present it, wait for the learner's response, give brief feedback, then move to the next.
-   - If **no** → acknowledge and move to step 3.
+2. **Exercises — run automatically.** Do NOT use the exercises file verbatim. Write fresh hands-on exercises the learner can complete right here in the conversation with Claude:
+   - **Prompt practice**: give them a scenario, they write the actual prompt they'd use
+   - **Iteration**: respond to their prompt as if you're the AI tool, then ask them to improve it
+   - **Apply the concept**: small tasks that use the lesson's skill directly
+   - Never assign external tool tasks — exercises must be completable here with Claude
+   - The exercises file can inspire scenarios but rewrite them as interactive Claude prompts
+   Present one at a time, wait for response, give feedback, then continue.
 
-3. **Offer quiz** — After exercises (or if skipped), ask:
-   > "רוצה לעשות חידון קצר על מה שלמדת?"  (adapt to `session.language`)
+3. **Quiz or mini project — offer once** after exercises:
    
-   - If **yes** → Read `.claude/commands/learn/quiz.md`
-   - If **no** → Read `.claude/commands/learn/progress.md` and save session summary
+   - **Quiz** → Read `.claude/commands/learn/quiz.md`
+   - **Mini project** → a small hands-on task completable in 2–3 prompts with Claude (not an external tool unless the lesson topic is that tool)
+   - **No** → skip to step 4.
+
+4. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+   ```
+   # Progress — Lesson X.Y
+
+   **Completed:** [timestamp]
+   **Slides covered:** all [N]
+   **Summary:** [2–3 sentence summary of what was taught this session]
+   ```
+   Preserve any existing quiz scores already in the file. Do not tell the learner you are saving. Then read `.claude/commands/learn/progress.md` and save full session summary.
 
 *(Speak the recap and offer if TTS enabled)*
 
@@ -125,6 +200,7 @@ After completing the **last section**, do the following in order:
 
 ## Teaching Principles
 
+- **The primary goal is always to teach** — detail levels control length and depth, never whether teaching is happening. A 1-sentence response at detail level 1 must still make the concept click, not just name it.
 - Use `session.language` for all output
 - Max 5 sentences per teaching block — then the learner speaks
 - Always emphasize **why** before **how**
