@@ -37,13 +37,13 @@ Set `session.language` to `"he"` or `"en"`. Use this language for all communicat
 Use the `AskUserQuestion` tool to display a course picker:
 
 ```
-question: "באיזה קורס תרצה ללמוד?"
-header: "בחירת קורס"
+question: "באיזה מסלול תרצה ללמוד?"
+header: "בחירת מסלול"
 options:
   - label: "AI Dev"
-    description: "פיתוח מוצרי AI עם Claude Code ו-API (הקורס הפעיל היחיד)"
+    description: "פיתוח מוצרי AI עם Claude Code ו-API (המסלול הפעיל היחיד)"
   - label: "נתיב מותאם אישית"
-    description: "הגדרת נתיב קורס ידנית"
+    description: "הגדרת נתיב מסלול ידנית"
 ```
 
 Map the selection to settings:
@@ -53,7 +53,7 @@ Map the selection to settings:
 | AI Dev | `ai-dev` | `courses/ai-dev/lessons` |
 | נתיב מותאם אישית | (שאל שם) | (שאל נתיב) |
 
-> קורס ה-AI Engineer הוֹעבר לארכיון תחת `courses/_archive/ai-engineer/`. אם לומד צריך אותו — אפשר להזין נתיב מותאם אישית: `courses/_archive/ai-engineer/lessons`.
+> מסלול ה-AI Engineer הועבר לארכיון תחת `courses/_archive/ai-engineer/`. אם לומד צריך אותו — אפשר להזין נתיב מותאם אישית: `courses/_archive/ai-engineer/lessons`.
 
 If the learner types "Other" with free text — treat as custom path.
 
@@ -226,3 +226,26 @@ After installing, briefly explain how to use it (in the session language):
 - No restart needed — takes effect immediately.
 
 **If no:** skip silently.
+
+---
+
+## H. Setup Complete — REQUIRED
+
+**You MUST always send this message after completing all steps above, regardless of which options the learner chose.**
+
+Send a summary message in `session.language` that includes:
+1. A confirmation that setup is complete and settings are saved.
+2. A one-line recap of the chosen settings (language, course, TTS on/off).
+3. A prompt asking what they'd like to do next — offer to start the first lesson or jump to a specific one.
+
+Example (English):
+```
+Setup complete! Here's your configuration:
+- Language: English
+- Course: AI Dev
+- Voice: Off
+
+Ready to start learning. Would you like to begin with Lesson 0.1, or jump somewhere specific?
+```
+
+Do not skip this step even if any previous section was skipped or the learner said "no" to optional features.
