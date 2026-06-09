@@ -39,12 +39,12 @@ courses/
           [X.Y]_exercises.md           ← תרגילים
 ```
 
-קורסים זמינים:
+הקורס הפעיל היחיד הוא **AI Dev** — ברירת המחדל בכל מקום (setup, template, docs).
 
-| קורס | תיקייה | course.path ברירת מחדל |
-|------|--------|----------------------|
-| AI Dev | `courses/ai-dev/` | `courses/ai-dev/lessons` |
-| AI Engineer | `courses/ai-engineer/` | `courses/ai-engineer/lessons` |
+| קורס | תיקייה | course.path | סטטוס |
+|------|--------|-------------|-------|
+| AI Dev | `courses/ai-dev/` | `courses/ai-dev/lessons` | פעיל (ברירת מחדל) |
+| AI Engineer | `courses/_archive/ai-engineer/` | `courses/_archive/ai-engineer/lessons` | בארכיון — לא מוצע ב-setup; נגיש רק דרך נתיב מותאם אישית |
 
 ---
 

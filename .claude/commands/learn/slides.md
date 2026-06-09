@@ -2,7 +2,7 @@
 
 *Loaded when the learner types `/learn slides` or "slides" during a session. Switches to verbatim slide reading mode.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 
@@ -37,19 +37,21 @@ Tell the learner:
 
 On entry to Slides Mode, start the slide server and generate the HTML viewer:
 
-1. **Start the server** (if not already running on port 7823):
+1. **Start the server** (if not already running on port 7823). Reference the script relative to the repo root (`$PWD` is the project directory during a session):
    ```powershell
-   Start-Process powershell -ArgumentList "-NoProfile -File `"C:\Users\yuval\Tov-learn\.claude\scripts\slide-server.ps1`"" -WindowStyle Normal
+   Start-Process powershell -ArgumentList "-NoProfile -File `"$PWD\.claude\scripts\slide-server.ps1`"" -WindowStyle Normal
    Start-Sleep -Seconds 2
    ```
 
-2. **Resolve the lesson's absolute path** on disk:
-   - Slide images are at: `C:\Users\yuval\ai-track\courses\ai-engineer\lessons\[module]\[lesson]\digital-course-screenshots\`
-   - TTS scripts are at: `C:\Users\yuval\ai-track\courses\ai-engineer\lessons\[module]\[lesson]\digital-course-tts-scripts\`
+2. **Resolve the lesson's absolute path** on disk — the lesson directory resolved in Step 1 (under `course.path`). The viewer expects two optional asset subfolders inside that lesson directory:
+   - Slide images: `[LESSON_DIR]\digital-course-screenshots\`
+   - TTS scripts: `[LESSON_DIR]\digital-course-tts-scripts\`
+
+   These asset folders ship with some courses only. If the active course's lesson has neither folder, skip the viewer launch (Step 3) and read the script text verbatim in the chat instead.
 
 3. **Generate and open the viewer**:
    ```powershell
-   & "C:\Users\yuval\Tov-learn\.claude\scripts\generate-slideshow.ps1" -LessonPath "ABSOLUTE_LESSON_PATH"
+   & "$PWD\.claude\scripts\generate-slideshow.ps1" -LessonPath "ABSOLUTE_LESSON_PATH"
    Start-Process "$env:TEMP\tov_slideshow.html"
    ```
 

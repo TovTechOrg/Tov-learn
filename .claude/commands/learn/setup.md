@@ -32,6 +32,86 @@ Set `session.language` to `"he"` or `"en"`. Use this language for all communicat
 
 ---
 
+## B.1. פנייה אישית (עברית בלבד)
+
+**Run this section only if `session.language == "he"`. Skip entirely if English was selected.**
+
+Use `AskUserQuestion`:
+
+```
+question: "איך להתייחס אליך בשיחה?"
+header: "פנייה"
+options:
+  - label: "אתה (יחיד זכר)"
+    description: "פנייה בלשון זכר"
+  - label: "את (יחיד נקבה)"
+    description: "פנייה בלשון נקבה"
+  - label: "ניטרלי / מעורב"
+    description: "ללא פנייה מגדרית — מתאים לקבוצות מעורבות או העדפה אישית"
+  - label: "רבים / רבות"
+    description: "פנייה בלשון רבים — ציין אם זכר (אתם) או נקבה (אתן)"
+```
+
+*(The tool auto-adds an "Other" option for free text — use that value as-is.)*
+
+Save the result as `session.address`. Examples:
+- "אתה (יחיד זכר)" → `"masculine"`
+- "את (יחיד נקבה)" → `"feminine"`
+- "ניטרלי / מעורב" → `"neutral"`
+- "רבים / רבות" → `"plural-m"` or `"plural-f"` (ask follow-up if needed)
+- free text → save verbatim as `"other:<text>"`
+
+**Use `session.address` for all Hebrew communication from this point on.**
+
+---
+
+## B.2. RTL Extension for Hebrew Users
+
+**Run this section only if `session.language == "he"`. Skip entirely if English was selected.**
+
+First, check if the extension is already installed:
+
+```powershell
+code --list-extensions | Select-String "yechielby.claude-code-rtl"
+```
+
+**If already installed:** skip this section entirely — no message needed.
+
+**If not installed:** use `AskUserQuestion`:
+
+```
+question: "האם להתקין את תוסף ה-RTL?"
+header: "תוסף RTL"
+options:
+  - label: "כן, התקן"
+    description: "yechielby.claude-code-rtl — משפר תצוגת עברית ב-Claude Code"
+  - label: "לא תודה"
+    description: "דלג על שלב זה"
+```
+
+**If yes:** first tell the user:
+
+> "מתקין את התוסף. שים לב שהתקנה עלולה לקטוע את השיחה — אם זה יקרה: אם השיחה עדיין פתוחה, כתוב **המשך**; אם נסגרה, פתח שיחה חדשה וכתוב **`/learn setup`**."
+
+Then run:
+
+```powershell
+code --install-extension yechielby.claude-code-rtl
+```
+
+After the command completes, add:
+
+> "לאחר שה-extension ייטען, הפעל מצב אוטומטי פעם אחת:
+> `Ctrl+Shift+P` ← **Activate RTL (Auto)**
+>
+> **למה זה חשוב?** בלי מצב זה, כל הטקסט מוצג משמאל לימין — עברית מופיעה הפוכה, פסקאות מתחילות בצד הלא נכון, והקריאה מסורבלת. מצב Auto מזהה לבד איזה בועת שיחה היא עברית ואיזו אנגלית, ומסדר כל אחת בכיוון הנכון — בלי שתצטרך לעשות כלום.
+>
+> התוסף מוסיף כפתור קטן בשורת הסטטוס בתחתית המסך — משם ניתן בכל עת לשנות מצב או לבטל לחלוטין."
+
+**If no:** skip silently and continue to section C.
+
+---
+
 ## C. Course Selection
 
 Use the `AskUserQuestion` tool to display a course picker:
@@ -41,9 +121,7 @@ question: "באיזה קורס תרצה ללמוד?"
 header: "בחירת קורס"
 options:
   - label: "AI Dev"
-    description: "פיתוח מוצרי AI עם Claude Code ו-API (ברירת מחדל)"
-  - label: "AI Engineer"
-    description: "אוטומציות ו-AI לאנשי ביזנס ומקצוע"
+    description: "פיתוח מוצרי AI עם Claude Code ו-API (הקורס הפעיל היחיד)"
   - label: "נתיב מותאם אישית"
     description: "הגדרת נתיב קורס ידנית"
 ```
@@ -53,8 +131,9 @@ Map the selection to settings:
 | בחירה | course.name | course.path |
 |-------|-------------|-------------|
 | AI Dev | `ai-dev` | `courses/ai-dev/lessons` |
-| AI Engineer | `ai-engineer` | `courses/ai-engineer/lessons` |
 | נתיב מותאם אישית | (שאל שם) | (שאל נתיב) |
+
+> קורס ה-AI Engineer הוֹעבר לארכיון תחת `courses/_archive/ai-engineer/`. אם לומד צריך אותו — אפשר להזין נתיב מותאם אישית: `courses/_archive/ai-engineer/lessons`.
 
 If the learner types "Other" with free text — treat as custom path.
 
@@ -133,6 +212,40 @@ options:
 
 ---
 
+## D.5. Learning Style
+
+Use `AskUserQuestion` (two questions, can be shown together):
+
+```
+question: "איך תעדיף ללמוד בדרך כלל?"
+header: "סגנון למידה"
+options:
+  - label: "standard — הסבר ואז שאלה (ברירת מחדל)"
+    description: "אסביר כל נושא ואז אשאל שאלה לבדיקת הבנה"
+  - label: "diagnostic — בחן אותי קודם"
+    description: "תבחן אותי על כל השיעור קודם, ותלמד אותי רק את מה שטעיתי"
+  - label: "socratic — הדרך אותי בשאלות"
+    description: "תשאל שאלות שיובילו אותי לגלות את התשובות בעצמי"
+```
+
+```
+question: "איזו רמת פירוט מתאימה לך?"
+header: "רמת פירוט"
+options:
+  - label: "detail 1 — קצר מאוד"
+    description: "רק הרעיון המרכזי, 1–2 משפטים לשקף"
+  - label: "detail 2 — ברירת מחדל"
+    description: "מאוזן — הסבר + דוגמה + שאלה"
+  - label: "detail 3 — עומק מלא"
+    description: "כל הפרטים, תוספות, השוואות"
+```
+
+Map to values:
+- mode: `"standard"` / `"diagnostic"` / `"socratic"`
+- detail_level: `1` / `2` / `3`
+
+---
+
 ## E. Save Settings
 
 Save `~/skill-tutor-tutorials/settings.json`:
@@ -140,7 +253,8 @@ Save `~/skill-tutor-tutorials/settings.json`:
 ```json
 {
   "session": {
-    "language": "he"
+    "language": "he",
+    "address": "masculine"
   },
   "course": {
     "name": "ai-dev",
@@ -152,6 +266,10 @@ Save `~/skill-tutor-tutorials/settings.json`:
     "voice_lang": "[voice language code]",
     "rate": 0,
     "mode": "auto"
+  },
+  "learning_style": {
+    "mode": "standard",
+    "detail_level": 2
   }
 }
 ```
@@ -189,3 +307,4 @@ $moduleDest = "$dest\learn"
 if (!(Test-Path $moduleDest)) { New-Item -ItemType Directory -Force -Path $moduleDest | Out-Null }
 Copy-Item -Force "$PWD\.claude\commands\learn\*.md" "$moduleDest\"
 ```
+

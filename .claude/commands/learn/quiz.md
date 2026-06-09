@@ -2,7 +2,7 @@
 
 *Loaded when the "quiz me" trigger is used. TTS helper is defined in learn.md.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 
@@ -30,6 +30,10 @@ Build the multiple-choice questions (4 for normal, 8 for full → two `AskUserQu
 
 Each question: **1 correct option + 2–3 plausible distractors**, all in `session.language`. `AskUserQuestion` auto-adds an **"Other"** option — if the learner picks it and free-texts, judge that answer qualitatively. Set `multiSelect: false`.
 
+**IMPORTANT — never use the `description` field on quiz options.** Descriptions are visible to the learner before they answer and will reveal or hint at the correct answer. Leave `description` empty or omit it entirely on every option.
+
+**IMPORTANT — vary correct answer position:** The correct option must appear in a different position for each question. Never place the correct answer in the same slot across all questions (e.g. always first). Distribute across positions — for example: Q1→3rd, Q2→1st, Q3→2nd, Q4→3rd. This prevents pattern-guessing.
+
 **Step 2 — One free-text recall question at the end.**
 
 After the multiple-choice box(es), ask **one** open-ended question (synthesis or "explain in your own words"). This is the recall test — wait for the learner to type their answer.
@@ -38,12 +42,24 @@ After the multiple-choice box(es), ask **one** open-ended question (synthesis or
 
 ## Scoring
 
-Give an overall score **1–10** with specific per-question feedback.
+Give an overall score **1–10**, then immediately show a **full review table** — one row per question:
 
-- **Normal:** each correct multiple-choice = 1.5 pts (6 total) + free-text closer judged up to 4 pts → /10.
-- **Full:** each correct multiple-choice = 1 pt (8 total) + free-text closer up to 2 pts → /10.
+| # | השאלה | תשובתך | תשובה נכונה | הסבר קצר |
+|---|-------|--------|------------|----------|
+| 1 | ... | ✅ / ❌ [מה ענית] | [התשובה הנכונה] | [משפט-שניים מדוע] |
 
-*(Speak score summary if TTS enabled)*
+Rules for the table:
+- Show **every** question — multiple-choice and free-text.
+- For correct answers: mark ✅, still show the correct answer and a one-sentence "why this is right."
+- For wrong or partial answers: mark ❌, show what the learner answered, the correct answer, and 1–2 sentences explaining the concept.
+- For free-text: quote the key idea from the learner's answer vs. the expected key idea.
+- Keep explanations in `session.language`, max 2 sentences each.
+
+Scoring formula (unchanged):
+- **Normal:** each correct multiple-choice = 1.5 pts (6 total) + free-text up to 4 pts → /10.
+- **Full:** each correct multiple-choice = 1 pt (8 total) + free-text up to 2 pts → /10.
+
+*(Speak score summary if TTS enabled — skip the table)*
 
 ---
 
