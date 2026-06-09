@@ -32,6 +32,86 @@ Set `session.language` to `"he"` or `"en"`. Use this language for all communicat
 
 ---
 
+## B.1. פנייה אישית (עברית בלבד)
+
+**Run this section only if `session.language == "he"`. Skip entirely if English was selected.**
+
+Use `AskUserQuestion`:
+
+```
+question: "איך להתייחס אליך בשיחה?"
+header: "פנייה"
+options:
+  - label: "אתה (יחיד זכר)"
+    description: "פנייה בלשון זכר"
+  - label: "את (יחיד נקבה)"
+    description: "פנייה בלשון נקבה"
+  - label: "ניטרלי / מעורב"
+    description: "ללא פנייה מגדרית — מתאים לקבוצות מעורבות או העדפה אישית"
+  - label: "רבים / רבות"
+    description: "פנייה בלשון רבים — ציין אם זכר (אתם) או נקבה (אתן)"
+```
+
+*(The tool auto-adds an "Other" option for free text — use that value as-is.)*
+
+Save the result as `session.address`. Examples:
+- "אתה (יחיד זכר)" → `"masculine"`
+- "את (יחיד נקבה)" → `"feminine"`
+- "ניטרלי / מעורב" → `"neutral"`
+- "רבים / רבות" → `"plural-m"` or `"plural-f"` (ask follow-up if needed)
+- free text → save verbatim as `"other:<text>"`
+
+**Use `session.address` for all Hebrew communication from this point on.**
+
+---
+
+## B.2. RTL Extension for Hebrew Users
+
+**Run this section only if `session.language == "he"`. Skip entirely if English was selected.**
+
+First, check if the extension is already installed:
+
+```powershell
+code --list-extensions | Select-String "yechielby.claude-code-rtl"
+```
+
+**If already installed:** skip this section entirely — no message needed.
+
+**If not installed:** use `AskUserQuestion`:
+
+```
+question: "האם להתקין את תוסף ה-RTL?"
+header: "תוסף RTL"
+options:
+  - label: "כן, התקן"
+    description: "yechielby.claude-code-rtl — משפר תצוגת עברית ב-Claude Code"
+  - label: "לא תודה"
+    description: "דלג על שלב זה"
+```
+
+**If yes:** first tell the user:
+
+> "מתקין את התוסף. שים לב שהתקנה עלולה לקטוע את השיחה — אם זה יקרה: אם השיחה עדיין פתוחה, כתוב **המשך**; אם נסגרה, פתח שיחה חדשה וכתוב **`/learn setup`**."
+
+Then run:
+
+```powershell
+code --install-extension yechielby.claude-code-rtl
+```
+
+After the command completes, add:
+
+> "לאחר שה-extension ייטען, הפעל מצב אוטומטי פעם אחת:
+> `Ctrl+Shift+P` ← **Activate RTL (Auto)**
+>
+> **למה זה חשוב?** בלי מצב זה, כל הטקסט מוצג משמאל לימין — עברית מופיעה הפוכה, פסקאות מתחילות בצד הלא נכון, והקריאה מסורבלת. מצב Auto מזהה לבד איזה בועת שיחה היא עברית ואיזו אנגלית, ומסדר כל אחת בכיוון הנכון — בלי שתצטרך לעשות כלום.
+>
+> התוסף מוסיף כפתור קטן בשורת הסטטוס בתחתית המסך — משם ניתן בכל עת לשנות מצב או לבטל לחלוטין."
+
+**If no:** skip silently and continue to section C.
+
+---
+
 ## C. Course Selection
 
 Use the `AskUserQuestion` tool to display a course picker:
@@ -139,7 +219,8 @@ Save `~/skill-tutor-tutorials/settings.json`:
 ```json
 {
   "session": {
-    "language": "he"
+    "language": "he",
+    "address": "masculine"
   },
   "course": {
     "name": "ai-dev",
@@ -189,40 +270,3 @@ if (!(Test-Path $moduleDest)) { New-Item -ItemType Directory -Force -Path $modul
 Copy-Item -Force "$PWD\.claude\commands\learn\*.md" "$moduleDest\"
 ```
 
----
-
-## G. RTL Extension for Claude Code (VSCode)
-
-First, check if the extension is already installed:
-
-```powershell
-code --list-extensions | Select-String "yechielby.claude-code-rtl"
-```
-
-**If the extension is already installed:** skip this section entirely — no message needed.
-
-**If not installed:** use the `AskUserQuestion` tool:
-
-```
-question: "קיים תוסף VSCode שמשפר את חוויית Claude Code בעברית (RTL). האם להתקין אותו?"
-header: "תוסף RTL"
-options:
-  - label: "כן, התקן"
-    description: "yechielby.claude-code-rtl — משפר תצוגת עברית ב-Claude Code"
-  - label: "לא תודה"
-    description: "דלג על שלב זה"
-```
-
-**If yes:** run the following command and confirm success:
-
-```powershell
-code --install-extension yechielby.claude-code-rtl
-```
-
-After installing, briefly explain how to use it (in the session language):
-- The extension adds an RTL toggle button in the Claude Code panel.
-- Click it (or use the command palette: "Toggle RTL") to switch the chat direction to right-to-left.
-- Useful when Claude's responses are in Hebrew and the text appears misaligned.
-- No restart needed — takes effect immediately.
-
-**If no:** skip silently.
