@@ -2,7 +2,7 @@
 
 *Loaded when the learner types `/learn slides` or "slides" during a session. Switches to verbatim slide reading mode.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 

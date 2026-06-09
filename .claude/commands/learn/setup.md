@@ -212,6 +212,40 @@ options:
 
 ---
 
+## D.5. Learning Style
+
+Use `AskUserQuestion` (two questions, can be shown together):
+
+```
+question: "איך תעדיף ללמוד בדרך כלל?"
+header: "סגנון למידה"
+options:
+  - label: "standard — הסבר ואז שאלה (ברירת מחדל)"
+    description: "אסביר כל נושא ואז אשאל שאלה לבדיקת הבנה"
+  - label: "diagnostic — בחן אותי קודם"
+    description: "תבחן אותי על כל השיעור קודם, ותלמד אותי רק את מה שטעיתי"
+  - label: "socratic — הדרך אותי בשאלות"
+    description: "תשאל שאלות שיובילו אותי לגלות את התשובות בעצמי"
+```
+
+```
+question: "איזו רמת פירוט מתאימה לך?"
+header: "רמת פירוט"
+options:
+  - label: "detail 1 — קצר מאוד"
+    description: "רק הרעיון המרכזי, 1–2 משפטים לשקף"
+  - label: "detail 2 — ברירת מחדל"
+    description: "מאוזן — הסבר + דוגמה + שאלה"
+  - label: "detail 3 — עומק מלא"
+    description: "כל הפרטים, תוספות, השוואות"
+```
+
+Map to values:
+- mode: `"standard"` / `"diagnostic"` / `"socratic"`
+- detail_level: `1` / `2` / `3`
+
+---
+
 ## E. Save Settings
 
 Save `~/skill-tutor-tutorials/settings.json`:
@@ -232,6 +266,10 @@ Save `~/skill-tutor-tutorials/settings.json`:
     "voice_lang": "[voice language code]",
     "rate": 0,
     "mode": "auto"
+  },
+  "learning_style": {
+    "mode": "standard",
+    "detail_level": 2
   }
 }
 ```

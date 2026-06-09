@@ -2,7 +2,7 @@
 
 *Loaded when /learn is called with "project" argument, or when learner picks the final project from resume.*
 
-Respond in `session.language` throughout.
+Respond in `session.language` throughout. Address the learner using `session.address`.
 
 ---
 
