@@ -71,6 +71,8 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | $ARGUMENTS = "status" | Read `.claude/commands/learn/status.md` |
 | $ARGUMENTS = "slides" or "slides [lesson]" | Read `.claude/commands/learn/slides.md` |
 | $ARGUMENTS = "project" | Read `.claude/commands/learn/project.md` |
+| $ARGUMENTS = "export" | Read `.claude/commands/learn/export.md` |
+| $ARGUMENTS = "import" or "import [path]" | Read `.claude/commands/learn/import.md` |
 | $ARGUMENTS empty | Read `.claude/commands/learn/resume.md` |
 | "quiz me" trigger | Read `.claude/commands/learn/quiz.md` |
 | "stop" trigger | Read `.claude/commands/learn/progress.md` |
@@ -99,3 +101,5 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | socratic / הדרך אותי | Switch to socratic mode (question-led discovery) |
 | slides | Read `.claude/commands/learn/slides.md` — verbatim slide reading mode |
 | project | Read `.claude/commands/learn/project.md` — final project mode |
+| export | Read `.claude/commands/learn/export.md` — export all learner data to a ZIP |
+| import | Read `.claude/commands/learn/import.md` — import learner data from a ZIP |

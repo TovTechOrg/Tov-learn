@@ -19,6 +19,8 @@
 | Status | `.claude/commands/learn/status.md` | HTML dashboard — all lessons, scores, due reviews |
 | Project Analysis | `.claude/commands/learn/project-analysis.md` | סריקת קוד, ראיון ארכיטקט, מפת HTML |
 | Slides | `.claude/commands/learn/slides.md` | קריאה מילה במילה מסקריפטים, viewer אינטראקטיבי, TTS אוטומטי |
+| Export | `.claude/commands/learn/export.md` | ייצוא כל נתוני התלמיד ל-ZIP — גיבוי/מעבר למכשיר אחר |
+| Import | `.claude/commands/learn/import.md` | ייבוא נתוני תלמיד מ-ZIP — החלפה מלאה או הוספה בלבד |
 
 סקריפטים תומכים נמצאים ב-`.claude/scripts/` (PowerShell — slide server, HTML generator).
 

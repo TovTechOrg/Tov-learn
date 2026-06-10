@@ -7,3 +7,6 @@ skill-tutor-tutorials/settings.json
 # OS / editor cruft
 Thumbs.db
 .DS_Store
+
+# user export data
+*.zip
