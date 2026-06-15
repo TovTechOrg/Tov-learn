@@ -1,5 +1,7 @@
 # שאלות נפוצות — Tov-learn
 
+> **שאלות על פריסה (deploy)?** ראו את ה-FAQ הייעודי: [`courses/ai-dev/deploy-faq.md`](courses/ai-dev/deploy-faq.md) — GitHub Pages, Cloudflare Workers, Render ועוד.
+
 ---
 
 ## AntiGravity — עבודה עם פרויקטים
