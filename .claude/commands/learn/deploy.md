@@ -98,3 +98,17 @@ gh pr create --fill
 ```
 
 Draft the FAQ entry text for them (question + concise answer + command if relevant), but let *them* run the git/PR commands so they practice the workflow. If `gh` isn't authenticated, that's the one UI-only step (`gh auth login`).
+
+---
+
+## Step 7 — Security scan on the live app
+
+כשיש URL חי — זה הרגע לסקירת אבטחה אמיתית. לא לפני: בדיקת headers, חשיפת קבצים, ו-auth endpoints דורשות אפליקציה שרצה.
+
+אמור ללומד:
+
+> "האפליקציה חיה — זה הזמן הנכון לבדוק אבטחה. סקירה על URL חי מוצאת דברים שבדיקת קוד בלבד מפספסת: קבצים שנחשפים בפועל, כותרות שחסרות, endpoints שמגיבים בצורה שלא ציפית.
+>
+> הרץ: `/learn security [הכנס כאן את ה-URL שקיבלת]`"
+
+אם הלומד לא רוצה עכשיו — קבל בשקט. אל תחזור על זה שוב.

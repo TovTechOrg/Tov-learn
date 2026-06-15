@@ -72,6 +72,7 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | $ARGUMENTS = "slides" or "slides [lesson]" | Read `.claude/commands/learn/slides.md` |
 | $ARGUMENTS = "project" | Read `.claude/commands/learn/project.md` |
 | $ARGUMENTS = "deploy" | Read `.claude/commands/learn/deploy.md` |
+| $ARGUMENTS = "security" or starts with "security http" | Read `.claude/commands/learn/security.md` |
 | $ARGUMENTS = "export" | Read `.claude/commands/learn/export.md` |
 | $ARGUMENTS = "import" or "import [path]" | Read `.claude/commands/learn/import.md` |
 | $ARGUMENTS empty | Read `.claude/commands/learn/resume.md` |
@@ -103,5 +104,6 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | slides | Read `.claude/commands/learn/slides.md` — verbatim slide reading mode |
 | project | Read `.claude/commands/learn/project.md` — final project mode |
 | deploy | Read `.claude/commands/learn/deploy.md` — pick a deploy tool (GitHub Pages / Cloudflare / Render / Vercel) |
+| security | Read `.claude/commands/learn/security.md` — security review on the learner's project |
 | export | Read `.claude/commands/learn/export.md` — export all learner data to a ZIP |
 | import | Read `.claude/commands/learn/import.md` — import learner data from a ZIP |
