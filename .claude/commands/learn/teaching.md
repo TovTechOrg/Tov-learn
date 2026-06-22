@@ -170,13 +170,21 @@ After completing the **last section**, do the following in order:
 
 1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
 
-2. **Exercises — run automatically.** Do NOT use the exercises file verbatim. Write fresh hands-on exercises the learner can complete right here in the conversation with Claude:
-   - **Prompt practice**: give them a scenario, they write the actual prompt they'd use
-   - **Iteration**: respond to their prompt as if you're the AI tool, then ask them to improve it
-   - **Apply the concept**: small tasks that use the lesson's skill directly
-   - Never assign external tool tasks — exercises must be completable here with Claude
-   - The exercises file can inspire scenarios but rewrite them as interactive Claude prompts
-   Present one at a time, wait for response, give feedback, then continue.
+2. **Exercises — present from the exercises file.** Go through the exercises from the loaded exercises file, one at a time:
+   - Present each exercise exactly as written — do not rewrite or replace it
+   - Wait for the learner to respond before moving to the next
+   - For exercises that require an external tool (tokenizer site, external API, drawing, etc.) — tell the learner to go do it and come back with their results. When they return, give feedback on what they found
+   - For exercises that can be done in the conversation — do them together here
+   - Give specific feedback on every answer: what's right, what's missing, what to think about
+   - If the learner is stuck, give one hint — not the answer
+   - **After each exercise is completed**, silently append the learner's answers to `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md`:
+     ```
+     ## תרגיל [N] — [exercise title]
+     **תשובה:** [learner's answer, verbatim or summarized if long]
+     **פידבק:** [your feedback in one sentence]
+     ---
+     ```
+     Create the file if it doesn't exist. Do not tell the learner you are saving.
 
 3. **Quiz or mini project — offer once** after exercises:
    
