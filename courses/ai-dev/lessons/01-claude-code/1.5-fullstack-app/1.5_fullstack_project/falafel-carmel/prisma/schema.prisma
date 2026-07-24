@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model MenuItem {
+  id          String      @id @default(uuid())
+  name        String      // e.g. 'מנת פלאפל', 'סביח'
+  description String
+  price       Float
+  isSpicy     Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  customerName String
+  totalAmount  Float
+  status       OrderStatus @default(PENDING)
+  createdAt    DateTime    @default(now())
+
+  orderItems   OrderItem[]
+}
+
+// Join table — one Order can contain multiple MenuItems, each with a quantity
+model OrderItem {
+  id         String   @id @default(uuid())
+  quantity   Int      @default(1)
+
+  order      Order    @relation(fields: [orderId],    references: [id])
+  orderId    String
+
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  menuItemId String
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY
+  DELIVERED
+}

@@ -1,0 +1,20 @@
+[
+    {
+        "name": "ישראל ישראלי",
+        "company": "טבע תעשיות פרמצבטיות",
+        "email": "israel@teva.co.il",
+        "industry": "פארמה"
+    },
+    {
+        "name": "עמית חדד",
+        "company": "אל על",
+        "email": "amit@mobileye.com",
+        "industry": "תעופה."
+    },
+    {
+        "name": "נועה כספי",
+        "company": "בזק",
+        "email": "noa.k@bezeq.co.il",
+        "industry": "תקשורת, טלקום"
+    }
+]

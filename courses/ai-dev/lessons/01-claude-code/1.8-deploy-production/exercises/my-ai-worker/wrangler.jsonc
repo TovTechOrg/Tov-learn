@@ -1,0 +1,11 @@
+{
+  "name": "my-ai-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-25",
+"observability": {
+    "enabled": true
+  },
+  "ai": {
+    "binding": "AI"
+  }
+}

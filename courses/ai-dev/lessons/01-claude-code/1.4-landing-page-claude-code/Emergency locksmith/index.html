@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <title>מנעולן אקספרס 24/7 — גוש דן</title>
+  <style>
+    :root {
+      --bg:         #0A0A0A;
+      --surface:    #161616;
+      --text:       #FFFFFF;
+      --muted:      rgba(255,255,255,0.55);
+      --red:        #D9251D;
+      --red-deep:   #B01F18;
+      --amber:      #F59E0B;
+      --green:      #22C55E;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── TOPBAR ─────────────────────────────── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 18px;
+      background: rgba(10,10,10,0.96);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .brand        { font-size: 14px; font-weight: 800; letter-spacing: -0.01em; }
+    .brand em     { font-style: normal; color: var(--red); }
+    .topbar-tel   { font-size: 13px; font-weight: 700; color: var(--amber); text-decoration: none; direction: ltr; white-space: nowrap; }
+
+    /* ── HERO ───────────────────────────────── */
+    .hero {
+      min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 88px 20px 120px;
+      text-align: center;
+      gap: 0;
+    }
+
+    .lock-icon {
+      font-size: 56px;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 0 18px rgba(217,37,29,0.55));
+      line-height: 1;
+    }
+
+    .headline {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .subline {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    /* ── ARRIVAL BADGE ──────────────────────── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--amber); color: #000;
+      font-size: 15px; font-weight: 800;
+      padding: 9px 18px; border-radius: 100px;
+      margin-bottom: 28px;
+    }
+
+    /* ── CTA BUTTON ─────────────────────────── */
+    .cta {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; max-width: 380px;
+      padding: 22px 20px;
+      background: var(--red);
+      color: #fff;
+      border-radius: 18px;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      animation: ring 2.2s ease-in-out infinite;
+      margin-bottom: 14px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cta:active { background: var(--red-deep); transform: scale(0.97); }
+
+    @keyframes ring {
+      0%, 100% { box-shadow: 0 0 0 0   rgba(217,37,29,0.7), 0 6px 28px rgba(217,37,29,0.4); }
+      50%       { box-shadow: 0 0 0 18px rgba(217,37,29,0),   0 6px 48px rgba(217,37,29,0.7); }
+    }
+
+    .tel-visible {
+      font-size: 15px; color: var(--muted);
+      direction: ltr; margin-bottom: 26px;
+    }
+    .tel-visible a { color: var(--text); font-weight: 700; text-decoration: none; }
+
+    /* ── SOCIAL PROOF ───────────────────────── */
+    .proof {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+    }
+    .proof-dot {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--green); color: #000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 900; flex-shrink: 0;
+    }
+
+    /* ── TRUST ROW ──────────────────────────── */
+    .trust-row {
+      display: flex; justify-content: center; gap: 0;
+      margin-top: 28px; padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      width: 100%; max-width: 380px;
+    }
+    .trust-item {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    }
+    .trust-item + .trust-item { border-right: 1px solid rgba(255,255,255,0.08); }
+    .trust-num { font-size: 20px; font-weight: 900; line-height: 1; }
+    .trust-lbl { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.3; }
+
+    /* ── STICKY BOTTOM BAR ──────────────────── */
+    .sticky {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      padding: 10px 16px;
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
+      background: rgba(10,10,10,0.97);
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .sticky-cta {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 15px;
+      background: var(--red); color: #fff;
+      border-radius: 12px; text-decoration: none;
+      font-size: 18px; font-weight: 900;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sticky-cta:active { background: var(--red-deep); }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand">מנעולן <em>אקספרס</em> 24/7</div>
+    <a href="tel:0501234567" class="topbar-tel">050-123-4567</a>
+  </header>
+
+  <!-- HERO -->
+  <main class="hero">
+
+    <div class="lock-icon" aria-hidden="true">🔐</div>
+
+    <h1 class="headline">נעלת את עצמך<br>מחוץ לדלת?</h1>
+    <p class="subline">מנעולן מוסמך בדרך אליך — גוש דן</p>
+
+    <div class="badge" role="note">
+      ⚡ הגעה עד 20 דקות
+    </div>
+
+    <a href="tel:0501234567" class="cta" aria-label="חייג עכשיו למנעולן">
+      📞 חייג עכשיו
+    </a>
+
+    <p class="tel-visible"><a href="tel:0501234567">050-123-4567</a></p>
+
+    <div class="proof">
+      <div class="proof-dot" aria-hidden="true">✓</div>
+      <span>מעל 1,000 לקוחות מרוצים בגוש דן</span>
+    </div>
+
+    <div class="trust-row" role="list" aria-label="יתרונות השירות">
+      <div class="trust-item" role="listitem">
+        <span class="trust-num">24/7</span>
+        <span class="trust-lbl">זמין<br>תמיד</span>
+      </div>
+      <div class="trust-item" role="listitem">
+        <span class="trust-num">20 דק׳</span>
+        <span class="trust-lbl">זמן<br>הגעה</span>
+      </div>
+      <div class="trust-item" role="listitem">
+        <span class="trust-num">₪0</span>
+        <span class="trust-lbl">ביקור<br>הערכה</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- STICKY BOTTOM — always visible -->
+  <div class="sticky">
+    <a href="tel:0501234567" class="sticky-cta" aria-label="חייג עכשיו">
+      📞 חייג עכשיו — 050-123-4567
+    </a>
+  </div>
+
+</body>
+</html>

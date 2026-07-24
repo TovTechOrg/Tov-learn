@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>דוגי-סטייל | אילוף כלבים מתקדם — אזור השרון</title>
+  <style>
+    :root {
+      --ground: #EDF2F0;
+      --text: #1A2330;
+      --primary: #0E4A2D;
+      --accent: #287A52;
+      --accent-h: #1F5E3E;
+      --secondary: #1B4476;
+      --surface: #FFFFFF;
+      --muted: #5A7060;
+      --hl: #CBE8D4;
+      --border: #C5D9CC;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Arial, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--ground); color: var(--text); font-family: var(--font); line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 60px;
+    }
+    .nav-brand { font-size: 1.2rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; }
+    .nav-brand em { font-style: normal; color: var(--accent); }
+    .nav-tel { font-size: 0.85rem; color: var(--muted); direction: ltr; }
+    .nav-cta {
+      background: var(--accent); color: #fff;
+      padding: 0.5rem 1.25rem; border-radius: 4px;
+      font-size: 0.875rem; font-weight: 700;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent-h); }
+    .nav-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    /* HERO */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 60px); max-height: 820px;
+    }
+    .hero-text {
+      display: flex; flex-direction: column; justify-content: center; gap: 1.5rem;
+      padding: 4rem 4rem 4rem 2rem;
+    }
+    .eyebrow {
+      font-size: 0.73rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent); display: block;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.7rem);
+      font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
+      color: var(--primary);
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub { font-size: 1.05rem; color: var(--muted); line-height: 1.75; max-width: 40ch; }
+    .btn-main {
+      background: var(--accent); color: #fff;
+      padding: 0.9rem 2rem; border-radius: 4px;
+      font-size: 1rem; font-weight: 700; display: inline-block; width: fit-content;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-main:hover { background: var(--accent-h); transform: translateY(-2px); }
+    .btn-main:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .hero-stats { display: flex; gap: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+    .s-num { font-size: 2rem; font-weight: 800; color: var(--primary); line-height: 1; letter-spacing: -0.04em; }
+    .s-lbl { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .hero-visual { background: var(--primary); position: relative; overflow: hidden; }
+    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* SECTION CHROME */
+    .sec { padding: 6rem 2rem; }
+    .sec-hdr { text-align: center; margin-bottom: 3.5rem; }
+    .sec-hdr h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800;
+      letter-spacing: -0.03em; color: var(--primary); line-height: 1.15; margin-top: 0.5rem;
+    }
+    .sec-hdr p { margin-top: 0.75rem; color: var(--muted); }
+
+    /* SERVICES */
+    .svc-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      max-width: 1080px; margin: 0 auto;
+    }
+    .svc-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .svc-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(14,74,45,0.1); }
+    .svc-icon { width: 52px; height: 52px; }
+    .svc-t { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+    .svc-d { font-size: 0.93rem; color: var(--muted); line-height: 1.75; }
+
+    /* PROCESS */
+    .proc-sec { background: var(--primary); color: #fff; padding: 6rem 2rem; }
+    .proc-sec .sec-hdr h2 { color: #fff; }
+    .proc-sec .eyebrow { color: var(--hl); }
+    .proc-steps {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem;
+      max-width: 880px; margin: 0 auto;
+    }
+    .step-n { font-size: 3rem; font-weight: 800; letter-spacing: -0.06em; line-height: 1; color: var(--hl); opacity: 0.45; }
+    .step-t { font-size: 1.1rem; font-weight: 700; margin-top: 0.5rem; }
+    .step-d { font-size: 0.9rem; opacity: 0.72; line-height: 1.75; margin-top: 0.5rem; }
+
+    /* ABOUT */
+    .about-sec { background: var(--surface); padding: 6rem 2rem; }
+    .about-in {
+      max-width: 860px; margin: 0 auto;
+      display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: start;
+    }
+    .trainer-wrap {
+      width: 200px; height: 200px; border-radius: 50%;
+      overflow: hidden; border: 4px solid var(--hl); flex-shrink: 0;
+    }
+    #trainer-canvas { width: 200px; height: 200px; }
+    .about-role { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .about-name { font-size: 1.85rem; font-weight: 800; color: var(--primary); letter-spacing: -0.03em; margin-top: 0.2rem; }
+    .about-bio { color: var(--muted); line-height: 1.8; font-size: 0.96rem; margin-top: 1rem; }
+    .about-quote {
+      border-right: 3px solid var(--accent); padding-right: 1rem;
+      color: var(--primary); font-weight: 600; font-size: 0.95rem; line-height: 1.65;
+      margin-top: 1.25rem;
+    }
+    .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
+    .badge {
+      background: var(--hl); color: var(--primary);
+      padding: 0.3rem 0.8rem; border-radius: 100px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+
+    /* TESTIMONIALS */
+    .testi-sec { padding: 6rem 2rem; }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      max-width: 1080px; margin: 0 auto;
+    }
+    .testi-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.75rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .testi-stars { color: #D4920A; letter-spacing: 0.05em; font-size: 0.9rem; }
+    .testi-text { font-size: 0.93rem; color: var(--text); line-height: 1.75; font-style: italic; flex: 1; }
+    .testi-name { font-weight: 700; font-size: 0.88rem; color: var(--primary); }
+    .testi-city { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+
+    /* FORM */
+    .form-sec { background: var(--secondary); color: #fff; padding: 6rem 2rem; }
+    .form-sec .sec-hdr h2 { color: #fff; }
+    .form-sec .eyebrow { color: var(--hl); }
+    .form-sub { color: rgba(255,255,255,0.6); font-size: 0.95rem; margin-top: 0.5rem; }
+    .lead-form { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .fg { display: flex; flex-direction: column; gap: 0.4rem; }
+    .fg label { font-size: 0.82rem; font-weight: 600; opacity: 0.82; }
+    .fg input, .fg select, .fg textarea {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px; color: #fff;
+      padding: 0.75rem 1rem; font-size: 0.93rem; font-family: var(--font);
+      direction: rtl; width: 100%; transition: border-color 0.2s, background 0.2s;
+    }
+    .fg input::placeholder, .fg textarea::placeholder { color: rgba(255,255,255,0.35); }
+    .fg input:focus, .fg select:focus, .fg textarea:focus {
+      outline: none; border-color: var(--hl); background: rgba(255,255,255,0.15);
+    }
+    .fg select option { color: var(--text); background: #fff; }
+    .fg textarea { resize: vertical; min-height: 96px; }
+    .btn-submit {
+      background: var(--accent); color: #fff; border: none;
+      padding: 1rem 2rem; border-radius: 4px;
+      font-size: 1rem; font-weight: 700; font-family: var(--font);
+      cursor: pointer; width: 100%; margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-submit:hover { background: var(--accent-h); transform: translateY(-1px); }
+    .btn-submit:focus-visible { outline: 2px solid var(--hl); outline-offset: 3px; }
+    .btn-submit:disabled { opacity: 0.75; cursor: not-allowed; transform: none; }
+    .form-note { text-align: center; font-size: 0.78rem; opacity: 0.45; }
+
+    /* FOOTER */
+    .footer {
+      background: #101820; color: rgba(255,255,255,0.5);
+      padding: 1.5rem 2rem; text-align: center; font-size: 0.82rem;
+    }
+    .footer strong { color: rgba(255,255,255,0.85); }
+    .footer a { color: rgba(255,255,255,0.5); }
+    .footer a:hover { color: rgba(255,255,255,0.85); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .svc-grid, .testi-grid, .proc-steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; max-height: none; }
+      .hero-visual { height: 260px; order: -1; }
+      .hero-text { padding: 2rem 1.5rem; }
+      .about-in { grid-template-columns: 1fr; }
+      .trainer-wrap { margin: 0 auto; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-tel { display: none; }
+    }
+    @media (max-width: 480px) {
+      .nav { padding: 0 1rem; }
+      .sec, .proc-sec, .about-sec, .testi-sec, .form-sec { padding: 4rem 1.25rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" role="navigation" aria-label="ניווט ראשי">
+  <div class="nav-brand">דוגי<em>-סטייל</em></div>
+  <div class="nav-tel">050-000-0000</div>
+  <a href="#contact" class="nav-cta">ייעוץ חינם</a>
+</nav>
+
+<section class="hero" aria-label="מעל הקפל">
+  <div class="hero-text">
+    <span class="eyebrow">אילוף מתקדם · אזור השרון</span>
+    <h1>הכלב שלך ראוי<br>להיות <em>הגרסה הטובה</em><br>ביותר של עצמו</h1>
+    <p class="hero-sub">אילוף מקצועי ואישי לגורים וכלבים עם אתגרי התנהגות — בהרצליה, רעננה וכפר סבא.</p>
+    <a href="#contact" class="btn-main">קבל ייעוץ חינם ←</a>
+    <div class="hero-stats">
+      <div><div class="s-num">12+</div><div class="s-lbl">שנות ניסיון</div></div>
+      <div><div class="s-num">500+</div><div class="s-lbl">כלבים אולפו</div></div>
+      <div><div class="s-num">98%</div><div class="s-lbl">שביעות רצון</div></div>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <canvas id="hero-canvas"></canvas>
+  </div>
+</section>
+
+<section class="sec" id="services">
+  <div class="sec-hdr">
+    <span class="eyebrow">שירותים</span>
+    <h2>מה אנחנו מציעים</h2>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card">
+      <canvas class="svc-icon" id="icon-a" width="52" height="52" aria-hidden="true"></canvas>
+      <div class="svc-t">אילוף גורים</div>
+      <p class="svc-d">חלון ההזדמנויות הראשון הוא הקריטי ביותר. בונים הרגלים נכונים, מונעים בעיות עתידיות ויוצרים קשר יציב בין הכלב למשפחה מהיום הראשון.</p>
+    </div>
+    <div class="svc-card">
+      <canvas class="svc-icon" id="icon-b" width="52" height="52" aria-hidden="true"></canvas>
+      <div class="svc-t">תיקון התנהגות</div>
+      <p class="svc-d">נביחות, תוקפנות, חרדה, משיכה ברצועה — מאבחנים את שורש הבעיה ומספקים פתרון מבוסס שיטה, לא פלסטרים זמניים.</p>
+    </div>
+    <div class="svc-card">
+      <canvas class="svc-icon" id="icon-c" width="52" height="52" aria-hidden="true"></canvas>
+      <div class="svc-t">ליווי מתמשך</div>
+      <p class="svc-d">אילוף הוא תהליך, לא אירוע. מלווים אתכם גם אחרי הסשן — בוואטסאפ, בתוכנית חזרה ובמעקב שבועי שמבטיח שהשינוי נשמר.</p>
+    </div>
+  </div>
+</section>
+
+<section class="proc-sec">
+  <div class="sec-hdr">
+    <span class="eyebrow">איך זה עובד</span>
+    <h2>שלושה שלבים לתוצאה</h2>
+  </div>
+  <div class="proc-steps">
+    <div>
+      <div class="step-n">01</div>
+      <div class="step-t">שיחת ייעוץ חינם</div>
+      <p class="step-d">מבינים את הסיטואציה שלכם — גיל הכלב, הבעיה, הסביבה. אין תבנית אחת שמתאימה לכולם.</p>
+    </div>
+    <div>
+      <div class="step-n">02</div>
+      <div class="step-t">תוכנית אישית</div>
+      <p class="step-d">בונים יחד תוכנית שמתאימה לאורח החיים שלכם ולמטרות שהצבתם — ריאלית וניתנת לביצוע.</p>
+    </div>
+    <div>
+      <div class="step-n">03</div>
+      <div class="step-t">עבודה ותוצאות</div>
+      <p class="step-d">כל סשן מתועד, כל שיפור נמדד. אתם יודעים בדיוק לאן אתם הולכים ומה עוד נשאר.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about-sec" id="about">
+  <div class="about-in">
+    <div class="trainer-wrap">
+      <canvas id="trainer-canvas" width="200" height="200" aria-label="תמונת המאלף עידן כהן"></canvas>
+    </div>
+    <div>
+      <div class="about-role">המאלף שלכם</div>
+      <div class="about-name">עידן כהן</div>
+      <p class="about-bio">עם למעלה מ-12 שנות ניסיון בשטח, עידן אילף מאות כלבים מגזעים ואופי שונים — מגורים משפחתיים ועד כלבי עבודה מקצועיים. הגישה שלו שיטתית ומבוססת על הבנת התנהגות לעומק, לא על כוח או שליטה.</p>
+      <blockquote class="about-quote">"אני לא מאלף כלבים — אני מלמד בעלים להיות המנהיגים שהכלב שלהם רוצה ללכת אחריהם."</blockquote>
+      <div class="badges">
+        <span class="badge">מוסמך CPDT-KA</span>
+        <span class="badge">בוגר בית-הספר לאילוף מקצועי</span>
+        <span class="badge">12+ שנות ניסיון</span>
+        <span class="badge">גזעים נפוצים ומאתגרים</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testi-sec">
+  <div class="sec-hdr">
+    <span class="eyebrow">ביקורות</span>
+    <h2>תוצאות אמיתיות מבעלים אמיתיים</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars" aria-label="5 כוכבים">★★★★★</div>
+      <p class="testi-text">"הגורה שלנו הייתה בלתי ניתנת לשליטה. אחרי שלושה סשנים עם עידן — שינוי מוחלט. הבנו שהבעיה הייתה אצלנו, לא אצלה."</p>
+      <div class="testi-name">מיכל ורד</div>
+      <div class="testi-city">הרצליה</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars" aria-label="5 כוכבים">★★★★★</div>
+      <p class="testi-text">"הכלב שלי תקף כלבים אחרים בפארק. חשבתי שנצטרך להיפרד ממנו. עידן עבד איתנו חודשים — היום אני הולך איתו בחופשיות."</p>
+      <div class="testi-name">דני אברהם</div>
+      <div class="testi-city">רעננה</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars" aria-label="5 כוכבים">★★★★★</div>
+      <p class="testi-text">"ניסינו שני מאלפים לפני. רק עידן הסביר לנו למה הכלב מתנהג ככה — ולא רק מה לעשות. זה שינה הכל."</p>
+      <div class="testi-name">שירה ונועם לוי</div>
+      <div class="testi-city">כפר סבא</div>
+    </div>
+  </div>
+</section>
+
+<section class="form-sec" id="contact">
+  <div class="sec-hdr">
+    <span class="eyebrow">ייעוץ ראשוני</span>
+    <h2>בואו נדבר על הכלב שלכם</h2>
+    <p class="form-sub">השיחה הראשונה חינם לחלוטין — ללא התחייבות, ללא מכירות.</p>
+  </div>
+  <form class="lead-form" id="leadForm" novalidate>
+    <div class="form-row">
+      <div class="fg">
+        <label for="f-name">שם מלא</label>
+        <input type="text" id="f-name" name="name" placeholder="ישראל ישראלי" required autocomplete="name" />
+      </div>
+      <div class="fg">
+        <label for="f-phone">טלפון</label>
+        <input type="tel" id="f-phone" name="phone" placeholder="050-0000000" required autocomplete="tel" />
+      </div>
+    </div>
+    <div class="fg">
+      <label for="f-city">עיר</label>
+      <select id="f-city" name="city" required>
+        <option value="" disabled selected>בחר עיר</option>
+        <option value="herzliya">הרצליה</option>
+        <option value="raanana">רעננה</option>
+        <option value="kfar-sava">כפר סבא</option>
+        <option value="netanya">נתניה</option>
+        <option value="hod-hasharon">הוד השרון</option>
+        <option value="other">אחר</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label for="f-issue">מה האתגר העיקרי עם הכלב שלכם?</label>
+      <textarea id="f-issue" name="issue" placeholder="למשל: נובח על כל אחד שנכנס לבית, מושך ברצועה, קופץ על אנשים..."></textarea>
+    </div>
+    <button type="submit" class="btn-submit" id="submitBtn">שלח — אחזור אליכם תוך 24 שעות</button>
+    <p class="form-note">המידע שלכם נשמר בפרטיות מלאה ולא יועבר לשום גורם שלישי.</p>
+  </form>
+</section>
+
+<footer class="footer">
+  <p><strong>דוגי-סטייל אילוף מתקדם</strong> · הרצליה, רעננה, כפר סבא · <a href="tel:0500000000">050-000-0000</a></p>
+</footer>
+
+<script>
+  /* HERO CANVAS */
+  (function () {
+    var canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var t = 0;
+
+    function resize() {
+      canvas.width = canvas.parentElement.offsetWidth || 400;
+      canvas.height = canvas.parentElement.offsetHeight || 600;
+    }
+
+    function draw() {
+      var W = canvas.width, H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      ctx.fillStyle = 'rgba(203,232,212,0.12)';
+      for (var x = 28; x < W; x += 28)
+        for (var y = 28; y < H; y += 28) {
+          ctx.beginPath(); ctx.arc(x, y, 1.2, 0, Math.PI * 2); ctx.fill();
+        }
+
+      var cx = W * 0.5, cy = H * 0.47;
+      var sc = Math.min(W, H) * 0.22;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      var breath = 1 + Math.sin(t * 0.018) * 0.013;
+      ctx.scale(breath, breath);
+      ctx.strokeStyle = 'rgba(203,232,212,0.75)';
+      ctx.lineWidth = 1.8; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+
+      ctx.beginPath(); ctx.ellipse(0, sc*0.1, sc*0.58, sc*0.3, 0, 0, Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(-sc*0.38,-sc*0.15); ctx.lineTo(-sc*0.52,-sc*0.3); ctx.stroke();
+      ctx.beginPath(); ctx.arc(-sc*0.63,-sc*0.2, sc*0.21, 0, Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(-sc*0.87,-sc*0.1, sc*0.12, sc*0.08, -0.2, 0, Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(-sc*0.52,-sc*0.38); ctx.bezierCurveTo(-sc*0.46,-sc*0.62,-sc*0.36,-sc*0.6,-sc*0.3,-sc*0.38); ctx.stroke();
+
+      var wag = Math.sin(t * 0.045) * sc * 0.18;
+      ctx.beginPath(); ctx.moveTo(sc*0.54, sc*0.0);
+      ctx.bezierCurveTo(sc*0.75,-sc*0.18+wag, sc*0.9,-sc*0.38+wag, sc*0.82,-sc*0.52+wag); ctx.stroke();
+
+      var legX = [-0.3,-0.1,0.12,0.33];
+      for (var i = 0; i < legX.length; i++) {
+        var bob = Math.sin(t*0.03+i)*sc*0.025;
+        ctx.beginPath(); ctx.moveTo(legX[i]*sc, sc*0.34); ctx.lineTo(legX[i]*sc+sc*0.02, sc*0.62+bob); ctx.stroke();
+        ctx.beginPath(); ctx.arc(legX[i]*sc+sc*0.02, sc*0.65+bob, sc*0.05, 0, Math.PI*2); ctx.stroke();
+      }
+
+      ctx.fillStyle = 'rgba(203,232,212,0.95)';
+      ctx.beginPath(); ctx.arc(-sc*0.7,-sc*0.24, sc*0.038, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(-sc*0.95,-sc*0.09, sc*0.025, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+
+      var ring = (t % 100) / 100;
+      ctx.beginPath(); ctx.arc(cx, cy+sc*0.1, ring*Math.min(W,H)*0.55, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(203,232,212,'+(1-ring)*0.06+')'; ctx.lineWidth = 1; ctx.stroke();
+
+      ctx.fillStyle = 'rgba(203,232,212,0.22)';
+      ctx.font = 'bold '+Math.round(sc*0.13)+'px -apple-system, Arial, sans-serif';
+      ctx.textAlign = 'center'; ctx.fillText('DOGGY-STYLE', cx, H-20);
+
+      t++;
+      if (!reduced) requestAnimationFrame(draw);
+    }
+
+    resize();
+    new ResizeObserver(resize).observe(canvas.parentElement);
+    draw();
+  })();
+
+  /* SERVICE ICONS */
+  (function () {
+    function icon(id, fn) {
+      var c = document.getElementById(id); if (!c) return;
+      c.width = 52; c.height = 52;
+      var ctx = c.getContext('2d');
+      ctx.fillStyle = '#CBE8D4'; ctx.beginPath(); ctx.arc(26,26,26,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#0E4A2D'; ctx.strokeStyle = '#0E4A2D';
+      ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      fn(ctx);
+    }
+    icon('icon-a', function(ctx) {
+      ctx.beginPath(); ctx.arc(26,27,8,0,Math.PI*2); ctx.fill();
+      [[18,18,3.5],[34,18,3.5],[14,27,2.8],[38,27,2.8]].forEach(function(p){
+        ctx.beginPath(); ctx.arc(p[0],p[1],p[2],0,Math.PI*2); ctx.fill();
+      });
+    });
+    icon('icon-b', function(ctx) {
+      ctx.lineWidth = 2.5; ctx.beginPath();
+      ctx.moveTo(30,12); ctx.lineTo(22,27); ctx.lineTo(28,27); ctx.lineTo(20,42); ctx.stroke();
+    });
+    icon('icon-c', function(ctx) {
+      ctx.strokeRect(13,17,26,22);
+      ctx.beginPath(); ctx.moveTo(13,24); ctx.lineTo(39,24); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(19,13); ctx.lineTo(19,21); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(33,13); ctx.lineTo(33,21); ctx.stroke();
+      ctx.strokeStyle='#287A52'; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.moveTo(19,31); ctx.lineTo(24,37); ctx.lineTo(34,27); ctx.stroke();
+    });
+  })();
+
+  /* TRAINER AVATAR */
+  (function () {
+    var c = document.getElementById('trainer-canvas'); if (!c) return;
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = '#CBE8D4'; ctx.beginPath(); ctx.arc(100,100,100,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#0E4A2D';
+    ctx.beginPath(); ctx.arc(100,62,30,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(55,200); ctx.quadraticCurveTo(52,140,72,108); ctx.lineTo(128,108); ctx.quadraticCurveTo(148,140,145,200); ctx.fill();
+  })();
+
+  /* FORM */
+  document.getElementById('leadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('submitBtn');
+    var name = (document.getElementById('f-name').value.trim().split(' ')[0]) || 'חבר';
+    btn.textContent = 'תודה '+name+'! ניצור איתך קשר תוך 24 שעות.';
+    btn.style.background = '#0E4A2D';
+    btn.disabled = true;
+  });
+</script>
+
+</body>
+</html>

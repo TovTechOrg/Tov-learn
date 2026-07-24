@@ -7,6 +7,18 @@ skill-tutor-tutorials/settings.json
 # OS / editor cruft
 Thumbs.db
 .DS_Store
+.idea/
+
+# secrets
+.env
+client_secret_*.json
 
 # user export data
 *.zip
+
+# dependency / build artifacts inside exercise projects
+node_modules/
+.next/
+__pycache__/
+venv/
+.venv/

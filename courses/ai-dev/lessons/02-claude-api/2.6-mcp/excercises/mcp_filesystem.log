@@ -1,0 +1,4 @@
+2026-07-06 10:33:09,687 - mcp_filesystem - INFO - 加载配置完成: 传输协议=streamable-http, 主机=0.0.0.0, 端口=8000
+2026-07-06 10:33:09,722 - mcp_filesystem - INFO - 启动MCP FileSystem Server，传输协议: streamable-http
+2026-07-06 10:33:09,723 - mcp_filesystem - INFO - 服务器监听地址: http://0.0.0.0:8000
+2026-07-06 10:33:09,749 - mcp.server.streamable_http_manager - INFO - StreamableHTTP session manager started

@@ -1,15 +1,5 @@
 {
   "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "powershell -NoProfile -WindowStyle Hidden -Command \"& '$env:CLAUDE_PROJECT_DIR\\.claude\\scripts\\auto-save-progress.ps1'\""
-          }
-        ]
-      }
-    ]
+    "Stop": []
   }
 }
