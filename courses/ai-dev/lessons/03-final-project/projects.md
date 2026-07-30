@@ -12,7 +12,33 @@
 - **מצגת 10 דקות + הדגמה חיה** — הדגמה שנכשלת בפני הכיתה לא עוברת
 - **קוד ב-GitHub** — עם commit history אמיתי, לא push אחד בסוף
 
-**לגבי מודל AI:** כל הפרויקטים משתמשים ב-**Vertex AI API (Google Cloud)** לקריאות בתשלום — `vertexai.generative_models.GenerativeModel`. מי שיש לו קרדיטים אצל ספק אחר יכול להחליף, אבל הקוד צריך לתמוך ב-Provider Abstraction (החלפת מודל בשינוי env var אחד).
+### מודל AI ומפתחות
+
+כל הפרויקטים משתמשים ב-**Gemini API** עם מפתח מ-**Google AI Studio** — [aistudio.google.com/apikey](https://aistudio.google.com/apikey). מתחברים עם חשבון Google, לוחצים *Create API key*, ומעתיקים ל-`.env` בשם `GEMINI_API_KEY`. **בלי כרטיס אשראי, בלי פרויקט GCP, בלי חיוב.**
+
+הספרייה היא `google-genai` (החדשה והמאוחדת), והקריאה נראית כך:
+
+```python
+import os
+from google import genai
+from google.genai import types
+
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+
+response = client.models.generate_content(
+    model="gemini-3.5-flash-lite",
+    contents="שלום",
+)
+print(response.text)
+```
+
+**איזה מודל לבחור?** נכון לכתיבת שורות אלה, `gemini-3.5-flash-lite` ו-`gemini-3.1-flash-lite` הם המודלים עם מספר הבקשות הגבוה ביותר ליום ב-Free Tier — התחילו מהם. אתם מוזמנים לנסות גם מודלים אחרים (`gemini-3.5-flash`, `gemini-3.6-flash`), רק שימו לב שהמגבלה היומית שלהם נמוכה יותר. גוגל כבר לא מפרסמת טבלת מגבלות קבועה — את המגבלות של המפתח **שלכם** רואים ב-[aistudio.google.com/rate-limit](https://aistudio.google.com/rate-limit).
+
+**כל הפרויקטים תוכננו כך שאפשר לסיים אותם לגמרי ב-Free Tier.** אם משהו דורש מכם תשלום — **עצרו ודברו עם המדריך.** נספק מפתח או נכוון לחלופה חינמית. אתם לא צריכים לשלם מהכיס על הקורס.
+
+**אם נגמרה המגבלה היומית:** מפתח Free Tier של [Groq](https://console.groq.com) הוא חלופה לגיטימית. בגלל זה הקוד צריך לתמוך ב-**Provider Abstraction** — החלפת ספק בשינוי env var אחד, בלי לגעת בלוגיקה.
+
+> **הערה למי שיש לו קרדיטים ב-Google Cloud:** אותו קוד יכול לרוץ דרך **Vertex AI** (`vertexai.generative_models`) במקום דרך Gemini API. זה המסלול הארגוני — הוא דורש פרויקט GCP וחיוב מוגדר, והוא **לא** ברירת המחדל של הקורס.
 
 ---
 
@@ -33,7 +59,7 @@ WhatsApp נכנס
     ↓
 Webhook (Cloudflare Worker)
     ↓
-Vertex AI API — קורא Knowledge Base מ-Supabase
+Gemini API — קורא Knowledge Base מ-Supabase
     ↓
 confidence ≥ 70%? ──── כן ──── תשובה אוטומטית בחזרה ל-WhatsApp
     │
@@ -51,7 +77,7 @@ confidence ≥ 70%? ──── כן ──── תשובה אוטומטית �
 | **בנייה** | Claude Code — כל הקוד |
 | **Frontend** | Next.js + Tailwind — Dashboard לניהול פניות |
 | **Backend / DB** | Supabase — טבלאות: `tickets`, `messages`, `knowledge_base` |
-| **AI** | Vertex AI (gemini-2.5-flash) — Structured Output: `{answer, confidence, sources}` |
+| **AI** | Gemini API (gemini-3.5-flash-lite) — Structured Output: `{answer, confidence, sources}` |
 | **WhatsApp** | Meta Cloud API — Webhook לקבלה, HTTP לשליחה |
 | **Hosting** | Cloudflare Workers (Webhook) + Cloudflare Pages (Dashboard) |
 
@@ -83,6 +109,15 @@ response_schema = {
     },
     "required": ["answer", "confidence", "sources"]
 }
+
+response = client.models.generate_content(
+    model="gemini-3.5-flash-lite",
+    contents=prompt,
+    config=types.GenerateContentConfig(
+        response_mime_type="application/json",
+        response_schema=response_schema,
+    ),
+)
 ```
 
 Gemini מקבל: הודעת הלקוח + 3 תוצאות רלוונטיות מה-Knowledge Base (חיפוש ב-Supabase Vector). מחזיר Structured JSON.
@@ -107,7 +142,7 @@ Gemini מקבל: הודעת הלקוח + 3 תוצאות רלוונטיות מה-
 
 הריצו `/review` על כל הקוד. בדקו במיוחד: HMAC validation על ה-Webhook (חובה לאבטחה). Deploy. מלאו Knowledge Base עם 20 שאלות ותשובות אמיתיות ובדקו End-to-End.
 
-חשבו עלויות: Vertex AI (gemini-2.5-flash) = $0.075 לכל מיליון Output Tokens. עם 100 שיחות/יום × 500 Tokens תשובה = כמה?
+חשבו עלויות: ב-Free Tier של Gemini API הקריאות **חינם**, אבל יש מגבלת בקשות יומית — בדקו ב-[aistudio.google.com/rate-limit](https://aistudio.google.com/rate-limit) שהמודל שבחרתם עומד ב-100 שיחות/יום. חשבו גם מה זה היה עולה בתשלום: `gemini-3.5-flash-lite` = $0.30 למיליון Input Tokens, $2.50 למיליון Output Tokens. עם 100 שיחות/יום × 500 Tokens תשובה = כמה בחודש?
 
 ### Checklist
 
@@ -126,12 +161,13 @@ Gemini מקבל: הודעת הלקוח + 3 תוצאות רלוונטיות מה-
 
 | שירות | עלות |
 |--------|------|
-| Vertex AI (gemini-2.5-flash) | ~$1-3/חודש (100 req/יום) |
+| Gemini API — Free Tier | חינם (בכפוף למגבלת בקשות יומית — בדקו ב-AI Studio) |
+| Gemini API — אם עוברים ל-Paid | ~$1-2/חודש (100 req/יום, flash-lite) |
 | Supabase Free | חינם |
 | Cloudflare Workers Free | חינם |
 | Cloudflare Pages | חינם |
 | WhatsApp Meta Cloud API | חינם (עד 1,000 שיחות שירות/חודש) |
-| **סה"כ** | **~$1-3/חודש** |
+| **סה"כ** | **חינם ב-Free Tier** |
 
 ---
 
@@ -143,7 +179,7 @@ Gemini מקבל: הודעת הלקוח + 3 תוצאות רלוונטיות מה-
 
 ### מה בונים
 
-שירות ווב שמקבל מסמכים (PDF, CSV, URL לאתר) ומחזיר נתונים מובנים — עם Vertex AI Structured Output + Pydantic schema מוגדר מראש. יש Dashboard לניהול וצפייה בתוצאות, ו-REST API לשאר המערכות. נבנה לגמרי עם Claude Code.
+שירות ווב שמקבל מסמכים (PDF, CSV, URL לאתר) ומחזיר נתונים מובנים — עם Gemini Structured Output + Pydantic schema מוגדר מראש. יש Dashboard לניהול וצפייה בתוצאות, ו-REST API לשאר המערכות. נבנה לגמרי עם Claude Code.
 
 **הדגמה שמרשימה:** מעלים חוזה PDF → תוך 10 שניות מקבלים JSON עם: שמות הצדדים, תאריכי תוקף, סכום, וסעיפי ביטול. כולם בפורמט שאפשר לשלוח ישירות ל-CRM.
 
@@ -169,7 +205,7 @@ Schema: `{product_name, pricing_tiers, key_features, target_audience, cta_text, 
 | **Frontend** | Next.js + Tailwind — Dashboard + Upload UI |
 | **API** | Next.js API Routes — upload endpoint + query endpoint |
 | **Storage** | Cloudflare R2 (קבצים) + Supabase (תוצאות JSON) |
-| **AI** | Vertex AI — Structured Output עם Pydantic schema |
+| **AI** | Gemini API — Structured Output עם Pydantic schema |
 | **Deploy** | Cloudflare Pages (Next.js) |
 | **Auth** | API Key פשוט בהדר לגישת ה-REST API |
 
@@ -195,37 +231,44 @@ class ContractExtraction(BaseModel):
 
 כתבו `CLAUDE.md` ובקשו מ-Claude Code להקים Next.js + Supabase + Cloudflare R2.
 
-**שלב 2 — Upload Endpoint + Vertex AI (4 שעות)**
+**שלב 2 — Upload Endpoint + Gemini (4 שעות)**
 
 בנו עם Claude Code את ה-Upload flow:
 1. `POST /api/upload` — מקבל קובץ, שומר ב-R2, מחזיר `document_id`
-2. עיבוד אסינכרוני: שולף קובץ מ-R2, שולח ל-Vertex AI עם Schema, שומר JSON ב-Supabase
+2. עיבוד אסינכרוני: שולף קובץ מ-R2, שולח ל-Gemini עם Schema, שומר JSON ב-Supabase
 
 ```python
-import vertexai
-from vertexai.generative_models import GenerativeModel, Part
+import os
 import json
+from google import genai
+from google.genai import types
 
-vertexai.init(project=GCP_PROJECT, location="us-central1")
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 def extract_document(file_bytes: bytes, mime_type: str, schema: type) -> dict:
-    model = GenerativeModel("gemini-2.5-flash")
-    
     prompt = f"""Extract the following information from this document.
     Return a JSON object that strictly follows this schema:
     {schema.model_json_schema()}
-    
+
     If a field cannot be found, use null. Include a confidence score (0-1).
     Return ONLY valid JSON, no explanation."""
-    
-    response = model.generate_content(
-        [Part.from_data(file_bytes, mime_type=mime_type), prompt],
-        generation_config={"response_mime_type": "application/json"}
+
+    response = client.models.generate_content(
+        model="gemini-3.5-flash-lite",
+        contents=[
+            types.Part.from_bytes(data=file_bytes, mime_type=mime_type),
+            prompt,
+        ],
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+        ),
     )
-    
+
     result = json.loads(response.text)
     return schema(**result).model_dump()  # Pydantic validation
 ```
+
+> **טיפ:** ה-SDK יודע לקבל את ה-Pydantic class ישירות ב-`response_schema=schema` במקום להדביק את ה-JSON Schema לתוך ה-prompt. נסו את שתי הדרכים והשוו — איזו מחזירה פחות שגיאות validation?
 
 **שלב 3 — Dashboard (3 שעות)**
 
@@ -249,12 +292,12 @@ Deploy ל-Cloudflare Pages: `wrangler pages deploy`.
 - confidence score: האם מתאים?
 - edge cases: מסמך סרוק גרוע, שפה אחרת, שדה חסר
 
-חשבו עלות ל-100 מסמכים/יום.
+חשבו עלות ל-100 מסמכים/יום — גם ב-Free Tier (האם 100 בקשות נכנסות במגבלה היומית של המודל שבחרתם?) וגם בתשלום.
 
 ### Checklist
 
 - [ ] Pydantic Schema מוגדר עם לפחות 6 שדות + `confidence`
-- [ ] Upload endpoint + עיבוד Vertex AI
+- [ ] Upload endpoint + עיבוד Gemini
 - [ ] תוצאות JSON שמורות ב-Supabase
 - [ ] Dashboard: רשימה + פנל + Upload UI
 - [ ] REST API עם API Key Auth
@@ -267,10 +310,11 @@ Deploy ל-Cloudflare Pages: `wrangler pages deploy`.
 
 | שירות | עלות |
 |--------|------|
-| Vertex AI (100 docs/יום × ~2K tokens) | ~$3-5/חודש |
+| Gemini API — Free Tier | חינם (בכפוף למגבלת בקשות יומית — בדקו ב-AI Studio) |
+| Gemini API — אם עוברים ל-Paid (100 docs/יום × ~2K tokens) | ~$2-4/חודש |
 | Cloudflare Pages + R2 (10GB) | חינם / ~$1.5/חודש |
 | Supabase Free | חינם |
-| **סה"כ** | **~$3-7/חודש** |
+| **סה"כ** | **חינם ב-Free Tier (עד ~$1.5 אם R2 עובר 10GB)** |
 
 ---
 
@@ -282,17 +326,17 @@ Deploy ל-Cloudflare Pages: `wrangler pages deploy`.
 
 ### מה בונים
 
-סוכן Python שרץ על Schedule, אוסף מידע ממספר מקורות (אתרים, RSS, APIs), מנתח ומסכם עם Vertex AI API, ושולח דוח יומי מובנה ל-Telegram Channel או Group. הסוכן מיישם Agent Loop מאפס — ללא Framework חיצוני.
+סוכן Python שרץ על Schedule, אוסף מידע ממספר מקורות (אתרים, RSS, APIs), מנתח ומסכם עם Gemini API, ושולח דוח יומי מובנה ל-Telegram Channel או Group. הסוכן מיישם Agent Loop מאפס — ללא Framework חיצוני.
 
 Telegram (ולא WhatsApp) — כי מדובר בהתראות פנימיות לצוות / למפתחים, לא תקשורת עם לקוחות. Telegram Bot API פשוט יותר, ללא אישורים של Meta, ומתאים להתראות טכניות.
 
 ### שלוש אפשרויות לסוכן — בחרו אחת
 
 **אפשרות 1: Competitive Intelligence Agent**
-כל בוקר בשעה 7:00 — בודק 5-10 מתחרים מוגדרים: מחירים שהשתנו, מוצרים חדשים, פוסטים חדשים בבלוג, שינויים בעמוד ה-Pricing. מסכם ב-Vertex AI ושולח ל-Telegram: "3 דברים שקרו אצל המתחרים היום."
+כל בוקר בשעה 7:00 — בודק 5-10 מתחרים מוגדרים: מחירים שהשתנו, מוצרים חדשים, פוסטים חדשים בבלוג, שינויים בעמוד ה-Pricing. מסכם ב-Gemini ושולח ל-Telegram: "3 דברים שקרו אצל המתחרים היום."
 
 **אפשרות 2: Industry News Digest Agent**
-כל יום — קורא RSS Feeds + Hacker News + Reddit ו-Twitter/X handles רלוונטיים. מסנן עם Vertex AI: רק מה שרלוונטי לתחום (לפי קריטריונים מוגדרים). מייצר Digest יומי עם 5-10 פריטים + פסקת "Takeaway" — מוכן לפרסום כפוסט לינקדאין.
+כל יום — קורא RSS Feeds + Hacker News + Reddit ו-Twitter/X handles רלוונטיים. מסנן עם Gemini: רק מה שרלוונטי לתחום (לפי קריטריונים מוגדרים). מייצר Digest יומי עם 5-10 פריטים + פסקת "Takeaway" — מוכן לפרסום כפוסט לינקדאין.
 
 **אפשרות 3: Personal Research Assistant Agent**
 מקבל שאלת מחקר פעם בשבוע (מ-Telegram עצמו או מקובץ config), מריץ מחקר מעמיק: מחפש, קורא מאמרים, מסכם ממצאים, מזהה סתירות בין מקורות. מחזיר דוח מובנה: Executive Summary, Key Findings, Open Questions.
@@ -301,7 +345,7 @@ Telegram (ולא WhatsApp) — כי מדובר בהתראות פנימיות ל�
 
 | רכיב | פרטים |
 |-------|--------|
-| **AI** | Vertex AI API — Tool Use + Agent Loop |
+| **AI** | Gemini API — Tool Use + Agent Loop |
 | **Agent Loop** | מיושם ידנית. לא LangChain, לא AutoGen |
 | **Tools** | לפחות 5: מקורות קלט שונים + `send_telegram_report` |
 | **Telegram** | Bot API — `sendMessage` עם Markdown formatting |
@@ -328,36 +372,39 @@ def send_telegram(text: str):
     )
 ```
 
-**שלב 2 — Agent Loop עם Vertex AI (3 שעות)**
+**שלב 2 — Agent Loop עם Gemini API (3 שעות)**
 
 ```python
-import vertexai
-from vertexai.generative_models import GenerativeModel, FunctionDeclaration, Tool, Part
+import os
+from google import genai
+from google.genai import types
 
-vertexai.init(project=GCP_PROJECT, location="us-central1")
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
-def agent_loop(task: str, tool_declarations: list[FunctionDeclaration],
+def agent_loop(task: str, tool_declarations: list[types.FunctionDeclaration],
                max_iterations: int = 15) -> str:
-    model = GenerativeModel(
-        "gemini-2.5-flash",
-        tools=[Tool(function_declarations=tool_declarations)]
+    chat = client.chats.create(
+        model="gemini-3.5-flash-lite",
+        config=types.GenerateContentConfig(
+            tools=[types.Tool(function_declarations=tool_declarations)]
+        ),
     )
-    chat = model.start_chat()
     response = chat.send_message(task)
 
     for i in range(max_iterations):
-        fn_calls = [p for p in response.candidates[0].content.parts if p.function_call]
+        fn_calls = [p.function_call for p in response.candidates[0].content.parts
+                    if p.function_call]
 
         if not fn_calls:
-            return response.candidates[0].content.parts[0].text  # סיום
+            return response.text  # סיום
 
         results = []
-        for part in fn_calls:
-            name = part.function_call.name
-            args = dict(part.function_call.args)
-            result = execute_tool(name, args)
-            log_tool_call(i, name, args, result)
-            results.append(Part.from_function_response(name=name, response={"result": result}))
+        for fc in fn_calls:
+            args = dict(fc.args)
+            result = execute_tool(fc.name, args)
+            log_tool_call(i, fc.name, args, result)
+            results.append(types.Part.from_function_response(
+                name=fc.name, response={"result": result}))
 
         response = chat.send_message(results)
 
@@ -368,7 +415,7 @@ def agent_loop(task: str, tool_declarations: list[FunctionDeclaration],
 
 **שלב 3 — Tools + `send_telegram_report` (4 שעות)**
 
-בנו את כל ה-Tools בהתאם לאפשרות שבחרתם. הגדירו `FunctionDeclaration` מפורטת — Vertex AI קורא את ה-`description` כדי להחליט מתי לקרוא לכל Tool.
+בנו את כל ה-Tools בהתאם לאפשרות שבחרתם. הגדירו `types.FunctionDeclaration` מפורטת (שם, `description`, ו-`parameters_json_schema`) — Gemini קורא את ה-`description` כדי להחליט מתי לקרוא לכל Tool. תיאור עמום = הסוכן יבחר את הכלי הלא נכון.
 
 ה-Tool האחרון תמיד: `send_telegram_report(title, sections, takeaway)` — מפרמט ושולח:
 ```
@@ -418,7 +465,7 @@ Deploy עם `wrangler deploy`. בדקו שה-Cron מופיע ב-Cloudflare Dashb
 ### Checklist
 
 - [ ] Telegram Bot פועל ושולח Markdown מפורמט
-- [ ] Agent Loop מיושם ידנית עם Vertex AI
+- [ ] Agent Loop מיושם ידנית עם Gemini API
 - [ ] לפחות 5 Tools עם FunctionDeclarations מפורטות
 - [ ] Tool אחרון הוא `send_telegram_report`
 - [ ] max_iterations + שגיאה ל-Telegram אם Agent נכשל
@@ -431,10 +478,11 @@ Deploy עם `wrangler deploy`. בדקו שה-Cron מופיע ב-Cloudflare Dashb
 
 | שירות | עלות |
 |--------|------|
-| Vertex AI (ריצה יומית ~15K Tokens) | ~$0.50-1/חודש |
+| Gemini API — Free Tier | חינם (ריצה אחת ביום = מעט בקשות, נכנס בקלות במגבלה) |
+| Gemini API — אם עוברים ל-Paid (ריצה יומית ~15K Tokens) | ~$0.50-1/חודש |
 | Cloudflare Workers (Cron Triggers) | חינם (100K req/יום) |
 | Telegram Bot API | חינם |
-| **סה"כ** | **~$0.50-1/חודש (Vertex AI בלבד)** |
+| **סה"כ** | **חינם ב-Free Tier** |
 
 ---
 
@@ -523,7 +571,7 @@ def post_review_comment(repo_name: str, pr_number: int, review: ReviewResult):
 
 בנו את Security Specialist קודם:
 - System Prompt מפורט עם הנחיות ספציפיות
-- Vertex AI API עם `response_mime_type="application/json"` ו-Schema מוגדר
+- Gemini API עם `config=types.GenerateContentConfig(response_mime_type="application/json", response_schema=...)`
 - בדיקה על diff אמיתי
 
 רק אחרי שעובד — בנו Performance ו-Code Quality.
@@ -568,7 +616,7 @@ async def run_review(diff: str) -> ReviewResult:
 ...
 
 ---
-*נסרק על-ידי Vertex AI (gemini-2.5-flash) | זמן: 8.3 שניות | עלות: $0.003*
+*נסרק על-ידי Gemini API (gemini-3.5-flash-lite) | זמן: 8.3 שניות | עלות: $0.003*
 ```
 
 Deploy ל-Cloudflare Workers. הגדירו GitHub Webhook עם URL של Cloudflare Workers.
@@ -578,6 +626,8 @@ Deploy ל-Cloudflare Workers. הגדירו GitHub Webhook עם URL של Cloudfla
 הכינו PR לדוגמה עם בעיות ידועות (credentials hardcoded, N+1 Query, Magic Numbers). פתחו אותו ב-GitHub. הדגימו את ה-Comment שנוצר אוטומטית בפני הכיתה.
 
 מדדו: כמה שניות לרוץ, כמה עולה לבדיקה ממוצעת (diff של 200 שורות).
+
+> **שימו לב למגבלה היומית:** הפרויקט הזה הוא הכי "רעב" מהארבעה — כל PR מפעיל 3 Specialists, כלומר 20 PRs ביום = 60 קריאות API. השתמשו ב-`gemini-3.5-flash-lite` או `gemini-3.1-flash-lite` (המגבלה היומית הגבוהה ביותר), ובדקו ב-[aistudio.google.com/rate-limit](https://aistudio.google.com/rate-limit) שאתם בתוך המגבלה. להדגמה בכיתה זה בכל מקרה מספיק בשפע — ואם אתם נתקלים בקיר, דברו עם המדריך לפני שאתם משלמים על משהו.
 
 ### Checklist
 
@@ -595,9 +645,10 @@ Deploy ל-Cloudflare Workers. הגדירו GitHub Webhook עם URL של Cloudfla
 
 | שירות | עלות |
 |--------|------|
-| Vertex AI (gemini-2.5-flash) (20 PRs/יום × 3 Specialists × 5K tokens) | ~$3-5/חודש |
+| Gemini API — Free Tier | חינם, אבל 60 קריאות/יום עלולות לעבור את המגבלה היומית — בדקו ב-AI Studio |
+| Gemini API — אם עוברים ל-Paid (20 PRs/יום × 3 Specialists × 5K tokens) | ~$2-4/חודש |
 | Cloudflare Workers | ~$5/חודש |
-| **סה"כ** | **~$8-10/חודש** |
+| **סה"כ** | **~$5/חודש (Cloudflare בלבד) — Gemini חינם אם נשארים במגבלה** |
 
 ---
 
