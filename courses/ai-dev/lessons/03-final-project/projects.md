@@ -435,10 +435,11 @@ _⏱ זמן ריצה: 42 שניות | עלות: $0.008_
 
 במקום APScheduler, משתמשים ב-**Cloudflare Cron Triggers** — ה-Worker מופעל אוטומטית לפי לוח זמנים:
 
-```toml
-# wrangler.toml
-[triggers]
-crons = ["0 5 * * 1-5"]   # 07:00 ישראל = 05:00 UTC, ימים א'-ה'
+```jsonc
+// wrangler.jsonc
+"triggers": {
+  "crons": ["0 5 * * 1-5"]   // 07:00 ישראל = 05:00 UTC, ימים א'-ה'
+}
 ```
 
 ```python
@@ -471,7 +472,7 @@ Deploy עם `wrangler deploy`. בדקו שה-Cron מופיע ב-Cloudflare Dashb
 - [ ] max_iterations + שגיאה ל-Telegram אם Agent נכשל
 - [ ] Logging: כל Tool Call עם timestamp
 - [ ] Cost Tracking: Tokens + עלות בסוף כל ריצה + נשלח ב-Telegram
-- [ ] Cloudflare Cron Trigger מוגדר ב-wrangler.toml בזמן ישראל
+- [ ] Cloudflare Cron Trigger מוגדר ב-wrangler.jsonc בזמן ישראל
 - [ ] הדגמה חיה: הסוכן רץ ושולח ל-Telegram בפני הכיתה
 
 ### עלויות משוערות
