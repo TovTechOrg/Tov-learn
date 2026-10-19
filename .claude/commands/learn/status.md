@@ -12,6 +12,7 @@ Read these files silently:
 - `~/skill-tutor-tutorials/topics/knowledge_map.md`
 - All files matching `~/skill-tutor-tutorials/progress/lesson-*.md`
 - All files matching `~/skill-tutor-tutorials/tutorials/lesson-*.md` (for frontmatter: topic, understanding_score, last_quizzed)
+- Which files exist matching `~/skill-tutor-tutorials/progress/exercises-lesson-*.md` (existence is enough — one file per lesson whose exercises were done)
 
 From each progress file extract:
 - Lesson number
@@ -25,6 +26,8 @@ Compute:
 - **Mastered** — latest score 8+
 - **In progress** — started but latest score under 8
 - **Not started** — no progress file exists (cross-reference with COURSE.md lesson list)
+- **Exercises** per lesson — **done** if `exercises-lesson-X.Y.md` exists; **skipped** if the lesson's progress file says `Slides covered: all` but there's no exercises file; **not yet** otherwise
+- **Exercises skipped** — count of lessons with exercises = skipped
 
 ---
 
@@ -81,6 +84,10 @@ Save to `~/skill-tutor-tutorials/dashboard.html`:
     .score-fill { height: 4px; border-radius: 2px; background: #10B981; }
     .score-fill.mid { background: #F59E0B; }
     .score-fill.low { background: #EF4444; }
+    .exercises { font-size: 0.75rem; margin-top: 8px; }
+    .exercises.done { color: #10B981; }
+    .exercises.skipped { color: #DC2626; font-weight: 600; }
+    .exercises.not-yet { color: #9CA3AF; }
   </style>
 </head>
 <body>
@@ -105,6 +112,11 @@ Save to `~/skill-tutor-tutorials/dashboard.html`:
     <div class="stat">
       <div class="stat-value">[avg]/10</div>
       <div class="stat-label">Avg Score</div>
+    </div>
+    <!-- Only show this stat if at least one lesson's exercises were skipped -->
+    <div class="stat alert">
+      <div class="stat-value">[N]</div>
+      <div class="stat-label">Exercises Skipped</div>
     </div>
   </div>
 
@@ -135,18 +147,21 @@ Save to `~/skill-tutor-tutorials/dashboard.html`:
       <div class="lesson-name">[Lesson Title]</div>
       <div class="score">Score: 9/10</div>
       <div class="score-bar"><div class="score-fill" style="width: 90%"></div></div>
+      <div class="exercises done">✓ Exercises done</div>
     </div>
     <div class="lesson-card in-progress">
       <div class="lesson-num">0.2</div>
       <div class="lesson-name">[Lesson Title]</div>
       <div class="score">Score: 6/10</div>
       <div class="score-bar"><div class="score-fill mid" style="width: 60%"></div></div>
+      <div class="exercises skipped">✗ Exercises skipped — /learn 0.2, then say "exercises"</div>
     </div>
     <div class="lesson-card not-started">
       <div class="lesson-num">1.1</div>
       <div class="lesson-name">[Lesson Title]</div>
       <div class="score">Not started</div>
       <div class="score-bar"></div>
+      <div class="exercises not-yet">Exercises not yet</div>
     </div>
   </div>
 </body>
@@ -172,4 +187,10 @@ If there are overdue lessons, add:
 ```
 ⚠️ [N] lessons are overdue for review: [lesson numbers]
 Type `/learn` to see what to do next.
+```
+
+If any lesson's exercises were skipped, add:
+```
+📝 Exercises skipped in [N] lessons: [lesson numbers]
+Exercises are part of every lesson — open the lesson and say "exercises" to do them.
 ```

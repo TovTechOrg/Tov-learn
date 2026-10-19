@@ -170,7 +170,7 @@ After completing the **last section**, do the following in order:
 
 1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
 
-2. **Exercises — present from the exercises file.** Go through the exercises from the loaded exercises file, one at a time:
+2. **Exercises — always, never skip. Present from the exercises file.** Exercises are part of every lesson, not an optional extra. Go through the exercises from the loaded exercises file, one at a time:
    - Present each exercise exactly as written — do not rewrite or replace it
    - Wait for the learner to respond before moving to the next
    - For exercises that require an external tool (tokenizer site, external API, drawing, etc.) — tell the learner to go do it and come back with their results. When they return, give feedback on what they found
@@ -208,6 +208,7 @@ After completing the **last section**, do the following in order:
 
 ## Teaching Principles
 
+- **Make asking for help normal.** Once per lesson, right after the first section, add one short line telling the learner they can say **נתקעתי** / **stuck** at any time — when something isn't clear or something they built doesn't work — and you'll help (`stuck.md`). Don't repeat it every section.
 - **The primary goal is always to teach** — detail levels control length and depth, never whether teaching is happening. A 1-sentence response at detail level 1 must still make the concept click, not just name it.
 - Use `session.language` for all output
 - Max 5 sentences per teaching block — then the learner speaks

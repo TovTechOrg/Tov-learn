@@ -6,7 +6,24 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -NoProfile -WindowStyle Hidden -Command \"& '$env:CLAUDE_PROJECT_DIR\\.claude\\scripts\\auto-save-progress.ps1'\""
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-Command", "& (Join-Path $env:CLAUDE_PROJECT_DIR '.claude\\scripts\\auto-save-progress.ps1')"]
+          },
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-Command", "& (Join-Path $env:CLAUDE_PROJECT_DIR '.claude\\scripts\\check-exercises.ps1')"]
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-Command", "& (Join-Path $env:CLAUDE_PROJECT_DIR '.claude\\scripts\\detect-stuck.ps1')"]
           }
         ]
       }

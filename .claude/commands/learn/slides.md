@@ -8,7 +8,7 @@ Respond in `session.language` throughout. Address the learner using `session.add
 
 ## Overview
 
-Slides Mode reads the course script verbatim — no Journey Format, no reformulation. The learner hears the slides exactly as written, translated to `session.language` if needed. Exercises are still written by the tutor (not taken from the exercises file verbatim).
+Slides Mode reads the course script verbatim — no Journey Format, no reformulation. The learner hears the slides exactly as written, translated to `session.language` if needed. Exercises are still written by the tutor (not taken from the exercises file verbatim), and are always given at the end of the lesson (Step 5).
 
 ---
 
@@ -82,21 +82,31 @@ Then **wait silently** for the learner to say something (e.g. "stop slides", a q
 
 ## Step 4 — Exercises
 
-When the learner says **exercises**:
+When the learner says **exercises** (and always at the end of the lesson — see Step 5):
 - Do NOT read from the exercises file verbatim
 - Write fresh, interactive exercises based on the slide content covered so far
 - Follow the exercise design rule: most exercises completable through Claude directly; external tool exercises only when the lesson topic is that specific tool
+- Present them one at a time, wait for the learner's answer, and give specific feedback on each. If the learner is stuck, give one hint — not the answer
+- **After each exercise is completed**, silently append the learner's answers to `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md`, in the same format as `teaching.md` Step 5:
+  ```
+  ## תרגיל [N] — [exercise title]
+  **תשובה:** [learner's answer, verbatim or summarized if long]
+  **פידבק:** [your feedback in one sentence]
+  ---
+  ```
+  Create the file if it doesn't exist. Do not tell the learner you are saving.
 
 ---
 
 ## Step 5 — End of Lesson / Exit
 
 **When the last slide is reached:**
-1. Tell the learner they've finished the lesson
-2. Ask: quiz or mini project?
+1. Tell the learner they've finished the lesson's slides
+2. **Exercises — always, never skip.** Run the exercises flow from Step 4, even if the learner didn't ask for it. Exercises are part of every lesson, not an optional extra. If exercises for this lesson were already completed earlier in this session, skip this step.
+3. Ask: quiz or mini project?
    - **Quiz** — 3–5 questions on the lesson content, one at a time
    - **Mini project** — 2–3 prompt hands-on task (not external tool unless that's the lesson topic)
-3. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+4. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
    ```
    # Progress — Lesson X.Y
 

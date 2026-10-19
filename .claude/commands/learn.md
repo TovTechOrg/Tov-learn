@@ -75,10 +75,12 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | $ARGUMENTS = "security" or starts with "security http" | Read `.claude/commands/learn/security.md` |
 | $ARGUMENTS = "export" | Read `.claude/commands/learn/export.md` |
 | $ARGUMENTS = "import" or "import [path]" | Read `.claude/commands/learn/import.md` |
+| $ARGUMENTS = "stuck" | Read `.claude/commands/learn/stuck.md` |
 | $ARGUMENTS empty | Read `.claude/commands/learn/resume.md` |
 | "quiz me" trigger | Read `.claude/commands/learn/quiz.md` |
 | "stop" trigger | Read `.claude/commands/learn/progress.md` |
 | "project analysis" trigger | Read `.claude/commands/learn/project-analysis.md` |
+| "stuck" / "נתקעתי" trigger, or a hook note says the learner may be stuck | Read `.claude/commands/learn/stuck.md` |
 
 ---
 
@@ -107,3 +109,4 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | security | Read `.claude/commands/learn/security.md` — security review on the learner's project |
 | export | Read `.claude/commands/learn/export.md` — export all learner data to a ZIP |
 | import | Read `.claude/commands/learn/import.md` — import learner data from a ZIP |
+| stuck / נתקעתי | Read `.claude/commands/learn/stuck.md` — help when stuck on the material or on something that doesn't work |

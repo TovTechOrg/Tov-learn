@@ -23,6 +23,15 @@
 | Import | `.claude/commands/learn/import.md` | ייבוא נתוני תלמיד מ-ZIP — החלפה מלאה או הוספה בלבד |
 | Deploy | `.claude/commands/learn/deploy.md` | בחירת כלי פריסה (GitHub Pages / Cloudflare / Render / Vercel), CLI-first, תרומה ל-FAQ |
 | CLI-First (ref) | `.claude/commands/learn/cli-first.md` | עקרון משותף — העדפת CLI על דאשבורד; מודולים אחרים מפנים אליו |
+| Stuck | `.claude/commands/learn/stuck.md` | עזרה כשהלומד תקוע — לא הבין חומר / משהו לא עובד; מלמד איך לבקש עזרה טוב |
+
+**Hooks** (`.claude/settings.json`, סקריפטים ב-`.claude/scripts/`):
+
+| Hook | סקריפט | תפקיד |
+|------|--------|-------|
+| Stop | `auto-save-progress.ps1` | שמירת שיעור/שקף נוכחי (מצב שקפים) |
+| Stop | `check-exercises.ps1` | שיעור שהסתיים ב-15 הדקות האחרונות בלי קובץ תרגילים ← Claude נותן את התרגילים (תזכורת אחת לשיעור) |
+| UserPromptSubmit | `detect-stuck.ps1` | הודעה כמו "לא הבנתי" / "לא עובד" ← הערה ל-Claude להשתמש ב-`stuck.md` |
 
 סקריפטים תומכים נמצאים ב-`.claude/scripts/` (PowerShell — slide server, HTML generator).
 
