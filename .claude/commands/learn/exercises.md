@@ -50,7 +50,7 @@ Don't tell the learner you are saving.
 
 ## After a failed skip quiz
 
-When the lesson was taught only partly because the learner's skip quiz scored below 8 (`teaching.md`, Step 3 → Step 3B, `session.failed_skip_quiz = true`), only the exercises that relate to at least one of the sections the learner got wrong (`session.weak_sections`) are required. Choose them from the lesson's exercises, set **נדרשים** to their number, and note why in the header:
+When the lesson was taught only partly because the learner's skip quiz scored below 8 (`teaching.md` Step 3B, or `slides.md` Step 1B; `session.failed_skip_quiz = true`), only the exercises that relate to at least one of the sections the learner got wrong (`session.weak_sections`) are required. Choose them from the lesson's exercises, set **נדרשים** to their number, and note why in the header:
 
 ```
 # תרגילים — שיעור {lesson_number}

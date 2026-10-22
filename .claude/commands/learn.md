@@ -102,7 +102,7 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | detail 2 | Switch to detail level 2 (slightly compressed — default) |
 | detail 3 | Switch to detail level 3 (full depth, may add bullet points) |
 | standard / הסבר לי | Switch to standard mode (explain → question) |
-| diagnostic / בחן אותי | Switch to diagnostic mode (quiz first, teach weak spots) |
+| diagnostic / בחן אותי | Switch to diagnostic mode (quiz first by default: 8+ passes the lesson; below 8, teach and practise only the weak spots) |
 | socratic / הדרך אותי | Switch to socratic mode (question-led discovery) |
 | slides | Read `.claude/commands/learn/slides.md` — verbatim slide reading mode |
 | project | Read `.claude/commands/learn/project.md` — final project mode |

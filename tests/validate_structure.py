@@ -99,16 +99,23 @@ for mod in ("teaching.md", "slides.md"):
         if "Mark the lesson's slides as done" not in text:
             error(f"Regression: {mod} no longer saves 'Slides covered: all' before the exercises "
                   f"(check-lesson-order.ps1 needs it to catch exercises left unfinished)")
+        if "session.failed_skip_quiz" not in text:
+            error(f"Regression: {mod} no longer limits exercises after a failed skip quiz")
         if "Quiz, mini project, or neither" not in text or "only the exercises are" not in text:
             error(f"Regression: {mod} no longer says the quiz / mini project is optional")
 if teaching_path.exists() and "**Skip quiz passed:**" not in teaching_path.read_text(encoding="utf-8"):
     error("Regression: teaching.md no longer records a passed skip quiz ('**Skip quiz passed:**')")
 if teaching_path.exists():
     text = teaching_path.read_text(encoding="utf-8")
-    if "If they score ≥ 8" not in text or "If they score < 8" not in text:
+    if "**Score ≥ 8 — passed.**" not in text or "**Score < 8 — not passed.**" not in text:
         error("Regression: teaching.md skip quiz pass mark is no longer 8")
     if text.count("session.failed_skip_quiz") < 2:
         error("Regression: teaching.md no longer limits exercises after a failed skip quiz (session.failed_skip_quiz)")
+    if "Learn the lesson, or quiz first" not in text:
+        error("Regression: teaching.md no longer offers 'learn or quiz first' at the start of every lesson")
+slides_path = LEARN_COMMANDS / "slides.md"
+if slides_path.exists() and "## Step 1B — Learn the Lesson, or Quiz First" not in slides_path.read_text(encoding="utf-8"):
+    error("Regression: slides.md no longer offers 'learn or quiz first' at the start of every lesson")
 order_path = LEARN_COMMANDS / "order.md"
 if not order_path.exists():
     error("Missing reference module: .claude/commands/learn/order.md (lesson-order rules)")
@@ -121,6 +128,7 @@ quiz_path = LEARN_COMMANDS / "quiz.md"
 if quiz_path.exists():
     text = quiz_path.read_text(encoding="utf-8")
     for needed in ("## Module Skip Quiz", "at least one correct multiple-choice answer for every lesson",
+                   "Passed skip quiz — detailed explanations",
                    "**Skip quiz passed:**", "module-X.md"):
         if needed not in text:
             error(f"Regression: quiz.md module skip quiz no longer defines '{needed}'")

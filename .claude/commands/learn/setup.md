@@ -223,7 +223,7 @@ options:
   - label: "standard — הסבר ואז שאלה (ברירת מחדל)"
     description: "אסביר כל נושא ואז אשאל שאלה לבדיקת הבנה"
   - label: "diagnostic — בחן אותי קודם"
-    description: "תבחן אותי על כל השיעור קודם, ותלמד אותי רק את מה שטעיתי"
+    description: "תבחן אותי קודם על כל שיעור: 8 ומעלה — השיעור עובר; פחות — תלמד רק את מה שטעיתי ונתרגל רק אותו"
   - label: "socratic — הדרך אותי בשאלות"
     description: "תשאל שאלות שיובילו אותי לגלות את התשובות בעצמי"
 ```
@@ -239,6 +239,8 @@ options:
   - label: "detail 3 — עומק מלא"
     description: "כל הפרטים, תוספות, השוואות"
 ```
+
+Before or with these questions, tell the learner in one line (in `session.language`): "בכל סגנון אפשר לבחור לכל שיעור בנפרד: ללמוד אותו, או להיבחן עליו קודם (8 ומעלה — השיעור עובר). בתחילת מודול אפשר גם מבחן אחד על כל המודול."
 
 Map to values:
 - mode: `"standard"` / `"diagnostic"` / `"socratic"`

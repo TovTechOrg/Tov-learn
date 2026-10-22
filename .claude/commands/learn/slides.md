@@ -28,6 +28,15 @@ Split the script by `[מעבר שקף]`.
 
 ---
 
+## Step 1B — Learn the Lesson, or Quiz First
+
+The same choice as `teaching.md` Step 3, at the start of every lesson (not when switching into slides mode in the middle of a lesson, or coming back to finish a lesson already in progress): ask whether to learn the lesson or take its skip quiz first, with the same wording and rules. At the first lesson of a module, also offer the module skip quiz.
+
+- **Learn** → continue with Step 2 and read all the slides.
+- **Quiz first** → follow `teaching.md` Step 3B — the quiz, pass mark 8, what to save, and the detailed explanations after a pass — with one difference for a score below 8: instead of teaching the weak sections in the Journey Format, read **only the slides behind the wrong answers**, verbatim, in the chat, one at a time (the learner says **next**). Don't launch the viewer — it plays the whole lesson. After the last of those slides, go to Step 5; only the exercises related to them are required.
+
+---
+
 ## Step 2 — Announce Mode
 
 Tell the learner:
@@ -103,9 +112,9 @@ When the learner says **exercises** (and always at the end of the lesson — see
 
 ## Step 5 — End of Lesson / Exit
 
-**When the last slide is reached:**
+**When the last slide is reached** (after a failed skip quiz: the last of the slides behind the wrong answers):
 1. Tell the learner they've finished the lesson's slides. **Mark the lesson's slides as done — silently, right away, before the exercises.** Create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the lines `**Slides covered:** all [N]` and `**Exercises required:** yes` (keep everything else already in the file). This is how later lessons know this lesson's slides were finished and its exercises are required, even if the learner stops in the middle of the exercises (`order.md`). Do not tell the learner you are saving.
-2. **Exercises — always, never skip.** Run the exercises flow from Step 4, even if the learner didn't ask for it. Exercises are part of every lesson, not an optional extra. If exercises for this lesson were already completed earlier in this session, skip this step.
+2. **Exercises — always, never skip.** Run the exercises flow from Step 4, even if the learner didn't ask for it. Exercises are part of every lesson, not an optional extra. If exercises for this lesson were already completed earlier in this session, skip this step. If `session.failed_skip_quiz` is true, give only the exercises related to the slides the learner got wrong (`exercises.md`, "After a failed skip quiz").
 3. **Quiz, mini project, or neither — optional, offer once.** Tell the learner plainly that this step is optional and that they can go on to the next lesson without it. They choose at most one:
    - **Quiz** — 3–5 questions on the lesson content, one at a time
    - **Mini project** — 2–3 prompt hands-on task (not external tool unless that's the lesson topic)

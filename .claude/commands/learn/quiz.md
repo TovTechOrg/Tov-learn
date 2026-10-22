@@ -56,6 +56,8 @@ Rules for the table:
 - For free-text: quote the key idea from the learner's answer vs. the expected key idea.
 - Keep explanations in `session.language`, max 2 sentences each.
 
+**Passed skip quiz — detailed explanations.** When a lesson skip quiz or a module skip quiz is **passed** with some wrong or partial answers (e.g. 8 or 9), the sections behind them won't be taught. So after the table, explain each of those questions in more depth — a short paragraph each, in `session.language`: the key idea of that section (from the lesson script), why the correct answer is right and the learner's answer isn't, and a short example. The 2-sentence limit doesn't apply to these.
+
 Scoring formula (unchanged):
 - **Normal:** each correct multiple-choice = 1.5 pts (6 total) + free-text up to 4 pts → /10.
 - **Full:** each correct multiple-choice = 1 pt (8 total) + free-text up to 2 pts → /10.

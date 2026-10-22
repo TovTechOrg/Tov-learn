@@ -33,7 +33,7 @@ Greet the learner. State the lesson topic and number of sections.
 **If a progress file exists for this lesson:**
 Tell the learner their previous score and ask if they want to restart or jump to a quiz on what was already covered.
 
-**Mark the lesson as taught under the exercises rule** — once the lesson actually begins (after any lesson-order note is handled, `order.md`): silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Exercises required:** yes` (keep everything else already in the file). It tells the lesson-order check that this lesson follows the current rules, unlike lessons learned before them. Do this before any quiz (skip quiz or diagnostic quiz). Do not tell the learner you are saving.
+**Mark the lesson as taught under the exercises rule** — once the lesson actually begins (after any lesson-order note is handled, `order.md`): silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Exercises required:** yes` (keep everything else already in the file). It tells the lesson-order check that this lesson follows the current rules, unlike lessons learned before them. Do this before any quiz (lesson skip quiz). Do not tell the learner you are saving.
 
 **Load saved learning style from `~/skill-tutor-tutorials/settings.json`:**
 
@@ -46,8 +46,10 @@ Tell the learner their previous score and ask if they want to restart or jump to
 
 > **איך תרצה ללמוד?**
 > - **standard** — אסביר כל שקף ואשאל שאלה בסוף (ברירת מחדל)
-> - **diagnostic** — תבחן אותי קודם, למד אותי רק על מה שטעיתי, ואז נמשיך
+> - **diagnostic** — תבחן אותי קודם על כל שיעור: 8 ומעלה — השיעור עובר; פחות — תלמד רק את מה שטעיתי ונתרגל רק אותו
 > - **socratic** — הדרך אותי דרך שאלות; אני אגלה את הרעיונות בעצמי
+>
+> בכל סגנון אפשר לבחור לכל שיעור בנפרד: ללמוד אותו, או להיבחן עליו קודם. בתחילת מודול אפשר גם מבחן אחד על כל המודול.
 
 And ask for detail level (1 / 2 / 3).
 
@@ -59,35 +61,37 @@ If yes — update `learning_style` in `settings.json`.
 
 ---
 
-**If `session.mode == "diagnostic"`:** Skip all further questions in Step 3 — no prior-knowledge question, no skip-quiz offer — and go directly to **Step 3B**.
+**Learn the lesson, or quiz first — ask at the start of every lesson, in every style** (not when the learner is coming back to finish a lesson already in progress):
 
-**Otherwise (standard / socratic):**
+> "רוצה ללמוד את השיעור, או להיבחן עליו קודם? במבחן: 8 ומעלה מתוך 10 — השיעור עובר, בלי שקפים ותרגילים; פחות מ-8 — נלמד רק את מה שטעית בו ונתרגל רק אותו."
 
-Ask what they already know about the topic, if anything.
+(adapt to `session.language` and `session.address`)
 
-- If the learner says they already know it well (e.g. "I know this", "familiar with this", "studied it before") — offer a skip quiz: "Want to prove it with a quick quiz? Score 8 or more out of 10 and we'll mark this lesson done and move on — otherwise we'll go over only what you got wrong." If they agree, read `quiz.md` in `quiz me full` mode. If they score ≥ 8, silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Skip quiz passed:** X/10 (DD-MM-YYYY)` (keep everything else already in the file) — this marks the lesson as done by skip quiz, so its slides and exercises aren't required — then recommend the next lesson instead of teaching this one. If they score < 8, set `session.failed_skip_quiz = true` and don't teach the whole lesson — teach only the sections they got wrong, the way diagnostic mode does: continue from **Step 3B**, step 2, treating this skip quiz as Step 3B's quiz (don't quiz again). That path ends with Step 5, so the exercises related to the sections they got wrong are still required (see `exercises.md`, "After a failed skip quiz").
+- Suggest **quiz first** when `session.mode == "diagnostic"`, otherwise **learn**. The learner decides for each lesson separately.
+- At the **first lesson of a module**, also offer the **module skip quiz**: one quiz on the whole module (`quiz.md`, "Module Skip Quiz" — `quiz module X`; pass = 8+ and a correct answer for every lesson of the module).
 
-Use `learner_profile.md` to calibrate depth. Offer to skip sections they clearly already know.
+**Learn** → ask what they already know about the topic, if anything. Use `learner_profile.md` to calibrate depth. Offer to skip sections they clearly already know. Then go to Step 4 and teach in the learner's style (a diagnostic-mode learner who chooses to learn is taught the standard way), then Step 5 with all the lesson's exercises.
+
+**Quiz first** → Step 3B.
 
 *(Speak greeting if TTS enabled)*
 
 ---
 
-## Step 3B — Diagnostic Mode Entry
+## Step 3B — Quiz First (Lesson Skip Quiz)
 
-*Only if `session.mode == "diagnostic"` — or after a failed skip quiz (Step 3), which starts here at step 2*
+*When the learner chose "quiz first" in Step 3 — the suggested choice in diagnostic mode.*
 
-Before teaching anything:
-
-1. Read `quiz.md` in **`quiz me full`** mode — quiz on the entire lesson.
-2. After scoring, collect the list of **weak sections** (questions answered incorrectly or partially).
-3. Tell the learner:
-   > "קיבלת X/10. עכשיו נעבור רק על הנושאים שהיו פחות ברורים."
-   (adapt to `session.language`)
-4. Set `session.weak_sections` = list of slide indices or topics that map to wrong answers.
-5. Switch to Step 4 but **cover only weak sections** using the standard Journey Format (scaled by `session.detail_level`). Skip sections the learner answered correctly — at most, give them a one-sentence "you already know this" acknowledgment.
-6. After covering weak sections, offer a short follow-up quiz on those topics only (`quiz me` mode, scoped to weak sections).
-7. Then proceed to Step 5 (End of Lesson).
+1. Read `quiz.md` in **`quiz me full`** mode — quiz on the entire lesson. It's the lesson skip quiz: pass mark 8.
+2. **Score ≥ 8 — passed.** Silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Skip quiz passed:** X/10 (DD-MM-YYYY)` (keep everything else already in the file). The lesson is done: its slides and exercises aren't required. Because the sections behind any wrong answers won't be taught, explain each of them in detail after the review table (`quiz.md`, "Passed skip quiz — detailed explanations"). Then recommend the next lesson (`order.md`).
+3. **Score < 8 — not passed.** Set `session.failed_skip_quiz = true` and teach only what the learner got wrong:
+   1. Collect the **weak sections** (questions answered incorrectly or partially) and set `session.weak_sections` = the slide indices or topics they map to.
+   2. Tell the learner:
+      > "קיבלת X/10. עכשיו נעבור רק על הנושאים שהיו פחות ברורים, ונתרגל רק אותם."
+      (adapt to `session.language`)
+   3. Switch to Step 4 but **cover only the weak sections**, in the learner's style (the standard Journey Format for standard and diagnostic, guiding questions for socratic), scaled by `session.detail_level`. Skip sections the learner answered correctly — at most, a one-sentence "you already know this" acknowledgment.
+   4. After covering them, offer a short follow-up quiz on those topics only (`quiz me` mode, scoped to the weak sections) — optional.
+   5. Then proceed to Step 5 (End of Lesson). Only the exercises related to the weak sections are required (`exercises.md`, "After a failed skip quiz").
 
 ---
 
@@ -95,7 +99,7 @@ Before teaching anything:
 
 **IMPORTANT: Every slide (section split by `[מעבר שקף]`) MUST be represented in the lesson output.** Never silently skip a slide. At minimum, include one sentence summarizing it.
 
-*In `diagnostic` mode — cover only `session.weak_sections`; all other slides get a single-sentence acknowledgment.*
+*After a failed skip quiz (Step 3B, any style) — cover only `session.weak_sections`; all other slides get a single-sentence acknowledgment.*
 
 For every slide, choose the format based on `session.mode`:
 
