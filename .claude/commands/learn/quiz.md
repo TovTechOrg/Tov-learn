@@ -11,6 +11,7 @@ Respond in `session.language` throughout. Address the learner using `session.add
 | Trigger | Scope | Questions |
 |---------|-------|-----------|
 | `quiz me` | only the sections covered in this session | 4 multiple-choice + 1 free-text |
+| `quiz module X` (module skip quiz) | every lesson of module X — see **Module Skip Quiz** below | at least 1 multiple-choice per lesson (more for lessons with many important subjects; 8+ in total) + 1 free-text |
 | `quiz me full` / `quiz full` | the **entire** lesson script (load `{lesson_number}_script.txt`, split by `[מעבר שקף]`, use all sections — do not assume a fixed count) | 8 multiple-choice + 1 free-text |
 
 Before building questions, read the **Quiz History** in `~/skill-tutor-tutorials/tutorials/lesson-{lesson_number}.md`. If the learner has quizzed this lesson before, **vary the questions** — different angles, different distractors, and bias toward previously-recorded weak points. Keep all questions factually correct and on the lesson's material.
@@ -58,8 +59,40 @@ Rules for the table:
 Scoring formula (unchanged):
 - **Normal:** each correct multiple-choice = 1.5 pts (6 total) + free-text up to 4 pts → /10.
 - **Full:** each correct multiple-choice = 1 pt (8 total) + free-text up to 2 pts → /10.
+- **Module:** see **Module Skip Quiz** below.
 
 *(Speak score summary if TTS enabled — skip the table)*
+
+---
+
+## Module Skip Quiz (`quiz module X`)
+
+For a learner who already knows a whole module and wants to skip it: one quiz for the module instead of a skip quiz per lesson.
+
+**Lessons covered:** every lesson in the course's `COURSE.md` lesson list (`## רשימת שיעורים`) whose number starts with `X.` — e.g. module 1 → 1.1, 1.2, … Load each lesson's `{lesson_number}_script.txt` and split it by `[מעבר שקף]`.
+
+**Questions:**
+- At least **one multiple-choice question per lesson**. Lessons with many important subjects get more questions, so each lesson is tested roughly in proportion to its key content. At least 8 multiple-choice questions in total.
+- Keep track of which lesson each question tests.
+- Same format rules as above: batches of 4 in `AskUserQuestion`, no `description`, varied correct-answer positions, mixed question types.
+- Then one free-text question connecting ideas from at least two of the module's lessons.
+- If `~/skill-tutor-tutorials/progress/module-X.md` shows earlier attempts, vary the questions.
+
+**Scoring:** multiple-choice = 8 × (correct ÷ total), rounded to one decimal, + free-text up to 2 pts → /10. In the review table, show each question's lesson in the `#` column (e.g. `3 (1.4)`).
+
+**Pass:** score ≥ 8 **and** at least one correct multiple-choice answer for every lesson in the module. Tell the learner the result and, if they didn't pass, why (the score, or which lessons had no correct answer).
+
+**Save** to `~/skill-tutor-tutorials/progress/module-X.md` — create it if missing, keep earlier content, and don't use the two lesson locations below:
+```markdown
+# Module X — skip quiz
+
+| Date | Score | Lessons with no correct answer | Result |
+|------|-------|-------------------------------|--------|
+| DD-MM-YYYY | X/10 | [lesson numbers, or —] | passed / not passed |
+```
+On a pass, also add the line `**Skip quiz passed:** X/10 (DD-MM-YYYY)` under the title. It marks every lesson of the module as done, so their slides and exercises aren't required.
+
+**Not passed:** the module isn't skipped. The learner goes through its lessons in order; each lesson can still be skipped by its own skip quiz (`teaching.md`, Step 3).
 
 ---
 
@@ -78,7 +111,7 @@ Append to the end:
 
 Update frontmatter: `understanding_score: X` and `last_quizzed: DD-MM-YYYY`.
 
-**B. Save / update** `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+**B. Save / update** `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` (keep any content already in it, including the `**Slides covered:**`, `**Exercises required:**` and `**Skip quiz passed:**` lines — the lesson-order check relies on them, see `order.md`):
 
 ```markdown
 # Progress: Lesson {lesson_number}
@@ -101,4 +134,4 @@ Next recommended review: [date based on score]
 
 ## Next Lesson Recommendation
 
-After saving the score, load `~/skill-tutor-tutorials/topics/knowledge_map.md` and suggest a related lesson based on what was covered.
+After saving the score, suggest the next lesson: always the first lesson in the course order that isn't complete (`order.md`). You may also load `~/skill-tutor-tutorials/topics/knowledge_map.md` and suggest a related earlier lesson for review.

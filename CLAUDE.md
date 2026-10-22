@@ -24,14 +24,18 @@
 | Deploy | `.claude/commands/learn/deploy.md` | בחירת כלי פריסה (GitHub Pages / Cloudflare / Render / Vercel), CLI-first, תרומה ל-FAQ |
 | CLI-First (ref) | `.claude/commands/learn/cli-first.md` | עקרון משותף — העדפת CLI על דאשבורד; מודולים אחרים מפנים אליו |
 | Stuck | `.claude/commands/learn/stuck.md` | עזרה כשהלומד תקוע — לא הבין חומר / משהו לא עובד; מלמד איך לבקש עזרה טוב |
+| Lesson order (ref) | `.claude/commands/learn/order.md` | שיעורים לפי סדר הקורס: שיעור מתחיל רק כשכל השיעורים הקודמים הושלמו (שקפים + תרגילים נדרשים) או עברו מבחן דילוג (שיעור / מודול) |
+| Exercises (ref) | `.claude/commands/learn/exercises.md` | כללי תרגילים משותפים ל-teaching ו-slides: כל התרגילים לפני השיעור הבא, קובץ מעקב, תרגילים בתשלום ודגלים למנחים |
 
 **Hooks** (`.claude/settings.json`, סקריפטים ב-`.claude/scripts/`):
 
 | Hook | סקריפט | תפקיד |
 |------|--------|-------|
 | Stop | `auto-save-progress.ps1` | שמירת שיעור/שקף נוכחי (מצב שקפים) |
-| Stop | `check-exercises.ps1` | שיעור שהסתיים ב-15 הדקות האחרונות בלי קובץ תרגילים ← Claude נותן את התרגילים (תזכורת אחת לשיעור) |
-| UserPromptSubmit | `detect-stuck.ps1` | הודעה כמו "לא הבנתי" / "לא עובד" ← הערה ל-Claude להשתמש ב-`stuck.md` |
+| UserPromptSubmit | `detect-stuck.ps1` | הודעה כמו "לא הבנתי" / "לא עובד" ← הערה ל-Claude על `stuck.md` |
+| PostToolUse (Read) | `check-lesson-order.ps1` | כש-Claude קורא סקריפט של שיעור (תחילת שיעור) ושיעור קודם כלשהו לפי סדר הקורס לא הושלם ← הערה ל-Claude לפי `order.md` (בכל פעם שמתחילים את השיעור, בכל סשן, עד שהשיעורים הקודמים הושלמו) |
+
+Hooks רצים ב-exec form לפי התיעוד (`"command": "powershell.exe"`, `"args": [..., "-File", "${CLAUDE_PROJECT_DIR}/..."]`). סקריפט עם טקסט בעברית נשמר ב-UTF-8 **עם BOM** (Windows PowerShell 5.1). הערות של hooks ל-Claude מנוסחות כעובדות, לא כפקודות (התיעוד מזהיר שניסוח פקודה עלול להפעיל הגנות prompt-injection).
 
 סקריפטים תומכים נמצאים ב-`.claude/scripts/` (PowerShell — slide server, HTML generator).
 

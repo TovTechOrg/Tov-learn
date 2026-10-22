@@ -27,10 +27,12 @@ try {
     $regex = '(?i)(' + ($stuckPatterns -join '|') + ')'
     if ($prompt -notmatch $regex) { exit 0 }
 
-    $context = "The learner's message suggests they may be stuck (matched: '$($Matches[1])'). " +
-               "If they are stuck on understanding the material, or on an exercise/project that " +
-               "doesn't work, read .claude/commands/learn/stuck.md and follow it. If the message " +
-               "is not actually about being stuck, ignore this note."
+    # Worded as facts, not commands: the hooks docs warn that imperative "system instruction"
+    # phrasing in additionalContext can trigger Claude's prompt-injection defenses.
+    $context = "The learner's message contains a phrase that often means being stuck ('$($Matches[1])'). " +
+               "This course's /learn skill has a help flow for learners who are stuck on the material " +
+               "or on an exercise or project that doesn't work: .claude/commands/learn/stuck.md. " +
+               "The note applies only if the message is actually about being stuck."
     @{ hookSpecificOutput = @{ hookEventName = "UserPromptSubmit"; additionalContext = $context } } |
         ConvertTo-Json -Compress -Depth 3
     exit 0

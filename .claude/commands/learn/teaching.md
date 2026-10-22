@@ -33,6 +33,8 @@ Greet the learner. State the lesson topic and number of sections.
 **If a progress file exists for this lesson:**
 Tell the learner their previous score and ask if they want to restart or jump to a quiz on what was already covered.
 
+**Mark the lesson as taught under the exercises rule** — once the lesson actually begins (after any lesson-order note is handled, `order.md`): silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Exercises required:** yes` (keep everything else already in the file). It tells the lesson-order check that this lesson follows the current rules, unlike lessons learned before them. Do this before any quiz (skip quiz or diagnostic quiz). Do not tell the learner you are saving.
+
 **Load saved learning style from `~/skill-tutor-tutorials/settings.json`:**
 
 - `session.mode` ← `learning_style.mode` (default: `"standard"`)
@@ -63,7 +65,7 @@ If yes — update `learning_style` in `settings.json`.
 
 Ask what they already know about the topic, if anything.
 
-- If the learner says they already know it well (e.g. "I know this", "familiar with this", "studied it before") — offer a skip quiz: "Want to prove it with a quick quiz? Pass and we'll mark this lesson done and move on." If they agree, read `quiz.md` in `quiz me full` mode. If they score ≥ 7, save progress and recommend the next lesson instead of teaching this one. If they score < 7, proceed with teaching from the beginning.
+- If the learner says they already know it well (e.g. "I know this", "familiar with this", "studied it before") — offer a skip quiz: "Want to prove it with a quick quiz? Score 8 or more out of 10 and we'll mark this lesson done and move on — otherwise we'll go over only what you got wrong." If they agree, read `quiz.md` in `quiz me full` mode. If they score ≥ 8, silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Skip quiz passed:** X/10 (DD-MM-YYYY)` (keep everything else already in the file) — this marks the lesson as done by skip quiz, so its slides and exercises aren't required — then recommend the next lesson instead of teaching this one. If they score < 8, set `session.failed_skip_quiz = true` and don't teach the whole lesson — teach only the sections they got wrong, the way diagnostic mode does: continue from **Step 3B**, step 2, treating this skip quiz as Step 3B's quiz (don't quiz again). That path ends with Step 5, so the exercises related to the sections they got wrong are still required (see `exercises.md`, "After a failed skip quiz").
 
 Use `learner_profile.md` to calibrate depth. Offer to skip sections they clearly already know.
 
@@ -73,7 +75,7 @@ Use `learner_profile.md` to calibrate depth. Offer to skip sections they clearly
 
 ## Step 3B — Diagnostic Mode Entry
 
-*Only if `session.mode == "diagnostic"`*
+*Only if `session.mode == "diagnostic"` — or after a failed skip quiz (Step 3), which starts here at step 2*
 
 Before teaching anything:
 
@@ -168,9 +170,11 @@ Do not tell the learner you are saving — just do it.
 
 After completing the **last section**, do the following in order:
 
+0. **Mark the lesson's slides as done — silently, right away, before the exercises.** Create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the lines `**Slides covered:** all [N]` and `**Exercises required:** yes` (keep everything else already in the file). This is how later lessons know this lesson's slides were finished and its exercises are required, even if the learner stops in the middle of the exercises (`order.md`). Do not tell the learner you are saving.
+
 1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
 
-2. **Exercises — always, never skip. Present from the exercises file.** Exercises are part of every lesson, not an optional extra. Go through the exercises from the loaded exercises file, one at a time:
+2. **Exercises — always, never skip. Present from the exercises file.** Exercises are part of every lesson, not an optional extra. First read `.claude/commands/learn/exercises.md` and follow it: create the tracking file `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md` with its header before the first exercise, and apply its paid-resources rule. If `session.failed_skip_quiz` is true, give only the exercises related to the sections the learner got wrong (`exercises.md`, "After a failed skip quiz"). Then go through the exercises from the loaded exercises file, one at a time:
    - Present each exercise exactly as written — do not rewrite or replace it
    - Wait for the learner to respond before moving to the next
    - For exercises that require an external tool (tokenizer site, external API, drawing, etc.) — tell the learner to go do it and come back with their results. When they return, give feedback on what they found
@@ -186,11 +190,13 @@ After completing the **last section**, do the following in order:
      ```
      Create the file if it doesn't exist. Do not tell the learner you are saving.
 
-3. **Quiz or mini project — offer once** after exercises:
-   
+3. **Quiz, mini project, or neither — optional, offer once** after exercises. Tell the learner plainly that this step is optional and that they can go on to the next lesson without it. They choose at most one:
+
    - **Quiz** → Read `.claude/commands/learn/quiz.md`
    - **Mini project** → a small hands-on task completable in 2–3 prompts with Claude (not an external tool unless the lesson topic is that tool)
-   - **No** → skip to step 4.
+   - **Neither** → skip to step 4.
+
+   Neither the quiz nor the mini project is required before the next lesson — only the exercises are.
 
 4. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
    ```
@@ -200,7 +206,7 @@ After completing the **last section**, do the following in order:
    **Slides covered:** all [N]
    **Summary:** [2–3 sentence summary of what was taught this session]
    ```
-   Preserve any existing quiz scores already in the file. Do not tell the learner you are saving. Then read `.claude/commands/learn/progress.md` and save full session summary.
+   Preserve any existing content already in the file (quiz scores, the `**Slides covered:**` and `**Exercises required:**` lines from step 0). Do not tell the learner you are saving. Then read `.claude/commands/learn/progress.md` and save full session summary.
 
 *(Speak the recap and offer if TTS enabled)*
 

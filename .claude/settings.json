@@ -7,12 +7,7 @@
           {
             "type": "command",
             "command": "powershell.exe",
-            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-Command", "& (Join-Path $env:CLAUDE_PROJECT_DIR '.claude\\scripts\\auto-save-progress.ps1')"]
-          },
-          {
-            "type": "command",
-            "command": "powershell.exe",
-            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-Command", "& (Join-Path $env:CLAUDE_PROJECT_DIR '.claude\\scripts\\check-exercises.ps1')"]
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-File", "${CLAUDE_PROJECT_DIR}/.claude/scripts/auto-save-progress.ps1"]
           }
         ]
       }
@@ -23,7 +18,19 @@
           {
             "type": "command",
             "command": "powershell.exe",
-            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-Command", "& (Join-Path $env:CLAUDE_PROJECT_DIR '.claude\\scripts\\detect-stuck.ps1')"]
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-File", "${CLAUDE_PROJECT_DIR}/.claude/scripts/detect-stuck.ps1"]
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-File", "${CLAUDE_PROJECT_DIR}/.claude/scripts/check-lesson-order.ps1"]
           }
         ]
       }

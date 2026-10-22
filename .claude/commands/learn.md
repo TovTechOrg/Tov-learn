@@ -91,6 +91,7 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | continue | Move to next section |
 | quiz me | Read `.claude/commands/learn/quiz.md` (covered sections) |
 | quiz me full | Read `.claude/commands/learn/quiz.md` (whole lesson, 8 Qs) |
+| quiz module X | Read `.claude/commands/learn/quiz.md` — module skip quiz (pass = 8+ and a correct answer for every lesson) |
 | explain again | Re-explain from a different angle |
 | summary | Bullet-point of everything covered |
 | exercises | Show lesson exercises |

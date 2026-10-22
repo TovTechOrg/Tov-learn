@@ -16,13 +16,15 @@ Slides Mode reads the course script verbatim — no Journey Format, no reformula
 
 If a lesson number was specified (e.g. `/learn slides 3.1`), load that lesson's script file.
 
-If no lesson number was given, use the current lesson already loaded in the session. If no lesson is active, ask the learner which lesson they want.
+If no lesson number was given, use the current lesson already loaded in the session. If no lesson is active, ask the learner which lesson they want (lessons go in course order — `order.md`).
 
 Resolve the script path using the same priority as `teaching.md`:
 1. Check `./lessons/` at project root
 2. Fallback to `course.path` from settings
 
 Split the script by `[מעבר שקף]`.
+
+**Mark the lesson as taught under the exercises rule** — once the lesson actually begins (after any lesson-order note is handled, `order.md`): silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Exercises required:** yes` (keep everything else already in the file). It tells the lesson-order check that this lesson follows the current rules, unlike lessons learned before them. Do not tell the learner you are saving.
 
 ---
 
@@ -83,11 +85,12 @@ Then **wait silently** for the learner to say something (e.g. "stop slides", a q
 ## Step 4 — Exercises
 
 When the learner says **exercises** (and always at the end of the lesson — see Step 5):
+- First read `.claude/commands/learn/exercises.md` and follow it: create the tracking file `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md` with its header before the first exercise, and apply its paid-resources rule
 - Do NOT read from the exercises file verbatim
 - Write fresh, interactive exercises based on the slide content covered so far
 - Follow the exercise design rule: most exercises completable through Claude directly; external tool exercises only when the lesson topic is that specific tool
 - Present them one at a time, wait for the learner's answer, and give specific feedback on each. If the learner is stuck, give one hint — not the answer
-- **After each exercise is completed**, silently append the learner's answers to `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md`, in the same format as `teaching.md` Step 5:
+- **After each exercise is completed**, silently append the learner's answers to `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md`, in the format from `exercises.md`:
   ```
   ## תרגיל [N] — [exercise title]
   **תשובה:** [learner's answer, verbatim or summarized if long]
@@ -101,12 +104,15 @@ When the learner says **exercises** (and always at the end of the lesson — see
 ## Step 5 — End of Lesson / Exit
 
 **When the last slide is reached:**
-1. Tell the learner they've finished the lesson's slides
+1. Tell the learner they've finished the lesson's slides. **Mark the lesson's slides as done — silently, right away, before the exercises.** Create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the lines `**Slides covered:** all [N]` and `**Exercises required:** yes` (keep everything else already in the file). This is how later lessons know this lesson's slides were finished and its exercises are required, even if the learner stops in the middle of the exercises (`order.md`). Do not tell the learner you are saving.
 2. **Exercises — always, never skip.** Run the exercises flow from Step 4, even if the learner didn't ask for it. Exercises are part of every lesson, not an optional extra. If exercises for this lesson were already completed earlier in this session, skip this step.
-3. Ask: quiz or mini project?
+3. **Quiz, mini project, or neither — optional, offer once.** Tell the learner plainly that this step is optional and that they can go on to the next lesson without it. They choose at most one:
    - **Quiz** — 3–5 questions on the lesson content, one at a time
    - **Mini project** — 2–3 prompt hands-on task (not external tool unless that's the lesson topic)
-4. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+   - **Neither** — go to step 4.
+
+   Neither the quiz nor the mini project is required before the next lesson — only the exercises are.
+4. **Save progress silently** — after the exercises (and the quiz or mini project, if the learner chose one), write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
    ```
    # Progress — Lesson X.Y
 
@@ -114,7 +120,7 @@ When the learner says **exercises** (and always at the end of the lesson — see
    **Slides covered:** all [N]
    **Summary:** [2–3 sentence summary of what was covered]
    ```
-   Preserve any existing content in the file. Do not tell the learner you are saving.
+   Preserve any existing content in the file (quiz scores, the `**Slides covered:**` and `**Exercises required:**` lines from step 1). Do not tell the learner you are saving.
 
 **When the learner says `stop slides` or `teaching mode`:**
 - Save progress with slides covered so far (not "all [N]" — note actual last slide reached)

@@ -12,7 +12,7 @@ Read these files silently:
 - `~/skill-tutor-tutorials/topics/knowledge_map.md`
 - All files matching `~/skill-tutor-tutorials/progress/lesson-*.md`
 - All files matching `~/skill-tutor-tutorials/tutorials/lesson-*.md` (for frontmatter: topic, understanding_score, last_quizzed)
-- Which files exist matching `~/skill-tutor-tutorials/progress/exercises-lesson-*.md` (existence is enough — one file per lesson whose exercises were done)
+- All files matching `~/skill-tutor-tutorials/progress/exercises-lesson-*.md` (their **נדרשים** count and `## תרגיל` entries — see Exercises below)
 
 From each progress file extract:
 - Lesson number
@@ -26,8 +26,13 @@ Compute:
 - **Mastered** — latest score 8+
 - **In progress** — started but latest score under 8
 - **Not started** — no progress file exists (cross-reference with COURSE.md lesson list)
-- **Exercises** per lesson — **done** if `exercises-lesson-X.Y.md` exists; **skipped** if the lesson's progress file says `Slides covered: all` but there's no exercises file; **not yet** otherwise
-- **Exercises skipped** — count of lessons with exercises = skipped
+- **Exercises** per lesson, from `exercises-lesson-X.Y.md` (format in `exercises.md`: a `**נדרשים:** N` header, then one `## תרגיל` entry per completed or paid-skipped exercise):
+  - **done** — the number of `## תרגיל` entries equals **נדרשים**; mention how many were skipped as paid-only (`(דולג — דורש תשלום)`), if any
+  - **incomplete** — the lesson's progress file says `Slides covered: all` and `**Exercises required:** yes`, but the exercises file is missing or has fewer entries than **נדרשים** (show "[recorded] of [N]")
+  - **passed by skip quiz** — the lesson's progress file, or `progress/module-X.md` for its module, has `**Skip quiz passed:**` (exercises not required)
+  - **not tracked** — the lesson was learned before the exercises rule (no `**Exercises required:**` line; `order.md` explains how such lessons count as finished)
+  - **not yet** — otherwise
+- **Exercises incomplete** — count of lessons with exercises = incomplete
 
 ---
 
@@ -86,7 +91,7 @@ Save to `~/skill-tutor-tutorials/dashboard.html`:
     .score-fill.low { background: #EF4444; }
     .exercises { font-size: 0.75rem; margin-top: 8px; }
     .exercises.done { color: #10B981; }
-    .exercises.skipped { color: #DC2626; font-weight: 600; }
+    .exercises.incomplete { color: #DC2626; font-weight: 600; }
     .exercises.not-yet { color: #9CA3AF; }
   </style>
 </head>
@@ -113,10 +118,10 @@ Save to `~/skill-tutor-tutorials/dashboard.html`:
       <div class="stat-value">[avg]/10</div>
       <div class="stat-label">Avg Score</div>
     </div>
-    <!-- Only show this stat if at least one lesson's exercises were skipped -->
+    <!-- Only show this stat if at least one lesson's exercises are incomplete -->
     <div class="stat alert">
       <div class="stat-value">[N]</div>
-      <div class="stat-label">Exercises Skipped</div>
+      <div class="stat-label">Exercises Incomplete</div>
     </div>
   </div>
 
@@ -154,7 +159,7 @@ Save to `~/skill-tutor-tutorials/dashboard.html`:
       <div class="lesson-name">[Lesson Title]</div>
       <div class="score">Score: 6/10</div>
       <div class="score-bar"><div class="score-fill mid" style="width: 60%"></div></div>
-      <div class="exercises skipped">✗ Exercises skipped — /learn 0.2, then say "exercises"</div>
+      <div class="exercises incomplete">✗ Exercises: 1 of 3 — finish them before the next lesson</div>
     </div>
     <div class="lesson-card not-started">
       <div class="lesson-num">1.1</div>
@@ -189,8 +194,8 @@ If there are overdue lessons, add:
 Type `/learn` to see what to do next.
 ```
 
-If any lesson's exercises were skipped, add:
+If any lesson's exercises are incomplete, add:
 ```
-📝 Exercises skipped in [N] lessons: [lesson numbers]
-Exercises are part of every lesson — open the lesson and say "exercises" to do them.
+📝 Exercises incomplete in [N] lessons: [lesson numbers]
+Exercises are part of every lesson — they'll be completed before you start the next lesson.
 ```

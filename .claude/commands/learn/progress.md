@@ -101,4 +101,4 @@ Update `~/skill-tutor-tutorials/learner_profile.md` — add/update `## Lessons S
 After saving all files, display a session summary:
 - What was covered
 - What remains
-- Recommended next step based on knowledge map
+- Recommended next step: the next lesson is the first lesson in the course order that isn't complete (`order.md`); the knowledge map can add related earlier lessons to review

@@ -1,0 +1,89 @@
+# Exercises — Shared Rules (reference)
+
+*Reference module, not routed. `teaching.md` and `slides.md` follow these rules whenever they give a lesson's exercises. Read this file before starting a lesson's exercises.*
+
+Respond in `session.language` throughout. Address the learner using `session.address`.
+
+---
+
+## Principle
+
+**Every exercise of every lesson is done before moving on to the next lesson.** Exercises are not optional. After a failed skip quiz, only the exercises related to the sections the learner got wrong are required (see "After a failed skip quiz" below). The only other exception is an exercise that needs a paid resource that isn't provided and has no free way around it (see "Paid resources" below) — and even then it's skipped only after the free options and the mentor were tried, and it's flagged for the mentors.
+
+---
+
+## Tracking file
+
+All tracking lives in `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md`.
+
+**1. When the exercises start** — before presenting the first exercise — if the file doesn't exist, create it with this header (fill in the number of exercises you're about to give):
+
+```
+# תרגילים — שיעור {lesson_number}
+**נדרשים:** [N]
+```
+
+This marks the exercises as started. If the file already exists (e.g. the learner is coming back to finish), read it and continue from the first exercise that isn't recorded yet.
+
+**2. After each exercise is completed**, silently append:
+
+```
+## תרגיל [n] — [exercise title]
+**תשובה:** [learner's answer, verbatim or summarized if long]
+**פידבק:** [your feedback in one sentence]
+---
+```
+
+**3. If an exercise is skipped** under the paid-resources rule, append instead:
+
+```
+## תרגיל [n] — [exercise title] (דולג — דורש תשלום)
+**סיבה:** [one sentence — what's needed and why it isn't available for free]
+---
+```
+
+The lesson's exercises are **complete** when the number of `## תרגיל` entries (completed + skipped) equals **נדרשים**.
+
+Don't tell the learner you are saving.
+
+---
+
+## After a failed skip quiz
+
+When the lesson was taught only partly because the learner's skip quiz scored below 8 (`teaching.md`, Step 3 → Step 3B, `session.failed_skip_quiz = true`), only the exercises that relate to at least one of the sections the learner got wrong (`session.weak_sections`) are required. Choose them from the lesson's exercises, set **נדרשים** to their number, and note why in the header:
+
+```
+# תרגילים — שיעור {lesson_number}
+**נדרשים:** [N] (רק התרגילים שקשורים לנושאים שנענו לא נכון במבחן הדילוג)
+```
+
+Tell the learner briefly which exercises these are and why. If no exercise relates to those sections, **נדרשים** is 0 and the lesson has no required exercises. The paid-resources rule below still applies to the chosen exercises.
+
+---
+
+## Paid resources
+
+Some exercises need an external service, tool, or API key. Before starting such an exercise:
+
+1. **Check the course's resource list** — the `## משאבים` section of the active course's `COURSE.md`. If the resource is listed as free or provided, just do the exercise.
+2. **If it seems to need payment**, don't skip. Suggest every free way you know to get what the exercise needs — a free tier, a free trial without a credit card, an equivalent free service or a local tool that serves the same learning goal — and help the learner try them, one at a time.
+3. **If none of the free ways work**, tell the learner to contact the course mentor, as the course instructs ("אם משהו דורש מכם תשלום — עצרו ופנו למדריך"); the mentors may provide a key or a free alternative. Continue with the other exercises meanwhile, and come back to this one when the learner has an answer.
+4. **Only if the learner tried every free way and the mentor can't provide it** — skip the exercise:
+   - Record it in the tracking file as skipped (format above).
+   - Append a flag to `~/skill-tutor-tutorials/progress/exercise-flags.md` (create if missing):
+     ```
+     ## [YYYY-MM-DD] — שיעור [X.Y], תרגיל [n]: [exercise title]
+     **משאב נדרש:** [service / key / tool]
+     **ניסיונות חינמיים:** [each free way tried, and why it didn't work]
+     **מדריך:** [what the mentor answered]
+     **נימוק:** [why the exercise can't be done for free]
+     ---
+     ```
+   - Tell the learner the exercise was skipped and flagged for the mentors to review.
+   - **Never edit or remove course files** (scripts, exercises, COURSE.md). Flags are for the mentors to review; they decide whether to change the course.
+
+---
+
+## Unfinished exercises from an earlier lesson
+
+A lesson can't start while an earlier lesson's required exercises are incomplete. A hook notes this when the lesson starts; `order.md` says what to do (complete the remaining exercises following the rules above, then continue in order).

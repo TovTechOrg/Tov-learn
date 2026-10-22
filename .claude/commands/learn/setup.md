@@ -317,7 +317,7 @@ Copy-Item -Force "$PWD\.claude\commands\learn\*.md" "$moduleDest\"
 Send a summary message in `session.language` that includes:
 1. A confirmation that setup is complete and settings are saved.
 2. A one-line recap of the chosen settings (language, course, TTS on/off).
-3. A prompt asking what they'd like to do next — offer to start the first lesson or jump to a specific one.
+3. A prompt asking what they'd like to do next — offer to start the first lesson. Lessons go in course order (`order.md`); a learner who already knows some of the material can move ahead by passing skip quizzes (one per whole module, or one per lesson).
 
 Example (English):
 ```
@@ -326,7 +326,7 @@ Setup complete! Here's your configuration:
 - Course: AI Dev
 - Voice: Off
 
-Ready to start learning. Would you like to begin with Lesson 0.1, or jump somewhere specific?
+Ready to start learning. Shall we begin with Lesson 0.1? If you already know some of the material, you can move ahead by passing a skip quiz — one per module or one per lesson.
 ```
 
 Do not skip this step even if any previous section was skipped or the learner said "no" to optional features.
