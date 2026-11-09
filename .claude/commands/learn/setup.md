@@ -240,7 +240,7 @@ options:
     description: "כל הפרטים, תוספות, השוואות"
 ```
 
-Before or with these questions, tell the learner in one line (in `session.language`): "בכל סגנון אפשר לבחור לכל שיעור בנפרד: ללמוד אותו, או להיבחן עליו קודם (8 ומעלה — השיעור עובר). בתחילת מודול אפשר גם מבחן אחד על כל המודול."
+Before or with these questions, tell the learner in two short lines (in `session.language`): "בכל סגנון אפשר לבחור לכל שיעור בנפרד: ללמוד אותו, או להיבחן עליו קודם (8 ומעלה מתוך 10 — השיעור עובר). בתחילת מודול אפשר גם מבחן אחד על כל המודול." and "את הסגנון ואת רמת הפירוט אפשר לשנות בכל שלב בקורס, גם באמצע שיעור — פשוט כתבו את שם הסגנון או 'detail 1/2/3'."
 
 Map to values:
 - mode: `"standard"` / `"diagnostic"` / `"socratic"`

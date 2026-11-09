@@ -8,7 +8,7 @@ Respond in `session.language` throughout. Address the learner using `session.add
 
 ## Principle
 
-**Every exercise of every lesson is done before moving on to the next lesson.** Exercises are not optional. After a failed skip quiz, only the exercises related to the sections the learner got wrong are required (see "After a failed skip quiz" below). The only other exception is an exercise that needs a paid resource that isn't provided and has no free way around it (see "Paid resources" below) — and even then it's skipped only after the free options and the mentor were tried, and it's flagged for the mentors.
+**Every exercise of every lesson is done before moving on to the next lesson.** Exercises are not optional. After a failed skip quiz, only the exercises related to the sections the learner got wrong are required (see "After a failed skip quiz" below). The only other exception is an exercise that needs a paid resource that isn't provided and has no free way around it (see "Paid resources" below) — and even then it's skipped only after the free ways and an adapted version of the exercise were tried, and it's flagged for the mentors. Learning never waits for a mentor's answer.
 
 ---
 
@@ -25,7 +25,7 @@ All tracking lives in `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson
 
 This marks the exercises as started. If the file already exists (e.g. the learner is coming back to finish), read it and continue from the first exercise that isn't recorded yet.
 
-**2. After each exercise is completed**, silently append:
+**2. After each exercise's feedback has been shown to the learner** (never before it), silently append:
 
 ```
 ## תרגיל [n] — [exercise title]
@@ -50,7 +50,7 @@ Don't tell the learner you are saving.
 
 ## After a failed skip quiz
 
-When the lesson was taught only partly because the learner's skip quiz scored below 8 (`teaching.md` Step 3B, or `slides.md` Step 1B; `session.failed_skip_quiz = true`), only the exercises that relate to at least one of the sections the learner got wrong (`session.weak_sections`) are required. Choose them from the lesson's exercises, set **נדרשים** to their number, and note why in the header:
+When the lesson was taught only partly because the learner's skip quiz scored below 8 (`teaching.md` Step 3B, or `slides.md` Step 1B; `session.failed_skip_quiz = true`), only the exercises that relate to at least one of the sections the learner got wrong (`session.weak_sections`) are required. In teaching mode, choose them from the course's exercises file and keep their original numbers (e.g. 1, 2 and 4). In slides mode, write fresh exercises on those slides only (`slides.md`, Step 4), numbered 1, 2, 3…. Set **נדרשים** to their number, and note why in the header:
 
 ```
 # תרגילים — שיעור {lesson_number}
@@ -65,21 +65,21 @@ Tell the learner briefly which exercises these are and why. If no exercise relat
 
 Some exercises need an external service, tool, or API key. Before starting such an exercise:
 
-1. **Check the course's resource list** — the `## משאבים` section of the active course's `COURSE.md`. If the resource is listed as free or provided, just do the exercise.
-2. **If it seems to need payment**, don't skip. Suggest every free way you know to get what the exercise needs — a free tier, a free trial without a credit card, an equivalent free service or a local tool that serves the same learning goal — and help the learner try them, one at a time.
-3. **If none of the free ways work**, tell the learner to contact the course mentor, as the course instructs ("אם משהו דורש מכם תשלום — עצרו ופנו למדריך"); the mentors may provide a key or a free alternative. Continue with the other exercises meanwhile, and come back to this one when the learner has an answer.
-4. **Only if the learner tried every free way and the mentor can't provide it** — skip the exercise:
+1. **Check the course's resource list** — the `## משאבים` section of the active course's `COURSE.md`. If the resource is listed as free or provided (including tools Tov-Tech pays for), just do the exercise.
+2. **If it seems to need payment**, don't skip. Suggest every free way you know to get what the exercise needs — a free tier, an equivalent free service, or a local tool that serves the same learning goal — and help the learner try them, one at a time. **A free trial is not a free way**: it uses up a trial the learner may want later for their own work. Don't suggest one.
+3. **If none of the free ways work, adapt the exercise.** Write a variation that keeps the same learning goal but uses only free tools or tools Tov-Tech provides (`## משאבים`) — e.g. a different free service, a local tool, or a simulated input instead of a paid API. Present it in the conversation as an adapted version of exercise [n], say what changed and why, and do it with the learner like any other exercise. It counts as that exercise: record it under the same number, with `(גרסה מותאמת)` after the title. The course files stay unchanged.
+4. **Only if no adapted version can keep the learning goal** — skip the exercise:
    - Record it in the tracking file as skipped (format above).
    - Append a flag to `~/skill-tutor-tutorials/progress/exercise-flags.md` (create if missing):
      ```
      ## [YYYY-MM-DD] — שיעור [X.Y], תרגיל [n]: [exercise title]
      **משאב נדרש:** [service / key / tool]
      **ניסיונות חינמיים:** [each free way tried, and why it didn't work]
-     **מדריך:** [what the mentor answered]
+     **התאמה:** [why no adapted version with free tools could keep the learning goal]
      **נימוק:** [why the exercise can't be done for free]
      ---
      ```
-   - Tell the learner the exercise was skipped and flagged for the mentors to review.
+   - Tell the learner the exercise was skipped and flagged for the mentors to review, and continue with the next exercise. The learner doesn't wait for a mentor's answer at any step.
    - **Never edit or remove course files** (scripts, exercises, COURSE.md). Flags are for the mentors to review; they decide whether to change the course.
 
 ---

@@ -16,7 +16,7 @@
 | Teaching | `.claude/commands/learn/teaching.md` | טעינת שיעור, Journey format, לולאת הוראה |
 | Quiz | `.claude/commands/learn/quiz.md` | בחינה, ציונים, spaced repetition |
 | Progress | `.claude/commands/learn/progress.md` | שמירת tutorials, knowledge map |
-| Status | `.claude/commands/learn/status.md` | HTML dashboard — all lessons, scores, due reviews |
+| Status | `.claude/commands/learn/status.md` | HTML dashboard — all lessons by completion (complete / in progress / not started), scores as extra info, due reviews |
 | Project Analysis | `.claude/commands/learn/project-analysis.md` | סריקת קוד, ראיון ארכיטקט, מפת HTML |
 | Slides | `.claude/commands/learn/slides.md` | קריאה מילה במילה מסקריפטים, viewer אינטראקטיבי, TTS אוטומטי |
 | Export | `.claude/commands/learn/export.md` | ייצוא כל נתוני התלמיד ל-ZIP — גיבוי/מעבר למכשיר אחר |
@@ -25,7 +25,7 @@
 | CLI-First (ref) | `.claude/commands/learn/cli-first.md` | עקרון משותף — העדפת CLI על דאשבורד; מודולים אחרים מפנים אליו |
 | Stuck | `.claude/commands/learn/stuck.md` | עזרה כשהלומד תקוע — לא הבין חומר / משהו לא עובד; מלמד איך לבקש עזרה טוב |
 | Lesson order (ref) | `.claude/commands/learn/order.md` | שיעורים לפי סדר הקורס: שיעור מתחיל רק כשכל השיעורים הקודמים הושלמו (שקפים + תרגילים נדרשים) או עברו מבחן דילוג (שיעור / מודול) |
-| Exercises (ref) | `.claude/commands/learn/exercises.md` | כללי תרגילים משותפים ל-teaching ו-slides: כל התרגילים לפני השיעור הבא, קובץ מעקב, תרגילים בתשלום ודגלים למנחים |
+| Exercises (ref) | `.claude/commands/learn/exercises.md` | כללי תרגילים משותפים ל-teaching ו-slides: כל התרגילים לפני השיעור הבא, קובץ מעקב, תרגילים בתשלום (דרך חינמית ← גרסה מותאמת לכלים חינמיים ← רק אז דילוג ודגל למנחים; בלי לחכות למנחה, ניסיון חינם לא נחשב חינמי) |
 
 **Hooks** (`.claude/settings.json`, סקריפטים ב-`.claude/scripts/`):
 

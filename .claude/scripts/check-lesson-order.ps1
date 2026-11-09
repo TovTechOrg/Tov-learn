@@ -8,10 +8,14 @@
 # An earlier lesson is complete when:
 #   - its progress file, or its module's progress/module-M.md, says "**Skip quiz passed:**"; or
 #   - it was learned under the current rules (progress file has "**Exercises required:** yes", written
-#     when the lesson starts): "Slides covered: all" and its required exercises recorded (exercises.md); or
+#     when learning starts): "Slides covered: all" and its required exercises recorded (exercises.md); or
 #   - it was learned before these rules (no such line): all slides covered, shown by "Slides covered: all"
 #     or by a Sessions-table row whose "Sections Covered" says all ("All 15", "All sections"). Exercises
 #     aren't checked for those.
+# The note says "not started" only for a lesson with no progress file; any other incomplete lesson has
+# started learning, and order.md offers the lesson skip quiz only for lessons not started. Likewise, a
+# module skip quiz is offered only for an earlier module none of whose lessons has a progress file and
+# whose module quiz was never taken (no module-M.md): one attempt only.
 # Fires every time such a lesson starts, in any session, until the earlier lessons are complete.
 # It never fires at the end of a lesson (there's no Stop hook for this), so once per attempt.
 # Any unexpected error -> exit 0 with no output (the read goes through as usual).
@@ -66,10 +70,10 @@ try {
             continue
         } elseif ($text -notmatch '\*\*Exercises required:\*\*\s*yes') {          # learned before the rules
             if ($text -notmatch 'Slides covered:\*\*\s*all' -and $text -notmatch $legacyAllRow) {
-                $state = "slides not finished"
+                $state = "learning started, slides not finished"
             }
         } elseif ($text -notmatch 'Slides covered:\*\*\s*all') {
-            $state = "slides not finished"
+            $state = "learning started, slides not finished"
         } else {
             $exercises = Read-Text "exercises-lesson-$l.md"
             if (!$exercises) {
@@ -87,12 +91,21 @@ try {
     }
     if ($incomplete.Count -eq 0) { exit 0 }
 
+    # A module skip quiz is offered only once, and only before any lesson of the module was started:
+    # no module-M.md (an earlier attempt) and no lesson progress file in the module
+    $wholeModules = @($wholeModules | Where-Object {
+        $mod = $_
+        -not (Read-Text "module-$mod.md") -and
+        -not ($order | Where-Object { $_.Split('.')[0] -eq $mod -and (Read-Text "lesson-$_.md") })
+    })
+
     $note = "Lesson $lesson is starting, but earlier lessons in this course's order are not complete: " +
             ($incomplete -join "; ") + ". Under this course's lesson-order rules " +
             "(.claude/commands/learn/order.md), lesson $lesson begins only after every earlier lesson is " +
-            "complete: finished (all slides and the required exercises) or passed by a skip quiz."
+            "complete: finished (all slides and the required exercises) or passed by a skip quiz. " +
+            "A lesson skip quiz applies only to lessons marked not started."
     if ($wholeModules.Count -gt 0) {
-        $note += " Earlier modules with incomplete lessons, which a module skip quiz (quiz module N) can pass " +
+        $note += " Earlier modules with no lesson started yet and no earlier module-quiz attempt, which a module skip quiz (quiz module N) can pass " +
                  "as a whole: " + ($wholeModules -join ", ") + "."
     }
     $note += " A script read while building a module skip quiz is not a lesson start; this note does not apply to such a read."

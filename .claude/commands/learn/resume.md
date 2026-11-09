@@ -10,14 +10,14 @@ Respond in `session.language` throughout. Address the learner using `session.add
 
 Silently read:
 - `~/skill-tutor-tutorials/learner_profile.md` — find `## Lessons Studied` for last lesson
-- All `~/skill-tutor-tutorials/progress/lesson-*.md` — extract next review dates
+- All `~/skill-tutor-tutorials/progress/lesson-*.md` — extract next review dates (only ones set by a quiz taken after learning — a skip quiz, marked `מבחן דילוג`, sets none; `quiz.md`)
 - `~/skill-tutor-tutorials/topics/knowledge_map.md` — find in-progress lessons
 - `~/skill-tutor-tutorials/project/ai-dev-project.md` — final project state (may not exist)
 
 Compute today's date. Classify each lesson:
 - **Overdue** — next review date is before today
 - **Due today** — next review date is today
-- **In progress** — started, score under 8, not yet due
+- **In progress** — learning started but the lesson isn't complete (`order.md`) — not judged by score, since quizzes are optional
 - **Next new** — the first lesson in the course order that isn't complete (`order.md`): not started, slides not finished, or required exercises not done. Say which of these it is.
 
 Check final project eligibility: learner is ready to start the final project if they have progress files for lessons in module 2 (any lesson 2.x), or have completed all lessons through 1.8.

@@ -25,7 +25,7 @@ If the learner's message already makes it clear, skip the question. Otherwise as
 
 1. **Find the gap.** Ask (once, briefly) which part is unclear, if it's not obvious from the message or the current lesson. Use the active lesson's script if a lesson is loaded.
 2. **Explain from a different angle** than before — a different analogy, a concrete example (prefer the learner's own project from `learner_profile.md`), or a smaller step. Do not repeat the original explanation.
-3. **Check understanding** with one short question the learner answers in their own words. If still unclear, try one more angle.
+3. **Check understanding** with one short question the learner answers in their own words — judge the idea, not the wording (`quiz.md`, "Grading free-text answers"). If still unclear, try one more angle.
 4. **Log it** the same way as Living Q&A in `teaching.md`: silently append to `~/skill-tutor-tutorials/tutorials/lesson-{lesson_number}.md` under `## Q&A` (skip if no lesson is active).
 
 ---
@@ -52,7 +52,7 @@ End with one short line that reinforces asking for help, matched to what just ha
 
 ## Step 4 — Log and Return
 
-1. Silently append one line to `~/skill-tutor-tutorials/progress/stuck-log.md` (create if missing):
+1. After the learner has seen your answer and the Step 3 line (never before them), silently append one line to `~/skill-tutor-tutorials/progress/stuck-log.md` (create if missing):
    ```
    - [YYYY-MM-DD HH:mm] | lesson [X.Y or —] | [understanding / not working] | [one-line topic] | [resolved / not resolved]
    ```

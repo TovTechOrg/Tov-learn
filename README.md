@@ -108,7 +108,7 @@ What would you like to do?
 
 ### Progress Dashboard — `/learn status`
 
-Generates an HTML file at `~/skill-tutor-tutorials/dashboard.html` showing all lessons color-coded by status (mastered / in progress / not started), quiz scores, and what's due for review. Open it in a browser.
+Generates an HTML file at `~/skill-tutor-tutorials/dashboard.html` showing all lessons color-coded by status (complete / in progress / not started), quiz scores, and what's due for review. Open it in a browser.
 
 ### Commands during a session
 

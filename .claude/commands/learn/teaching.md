@@ -28,12 +28,11 @@ Split the script into sections by `[מעבר שקף]`.
 
 ## Step 3 — Open the Session
 
-Greet the learner. State the lesson topic and number of sections.
+Greet the learner. State the lesson topic and number of sections. Give the greeting, the short intro and the "learn or quiz first" choice below in the same reply — don't announce what a later reply will contain.
 
-**If a progress file exists for this lesson:**
-Tell the learner their previous score and ask if they want to restart or jump to a quiz on what was already covered.
+**If the learner already started learning this lesson** (its progress file has `**Exercises required:** yes`): this is a return to a lesson in progress, not a new start. Continue from where they stopped — the next slide not covered yet, or the first exercise not recorded yet (`exercises.md`) — or restart the slides if they ask. Don't offer the lesson skip quiz: once learning started, the lesson is completed by its slides and required exercises (`order.md`).
 
-**Mark the lesson as taught under the exercises rule** — once the lesson actually begins (after any lesson-order note is handled, `order.md`): silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Exercises required:** yes` (keep everything else already in the file). It tells the lesson-order check that this lesson follows the current rules, unlike lessons learned before them. Do this before any quiz (lesson skip quiz). Do not tell the learner you are saving.
+**Mark the lesson as taught under the exercises rule** — when the learner **starts learning** it: right after they choose **learn**, or right after a lesson skip quiz is **not passed** (Step 3B), together with saving that result. Silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Exercises required:** yes` (keep everything else already in the file). It tells the lesson-order check that learning started under the current rules — the lesson skip quiz is no longer offered for it, and its exercises are required — unlike lessons not started yet or learned before these rules. Do not tell the learner you are saving.
 
 **Load saved learning style from `~/skill-tutor-tutorials/settings.json`:**
 
@@ -65,12 +64,12 @@ If yes — update `learning_style` in `settings.json`.
 
 > "רוצה ללמוד את השיעור, או להיבחן עליו קודם? במבחן: 8 ומעלה מתוך 10 — השיעור עובר, בלי שקפים ותרגילים; פחות מ-8 — נלמד רק את מה שטעית בו ונתרגל רק אותו."
 
-(adapt to `session.language` and `session.address`)
+(adapt to `session.language` and `session.address`; always say **"מתוך 10"** — the quiz has 9 questions, but the score is out of 10, so "8 ומעלה" alone reads like 8 of 9 correct)
 
-- Suggest **quiz first** when `session.mode == "diagnostic"`, otherwise **learn**. The learner decides for each lesson separately.
-- At the **first lesson of a module**, also offer the **module skip quiz**: one quiz on the whole module (`quiz.md`, "Module Skip Quiz" — `quiz module X`; pass = 8+ and a correct answer for every lesson of the module).
+- Suggest **quiz first** when `session.mode == "diagnostic"`, otherwise **learn** — except after a **module skip quiz that wasn't passed** (`~/skill-tutor-tutorials/progress/module-X.md` for this lesson's module, "Per lesson" results): in standard and socratic style, suggest **quiz first** only for a lesson whose module-quiz questions were **all** answered correctly, and **learn** for any other lesson. Whatever you suggest, the learner always chooses between both options, for each lesson separately — also when you mention a coming lesson, say you'll *ask* (with the suggested choice), never that it will start with a quiz.
+- At the **first lesson of a module**, and only while **no lesson of that module was started** (none has a progress file under `~/skill-tutor-tutorials/progress/`) and the module skip quiz **wasn't taken before** (no `progress/module-X.md` — one attempt only), also offer the **module skip quiz**: one quiz on the whole module (`quiz.md`, "Module Skip Quiz" — `quiz module X`; pass = 8+ and a correct answer for every lesson of the module). If it isn't passed, the learner continues lesson by lesson, and at each lesson chooses again: learn it, or take its own skip quiz first. A lesson skip quiz is never mandatory.
 
-**Learn** → ask what they already know about the topic, if anything. Use `learner_profile.md` to calibrate depth. Offer to skip sections they clearly already know. Then go to Step 4 and teach in the learner's style (a diagnostic-mode learner who chooses to learn is taught the standard way), then Step 5 with all the lesson's exercises.
+**Learn** → mark the lesson as taught (above). Ask what they already know about the topic, if anything. Use `learner_profile.md` to calibrate depth. If they clearly know some sections, name those sections and offer to skip them, one question for all of them; add that all the lesson's exercises are still required, because only a lesson skip quiz can reduce them. Then go to Step 4 and teach in the learner's style (a diagnostic-mode learner who chooses to learn is taught the standard way), then Step 5 with all the lesson's exercises.
 
 **Quiz first** → Step 3B.
 
@@ -83,15 +82,15 @@ If yes — update `learning_style` in `settings.json`.
 *When the learner chose "quiz first" in Step 3 — the suggested choice in diagnostic mode.*
 
 1. Read `quiz.md` in **`quiz me full`** mode — quiz on the entire lesson. It's the lesson skip quiz: pass mark 8.
-2. **Score ≥ 8 — passed.** Silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Skip quiz passed:** X/10 (DD-MM-YYYY)` (keep everything else already in the file). The lesson is done: its slides and exercises aren't required. Because the sections behind any wrong answers won't be taught, explain each of them in detail after the review table (`quiz.md`, "Passed skip quiz — detailed explanations"). Then recommend the next lesson (`order.md`).
+2. **Score ≥ 8 — passed.** The lesson is done: its slides and exercises aren't required. Because the sections behind any wrong answers won't be taught, explain each of them in detail after the review table (`quiz.md`, "Passed skip quiz — detailed explanations"). After showing the result, silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Skip quiz passed:** X/10 (DD-MM-YYYY)` (keep everything else already in the file). Then recommend the next lesson (`order.md`).
 3. **Score < 8 — not passed.** Set `session.failed_skip_quiz = true` and teach only what the learner got wrong:
    1. Collect the **weak sections** (questions answered incorrectly or partially) and set `session.weak_sections` = the slide indices or topics they map to.
    2. Tell the learner:
       > "קיבלת X/10. עכשיו נעבור רק על הנושאים שהיו פחות ברורים, ונתרגל רק אותם."
       (adapt to `session.language`)
-   3. Switch to Step 4 but **cover only the weak sections**, in the learner's style (the standard Journey Format for standard and diagnostic, guiding questions for socratic), scaled by `session.detail_level`. Skip sections the learner answered correctly — at most, a one-sentence "you already know this" acknowledgment.
-   4. After covering them, offer a short follow-up quiz on those topics only (`quiz me` mode, scoped to the weak sections) — optional.
-   5. Then proceed to Step 5 (End of Lesson). Only the exercises related to the weak sections are required (`exercises.md`, "After a failed skip quiz").
+   3. After showing the result, save it (`quiz.md`) and mark the lesson as taught (Step 3) — learning starts now.
+   4. Switch to Step 4 but **cover only the weak sections**, in the learner's style (the standard Journey Format for standard and diagnostic, guiding questions for socratic), scaled by `session.detail_level`. Skip sections the learner answered correctly — at most, a one-sentence "you already know this" acknowledgment.
+   5. Then go straight to Step 5 (End of Lesson) — no extra quiz on the weak sections before the exercises. Only the exercises related to the weak sections are required (`exercises.md`, "After a failed skip quiz"). The usual optional quiz / mini project offer comes after them.
 
 ---
 
@@ -172,20 +171,22 @@ Do not tell the learner you are saving — just do it.
 
 ## Step 5 — End of Lesson
 
-After completing the **last section**, do the following in order:
+After the learner has been shown the **last section**, do the following in order:
 
-0. **Mark the lesson's slides as done — silently, right away, before the exercises.** Create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the lines `**Slides covered:** all [N]` and `**Exercises required:** yes` (keep everything else already in the file). This is how later lessons know this lesson's slides were finished and its exercises are required, even if the learner stops in the middle of the exercises (`order.md`). Do not tell the learner you are saving.
+0. **Mark the lesson's slides as done — silently, right after the last section is shown, before the exercises.** Only after the last section's text is in front of the learner (never before it, in the same reply or an earlier one), create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the lines `**Slides covered:** all [N]` and `**Exercises required:** yes` (keep everything else already in the file). After a failed skip quiz, write `**Slides covered:** all needed — weak sections only: [list] (after a failed skip quiz)` instead, so it doesn't read as if every slide was taught. This is how later lessons know this lesson's slides were finished and its exercises are required, even if the learner stops in the middle of the exercises (`order.md`). Do not tell the learner you are saving.
 
 1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
 
 2. **Exercises — always, never skip. Present from the exercises file.** Exercises are part of every lesson, not an optional extra. First read `.claude/commands/learn/exercises.md` and follow it: create the tracking file `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md` with its header before the first exercise, and apply its paid-resources rule. If `session.failed_skip_quiz` is true, give only the exercises related to the sections the learner got wrong (`exercises.md`, "After a failed skip quiz"). Then go through the exercises from the loaded exercises file, one at a time:
-   - Present each exercise exactly as written — do not rewrite or replace it
+   - Present each exercise exactly as written — do not rewrite or replace it — under its **original number** from the exercises file (after a failed skip quiz, e.g. exercises 1, 2 and 4 — not renumbered 1, 2, 3), and record it under the same number
+   - **Never show a sample answer, solution or answer key before the learner answers.** If the exercises file includes one ("תשובה לדוגמה", a solution, a key), leave it out when presenting the exercise; use it only for your feedback afterwards
+   - If the exercise says to submit something (homework, "הגישו עד השיעור הבא"), tell the learner that here, submitting means pasting it in this conversation for your feedback
    - Wait for the learner to respond before moving to the next
    - For exercises that require an external tool (tokenizer site, external API, drawing, etc.) — tell the learner to go do it and come back with their results. When they return, give feedback on what they found
    - For exercises that can be done in the conversation — do them together here
-   - Give specific feedback on every answer: what's right, what's missing, what to think about
+   - Give specific feedback on every answer: what's right, what's missing, what to think about. Judge the answer by what the exercise asked. Don't mark the learner down for something the exercise didn't ask for; if you suggest more (e.g. a Production practice), say it goes beyond the exercise ("התרגיל ביקש X, וזה בסדר לתרגול; ב-Production…") so it doesn't read as a mistake
    - If the learner is stuck, give one hint — not the answer
-   - **After each exercise is completed**, silently append the learner's answers to `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md`:
+   - **After each exercise's feedback has been shown** (never before it), silently append the learner's answers to `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md`:
      ```
      ## תרגיל [N] — [exercise title]
      **תשובה:** [learner's answer, verbatim or summarized if long]
@@ -202,7 +203,7 @@ After completing the **last section**, do the following in order:
 
    Neither the quiz nor the mini project is required before the next lesson — only the exercises are.
 
-4. **Save progress silently** — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
+4. **Save progress silently** — after the learner has seen the feedback on the last exercise (and the quiz or mini project results, if they chose one) — write to `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`:
    ```
    # Progress — Lesson X.Y
 
@@ -218,7 +219,7 @@ After completing the **last section**, do the following in order:
 
 ## Teaching Principles
 
-- **Make asking for help normal.** Once per lesson, right after the first section, add one short line telling the learner they can say **נתקעתי** / **stuck** at any time — when something isn't clear or something they built doesn't work — and you'll help (`stuck.md`). Don't repeat it every section.
+- **Make asking for help normal.** Once per lesson, right after the first section, add one short line telling the learner they can say **נתקעתי** / **stuck** at any time — when something isn't clear or something they built doesn't work — and you'll help (`stuck.md`). After that, keep it short: whenever a reply ends by asking the learner to move on, the same line also offers **נתקעתי** — e.g. "כתבי **המשך** כדי להמשיך, או **נתקעתי** אם משהו לא ברור." (adapt to `session.address`).
 - **The primary goal is always to teach** — detail levels control length and depth, never whether teaching is happening. A 1-sentence response at detail level 1 must still make the concept click, not just name it.
 - Use `session.language` for all output
 - Max 5 sentences per teaching block — then the learner speaks

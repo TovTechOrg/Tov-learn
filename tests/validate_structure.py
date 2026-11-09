@@ -9,6 +9,8 @@ Checks:
   5. Regression guard: teaching.md and slides.md require and save end-of-lesson exercises
      under the shared rules in exercises.md (tracking-file format), mark the slides as done
      before the exercises, and keep the quiz / mini project optional
+  5b. Regression guards for the manual-test fixes: paid-exercise flow without a mentor wait,
+      save after showing, Hebrew words and no escape sequences, quiz rules, status by completion
   6. Every script referenced by a hook in .claude/settings.json exists
 """
 
@@ -140,6 +142,49 @@ if exercises_rules.exists():
         if needed not in text:
             error(f"Regression: exercises.md no longer defines '{needed}' "
                   f"(check-lesson-order.ps1 and status.md rely on the tracking format)")
+    # Paid-exercise flow: never wait for a mentor, never count a free trial as free, adapt before skipping
+    if "**מדריך:**" in text or "contact the course mentor" in text:
+        error("Regression: exercises.md paid-exercise flow waits for a mentor again (learning must never wait)")
+    if "A free trial is not a free way" not in text:
+        error("Regression: exercises.md no longer says a free trial isn't a free way")
+    if "adapt the exercise" not in text or "(גרסה מותאמת)" not in text:
+        error("Regression: exercises.md no longer adapts a paid exercise before skipping it")
+
+# 5b. Fixes from the manual test (2026-11): save after showing, Hebrew output, quiz and status rules
+learn_path = ROOT / ".claude" / "commands" / "learn.md"
+if learn_path.exists():
+    text = learn_path.read_text(encoding="utf-8")
+    for needed in ("**Save after showing:**", "no escape sequences", "**הבא**", "**המשך**"):
+        if needed not in text:
+            error(f"Regression: learn.md no longer defines '{needed}'")
+if teaching_path.exists():
+    text = teaching_path.read_text(encoding="utf-8")
+    for needed in ("original number", "Never show a sample answer", "מתוך 10", "no extra quiz"):
+        if needed not in text:
+            error(f"Regression: teaching.md no longer says '{needed}'")
+if quiz_path.exists():
+    text = quiz_path.read_text(encoding="utf-8")
+    for needed in ("**Per lesson (DD-MM-YYYY):**", "no score so far", "The section's main idea",
+                   "(מבחן דילוג)", "options must read clearly in Hebrew"):
+        if needed not in text:
+            error(f"Regression: quiz.md no longer says '{needed}'")
+if order_path.exists():
+    text = order_path.read_text(encoding="utf-8")
+    if "only for a lesson the note says is **not started**" not in text:
+        error("Regression: order.md offers the lesson skip quiz for a lesson whose learning already started")
+    if "having no lesson started yet" not in text:
+        error("Regression: order.md offers the module skip quiz for a module whose lessons already started")
+if quiz_path.exists():
+    text = quiz_path.read_text(encoding="utf-8")
+    if "One attempt, offered only before the module's first lesson starts" not in text:
+        error("Regression: quiz.md offers the module skip quiz again, or after a lesson of the module was started")
+    if "Grading free-text answers — by ideas, not by wording" not in text:
+        error("Regression: quiz.md no longer accepts free-text answers in the learner's own words")
+status_path = LEARN_COMMANDS / "status.md"
+if status_path.exists():
+    text = status_path.read_text(encoding="utf-8")
+    if "by completion, not by score" not in text or "Mastered" in text:
+        error("Regression: status.md no longer shows lesson status by completion (quizzes are optional)")
 
 # 6. Every script referenced by a hook in .claude/settings.json exists
 settings_path = ROOT / ".claude" / "settings.json"
