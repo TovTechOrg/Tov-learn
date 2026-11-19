@@ -98,8 +98,8 @@ Example output after a few sessions:
 ```
 Welcome back. Here's where things stand:
 
-🔁 Due for review: Lesson 0.2 — What is ML (3 days overdue)
-📖 Continue: Lesson 1.1 — Prompt Engineering Basics (in progress)
+🔁 Due for review: Lesson 0.2 — מבוא ל-AI (3 days overdue)
+📖 Continue: Lesson 1.1 — מבוא ל-Vibe Coding (in progress)
 📖 Next new: Lesson 1.2 — Few-shot and Chain of Thought
 🔍 Project analysis
 
@@ -114,14 +114,24 @@ Generates an HTML file at `~/skill-tutor-tutorials/dashboard.html` showing all l
 
 | Command | Action |
 |---------|--------|
-| `continue` | Move to the next section |
-| `quiz me` | 4-question quiz on everything covered so far |
+| `continue` | Move to the next slide (one slide per message) |
+| `help` / `עזרה` | List every command (this table is generated from `learn.md`, which is the source of truth) |
+| `quiz me` | 4 multiple-choice + 1 open question on the slides covered so far |
+| `quiz me full` | 8 + 1 questions on the whole lesson. Needed to mark a lesson as Mastered |
 | `explain again` | Re-explain current section from a different angle |
+| `explain the code` / `הסבר את הקוד` | Explain the last code or technology line by line |
 | `summary` | Bullet-point recap of what was covered |
-| `exercises` | Show this lesson's exercises |
+| `summaries` / `סיכומים` | Open your running lesson-summaries file |
+| `exercises` | Show this lesson's exercises (they are mandatory at the end of every lesson) |
+| `detail 1` / `detail 2` / `detail 3` | Brief / standard / full-depth explanations |
+| `standard` / `diagnostic` / `socratic` | Explain-then-ask / quiz-first / question-led (Hebrew: `הסבר לי` / `בחן אותי` / `הדרך אותי`) |
+| `english only` / `רק אנגלית` | Teach fully in English (helps with Hebrew/English direction in the terminal) |
+| `slides` | Read the lesson script slide by slide |
 | `stop` | End session — shows what's covered, what's left, next recommendation |
-| `read aloud` | Speak the last response (on-demand TTS) |
+| `read aloud` | Speak the last response (on-demand TTS, Windows only) |
 | `settings` | Show current language, TTS, and course path |
+
+Top-level commands: `/learn` (smart resume), `/learn X.Y` (a lesson), `/learn status`, `/learn project`, `/learn deploy`, `/learn security`, `/learn export`, `/learn import`, `/learn setup`, `/learn help`.
 
 ---
 
@@ -206,7 +216,10 @@ CLAUDE.md                   ← architecture overview for contributors
 ## Requirements
 
 - Claude Code (Pro plan or higher)
-- Windows (for TTS voice support) — TTS can be disabled on any OS
+- Windows, Mac or Linux for learning. Some extras are **Windows-only** because they are written in PowerShell:
+  - TTS voice (`read aloud`, auto TTS)
+  - The slide viewer and slide server (`slides` falls back to reading in the chat)
+  - The auto-save Stop hook (on Mac/Linux it skips silently; progress is still saved by the tutor itself)
 
 ## License
 

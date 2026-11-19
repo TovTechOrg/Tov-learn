@@ -10,6 +10,8 @@
     "language": "he",
     "teaching_style": null
   },
+  "content_language": "he",
+  "summaries_language": "he",
   "course": {
     "name": "ai-dev",
     "path": "courses/ai-dev/lessons"

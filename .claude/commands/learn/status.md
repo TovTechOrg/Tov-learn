@@ -22,9 +22,10 @@ Compute:
 - **Overdue** — next review date is before today
 - **Due today** — next review date is today
 - **Upcoming** — next review date is within 7 days
-- **Mastered** — latest score 8+
+- **Mastered** — latest `quiz me full` score 8+, or a normal quiz 8+ in a session that covered every slide (`Quiz mode:` line in the progress file). A partial quiz never counts as Mastered
 - **In progress** — started but latest score under 8
 - **Not started** — no progress file exists (cross-reference with COURSE.md lesson list)
+- **Optional** — COURSE.md type `רשות` and not started. Show these greyed out with a "רשות" tag; do not count them in totals or as missing
 
 ---
 
