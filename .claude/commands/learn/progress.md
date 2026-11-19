@@ -66,7 +66,7 @@ Update `~/skill-tutor-tutorials/topics/knowledge_map.md`:
 ```markdown
 # Knowledge Map
 
-## Mastered Topics (score 8+)
+## Mastered Topics (full quiz score 8+, see quiz.md Mastery rule)
 - [Lesson X.X — Title]: [one sentence — what the learner can now do]
 
 ## Topics In Progress (score 4–7)

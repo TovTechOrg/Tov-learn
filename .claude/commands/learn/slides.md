@@ -47,7 +47,8 @@ On entry to Slides Mode, start the slide server and generate the HTML viewer:
    - Slide images: `[LESSON_DIR]\digital-course-screenshots\`
    - TTS scripts: `[LESSON_DIR]\digital-course-tts-scripts\`
 
-   These asset folders ship with some courses only. If the active course's lesson has neither folder, skip the viewer launch (Step 3) and read the script text verbatim in the chat instead.
+   These asset folders ship with some courses only (the AI Dev course has none). If the active course's lesson has neither folder, skip the viewer launch (Step 3), **tell the learner why** in one sentence (e.g. "לשיעור הזה אין שקופיות מוקלטות, אז אקריא את השקפים כאן בצ'אט, שקף אחד בכל פעם"), and read the script text verbatim in the chat, **one slide per message**, waiting for `next` between slides.
+   The viewer and the slide server are Windows-only (PowerShell). On Mac/Linux always use the chat fallback.
 
 3. **Generate and open the viewer**:
    ```powershell

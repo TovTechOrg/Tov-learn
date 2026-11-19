@@ -19,6 +19,8 @@ Compute today's date. Classify each lesson:
 - **Due today** — next review date is today
 - **In progress** — started, score under 8, not yet due
 - **Next new** — first lesson in COURSE.md with no progress file
+- **Upcoming review** — next review date within the next 3 days
+- **Skipped exercises** — any `~/skill-tutor-tutorials/progress/exercises-lesson-*.md` entry with `דילג`
 
 Check final project eligibility: learner is ready to start the final project if they have progress files for lessons in module 2 (any lesson 2.x), or have completed all lessons through 1.8.
 
@@ -33,6 +35,8 @@ Present options based on what you found. Show only options that actually apply.
 Welcome back. Here's where things stand:
 
 🔁 Due for review: Lesson [X.X] — [title] ([N] days overdue)
+🗓️ Coming up: Lesson [X.X] review on DD-MM ([N] days)   ← only if any
+✏️ Skipped exercises: Lesson [X.X], exercise [N]   ← only if any
 📖 Next new lesson: [X.X] — [title]
 🔍 Project analysis
 [if eligible: 🏗️ Final Project — [show "starting" or current phase if already selected]]

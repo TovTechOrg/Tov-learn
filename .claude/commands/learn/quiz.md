@@ -95,7 +95,12 @@ Update frontmatter: `understanding_score: X` and `last_quizzed: DD-MM-YYYY`.
 - Score 9–10: review within 89 days
 
 Next recommended review: [date based on score]
+Quiz mode: [normal / full]
 ```
+
+**Mastery rule.** A lesson counts as **Mastered** only after a `quiz me full` score of 8+ (or a normal `quiz me` of 8+ in a session where every slide was covered). A normal `quiz me` on part of the lesson can never mark it Mastered; at most it stays In progress. When the learner scores 8+ on a partial quiz, tell them: "כדי לסמן את השיעור כנשלט צריך `quiz me full`."
+
+**Tell the learner the next review date** right after the score table, in one line: "החזרה הבאה על שיעור X.Y: DD-MM-YYYY (בעוד N ימים). כשתריצו `/learn` באותו יום זה יופיע ראשון."
 
 ---
 

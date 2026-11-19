@@ -1,3 +1,34 @@
+# Participant feedback fixes — Nov 2026
+
+Source: participant feedback form (8 participants) analysed by Noa Maurer, 18.11.2026.
+
+## Tutor behaviour
+- **Exercises are mandatory** ([teaching.md](.claude/commands/learn/teaching.md) Step 5): count announced up front, every exercise presented in order, skips recorded as `דילג` and resurfaced by `/learn`, self-check before closing the lesson.
+- **One slide per message** in teaching mode and in the slides chat fallback.
+- **Freshness check** before teaching: stale commands/APIs are corrected and logged to `~/skill-tutor-tutorials/content-issues.md` for instructors.
+- **No black boxes**: one-line "what is this and why" for any code/technology, plus `explain the code` / `הסבר את הקוד`.
+- Project-requirement questions are routed to the instructors instead of guessed.
+- First lesson mentions the personal project and the final project up front.
+
+## Mastery and reviews
+- **Mastered requires full coverage** ([quiz.md](.claude/commands/learn/quiz.md), status.md, progress.md): `quiz me full` 8+ or a normal quiz 8+ after every slide was covered. Closes the follow-up below.
+- Next review date is told to the learner after every quiz; `/learn` also shows reviews coming up in 3 days and skipped exercises.
+
+## New learner commands ([learn.md](.claude/commands/learn.md))
+- `help`, `explain the code`, `summaries`, `english only`.
+- Running lesson-summaries file `~/skill-tutor-tutorials/lesson-summaries.md` (Hebrew, optional English copy).
+
+## Project
+- GitHub repo URL and deploy URL are recorded when the project is selected, with a commit reminder at every phase ([project.md](.claude/commands/learn/project.md)).
+
+## Docs, platform, CI
+- COURSE.md lists lessons 2.1 and 2.2. README resume example and command table updated. CLAUDE.md lists project, security, display.
+- Stop hook no longer fails without PowerShell (Mac/Linux). Windows-only parts documented in README, CLAUDE.md, FAQ.
+- `tests/validate_structure.py` now parses routing from learn.md, checks CLAUDE.md module table both ways, all cross-references, and COURSE.md vs lesson folders.
+- Lesson scripts: stale lesson numbers and "AI Engineer" course name from the old course corrected.
+
+---
+
 # Changes — yuval_ver branch
 
 ## Overview

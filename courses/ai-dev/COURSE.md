@@ -13,7 +13,7 @@
 |-------|--------|---------|
 | 00 — יסודות ה-AI | `00-ai-fundamentals/` | 0.1–0.4 |
 | 01 — Claude Code | `01-claude-code/` | 1.1–1.8 |
-| 02 — Claude API | `02-claude-api/` | 2.3–2.6 |
+| 02 — Claude API | `02-claude-api/` | 2.1–2.6 |
 | 03 — פרויקט מסכם | `03-final-project/` | — |
 
 ## רשימת שיעורים
@@ -32,6 +32,8 @@
 | 1.6 | Supabase כ-Backend | מעשי |
 | 1.7 | Code Review ו-Sub-Agents | מעשי |
 | 1.8 | Deploy לפרודקשן | מעשי |
+| 2.1 | מה זה API | מעשי |
+| 2.2 | Claude, OpenAI ו-Gemini API | מעשי |
 | 2.3 | Webhooks | מעשי |
 | 2.4 | Structured Output | מעשי |
 | 2.5 | Python Patterns עם ה-API | מעשי |

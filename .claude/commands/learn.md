@@ -75,6 +75,7 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | $ARGUMENTS = "security" or starts with "security http" | Read `.claude/commands/learn/security.md` |
 | $ARGUMENTS = "export" | Read `.claude/commands/learn/export.md` |
 | $ARGUMENTS = "import" or "import [path]" | Read `.claude/commands/learn/import.md` |
+| $ARGUMENTS = "help" | Print the Learner Commands table below (in `session.language`) and stop |
 | $ARGUMENTS empty | Read `.claude/commands/learn/resume.md` |
 | "quiz me" trigger | Read `.claude/commands/learn/quiz.md` |
 | "stop" trigger | Read `.claude/commands/learn/progress.md` |
@@ -107,3 +108,8 @@ Create `~/skill-tutor-tutorials/learner_profile.md` with their answers.
 | security | Read `.claude/commands/learn/security.md` — security review on the learner's project |
 | export | Read `.claude/commands/learn/export.md` — export all learner data to a ZIP |
 | import | Read `.claude/commands/learn/import.md` — import learner data from a ZIP |
+| help / עזרה | Print this Learner Commands table (in `session.language`) and the Route table above, then continue where you were |
+| explain the code / הסבר את הקוד | Explain the last code or technology used, line by line at the learner's level, then return to the lesson |
+| summaries / סיכומים | Show `~/skill-tutor-tutorials/lesson-summaries.md` (or the English file if `content_language` is `en`) |
+| english only / רק אנגלית | Set `content_language: "en"` in settings.json and continue the lesson in English. `עברית` switches back |
+| one slide | Remind yourself: one slide per message (see teaching.md Step 4) and continue |
