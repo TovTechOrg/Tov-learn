@@ -1,6 +1,6 @@
-Lesson 0.3 — Prompt Engineering: Writing Effective Prompts
+Lesson 0.4 — Prompt Engineering: Writing Effective Prompts
 
-Welcome back, and welcome to Lesson 0.3 — the last lesson in Module Zero. In our previous lesson we took a deep dive into the leading AI tools: GPT-5.5, Claude Opus 4.7 and Sonnet 4.6, and Gemini 3.1 Pro. We explored what each one does best and when to reach for each. Today we take that knowledge one step further. Today we learn what may be the single most important skill in this entire course: Prompt Engineering — the art and science of writing instructions that get the best out of AI.
+Welcome back, and welcome to Lesson 0.4 — the last lesson in Module Zero. In our previous lesson we took a deep dive into the leading AI tools: GPT-5.5, Claude Opus 4.7 and Sonnet 4.6, and Gemini 3.1 Pro. We explored what each one does best and when to reach for each. Today we take that knowledge one step further. Today we learn what may be the single most important skill in this entire course: Prompt Engineering — the art and science of writing instructions that get the best out of AI.
 
 Why do I call it the most important skill? Because everything we do from this point forward — automations, chatbots, AI agents, marketing systems — is built on top of prompts. A great prompt delivers a great result. A vague prompt delivers a frustrating one. The AI is often not the problem. The prompt is. And that is entirely within your control.
 
