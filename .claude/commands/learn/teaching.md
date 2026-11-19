@@ -33,6 +33,8 @@ Split the script into sections by `[מעבר שקף]`. English scripts use `[SLI
 
 ## Step 3 — Open the Session
 
+If COURSE.md marks this lesson as `רשות` (optional), say so in the greeting in one sentence and that skipping it is fine.
+
 Greet the learner. State the lesson topic and number of sections, and say up front how many exercises the lesson ends with (count them in the exercises file). Exercises are part of the lesson, not optional.
 
 If this is the learner's first lesson (no files in `~/skill-tutor-tutorials/progress/`), add one short paragraph: the course includes a personal project that applies the lessons as you go, plus a final project at the end, so it is worth keeping a project in mind from the start (see `/learn project`).
