@@ -11,7 +11,7 @@ Respond in `session.language` throughout. Address the learner using `session.add
 | Trigger | Scope | Questions |
 |---------|-------|-----------|
 | `quiz me` | only the sections covered in this session | 4 multiple-choice + 1 free-text |
-| `quiz me full` / `quiz full` | the **entire** lesson script (load `{lesson_number}_script.txt`, split by `[מעבר שקף]`, use all sections — do not assume a fixed count) | 8 multiple-choice + 1 free-text |
+| `quiz me full` / `quiz full` | the **entire** lesson script (load `{lesson_number}_script.txt`, split by `[מעבר שקף]` or `[SLIDE TRANSITION]`, use all sections — do not assume a fixed count) | 8 multiple-choice + 1 free-text |
 
 Before building questions, read the **Quiz History** in `~/skill-tutor-tutorials/tutorials/lesson-{lesson_number}.md`. If the learner has quizzed this lesson before, **vary the questions** — different angles, different distractors, and bias toward previously-recorded weak points. Keep all questions factually correct and on the lesson's material.
 

@@ -22,7 +22,7 @@ Resolve the script path using the same priority as `teaching.md`:
 1. Check `./lessons/` at project root
 2. Fallback to `course.path` from settings
 
-Split the script by `[מעבר שקף]`.
+Split the script by `[מעבר שקף]` (or `[SLIDE TRANSITION]` in English scripts).
 
 ---
 

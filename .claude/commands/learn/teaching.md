@@ -22,7 +22,7 @@ Respond in `session.language` throughout. Address the learner using `session.add
   2. Fallback: `exercises.md`
 - Progress file: `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`
 
-Split the script into sections by `[מעבר שקף]`.
+Split the script into sections by `[מעבר שקף]`. English scripts use `[SLIDE TRANSITION]` instead; treat both markers the same.
 
 **Freshness check (before teaching).** Skim the script and exercises for things that go stale: CLI commands, slash commands, model names, API endpoints, SDK method names, prices, plan limits. If you have web access, check the doubtful ones against the official docs. If something is wrong or you can't confirm it:
 - Teach the correct, current version and tell the learner in one sentence that the slide is out of date.
