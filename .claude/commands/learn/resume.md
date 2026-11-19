@@ -18,11 +18,12 @@ Compute today's date. Classify each lesson:
 - **Overdue** — next review date is before today
 - **Due today** — next review date is today
 - **In progress** — started, score under 8, not yet due
-- **Next new** — first lesson in COURSE.md with no progress file
+- **Next new** — first lesson in COURSE.md with no progress file, skipping lessons whose type is `רשות` (optional)
+- **Optional available** — optional lessons with no progress file that come before the next new lesson. Offer them in one line, never as the main suggestion
 - **Upcoming review** — next review date within the next 3 days
 - **Skipped exercises** — any `~/skill-tutor-tutorials/progress/exercises-lesson-*.md` entry with `דילג`
 
-Check final project eligibility: learner is ready to start the final project if they have progress files for lessons in module 2 (any lesson 2.x), or have completed all lessons through 1.8.
+Check final project eligibility: learner is ready to start the final project if they have progress files for lessons in module 2 (any lesson 2.x), or have completed all required lessons through 1.8. Optional lessons never block eligibility.
 
 ---
 
@@ -38,6 +39,7 @@ Welcome back. Here's where things stand:
 🗓️ Coming up: Lesson [X.X] review on DD-MM ([N] days)   ← only if any
 ✏️ Skipped exercises: Lesson [X.X], exercise [N]   ← only if any
 📖 Next new lesson: [X.X] — [title]
+➕ Optional: Lesson [X.X] — [title]   ← only if any
 🔍 Project analysis
 [if eligible: 🏗️ Final Project — [show "starting" or current phase if already selected]]
 

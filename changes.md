@@ -26,6 +26,13 @@ Source: participant feedback form (8 participants) analysed by Noa Maurer, 18.11
 - Stop hook no longer fails without PowerShell (Mac/Linux). Windows-only parts documented in README, CLAUDE.md, FAQ.
 - `tests/validate_structure.py` now parses routing from learn.md, checks CLAUDE.md module table both ways, all cross-references, and COURSE.md vs lesson folders.
 - Lesson scripts: stale lesson numbers and "AI Engineer" course name from the old course corrected.
+- Lesson passages that described the old 8-module course rewritten for the current 4-module structure.
+
+## New lessons
+- 0.5 מ-Claude Desktop ל-Claude Code (optional), 1.9 איך הווב עובד (optional).
+- 2.7 Prompt Injection ו-Security Review, 2.8 Evals: correct and complete, 2.9 simplifying over-complicated AI code.
+- Optional lessons (`רשות` in COURSE.md) are offered by resume/status but never block progress or final-project eligibility.
+- English scripts split on `[SLIDE TRANSITION]` too (lesson 0.4 was read as a single slide).
 
 ---
 
