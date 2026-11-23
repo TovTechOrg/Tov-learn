@@ -185,6 +185,41 @@ if status_path.exists():
     text = status_path.read_text(encoding="utf-8")
     if "by completion, not by score" not in text or "Mastered" in text:
         error("Regression: status.md no longer shows lesson status by completion (quizzes are optional)")
+if teaching_path.exists():
+    text = teaching_path.read_text(encoding="utf-8")
+    if "Never restart from the first slide without asking" not in text:
+        error("Regression: teaching.md no longer asks where to continue when returning to a lesson in progress")
+    if 'never "חלק"' not in text:
+        error("Regression: teaching.md no longer calls the lesson's sections 'שקף' consistently")
+resume_path = LEARN_COMMANDS / "resume.md"
+if resume_path.exists() and "never that none were covered" not in resume_path.read_text(encoding="utf-8"):
+    error("Regression: resume.md may again say no slides were covered for a lesson in progress")
+
+# 5c. Fixes from the main-version retest (2026-11-23)
+GUARDS_5C = [
+    (learn_path, "**Nothing after a save:**", "learn.md no longer forbids a closing message after a save"),
+    (learn_path, "in files you save", "learn.md's no-escape rule no longer covers saved files"),
+    (learn_path, "**No HTML in chat:**", "learn.md no longer forbids HTML tags in chat"),
+    (learn_path, "**Next lesson — only from `COURSE.md`:**", "learn.md no longer names the next lesson from COURSE.md only"),
+    (order_path, "**Name lessons only from `COURSE.md`.**", "order.md no longer ignores a script's mention of other lessons"),
+    (teaching_path, "**Number slides from the script, not from memory.**", "teaching.md no longer numbers slides from the script"),
+    (teaching_path, "skip this slide", "teaching.md's skip question no longer offers skipping one slide"),
+    (teaching_path, "keep the exercise's own step numbers", "teaching.md may renumber an exercise's steps in reminders"),
+    (teaching_path, "an earlier slide, or an earlier lesson", "teaching.md's thinking questions may go beyond the material"),
+    (exercises_rules, "## תוכנית", "exercises.md no longer saves the planned exercises"),
+    (slides_path, "save them in the tracking file's plan", "slides.md no longer saves its fresh exercises in the plan"),
+    (LEARN_COMMANDS / "stuck.md", "Try the smallest fix first", "stuck.md no longer tries the smallest fix first"),
+    (LEARN_COMMANDS / "progress.md", "Review suggestions come only from quizzes taken after learning",
+     "progress.md may suggest a review based on a skip quiz"),
+    (status_path, "לא עברת את מבחן הדילוג", "status.md no longer softens the skip-quiz wording"),
+]
+for path, needed, message in GUARDS_5C:
+    if path.exists() and needed not in path.read_text(encoding="utf-8"):
+        error(f"Regression: {message}")
+if exercises_rules.exists():
+    for line in exercises_rules.read_text(encoding="utf-8").splitlines():
+        if line.startswith("- [n]") and "## תרגיל" in line:
+            error("Regression: exercises.md plan lines use the '## תרגיל' heading the lesson-order check counts")
 
 # 6. Every script referenced by a hook in .claude/settings.json exists
 settings_path = ROOT / ".claude" / "settings.json"

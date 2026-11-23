@@ -39,8 +39,9 @@ If the learner's message already makes it clear, skip the question. Otherwise as
    - **Evidence** — the exact error message, the relevant code/file, or a screenshot
 2. **Look before guessing.** If the files are in the workspace, read them. If there's a command to run that reproduces the problem, run it (ask first if it changes anything).
 3. **Explain the cause** in one or two sentences — the learner should understand *why* it broke, not just get a fix.
-4. **Fix it together.** Default: guide the learner to make the fix (one step at a time). If the learner asks you to fix it directly, do it, then explain what changed.
-5. **Confirm it works** — ask the learner to run or check it again.
+4. **Try the smallest fix first.** Before suggesting a big change (installing a new environment or system, changing system settings, a cloud service), look for the smallest change that keeps everything else as it is — e.g. a library version that already works on this computer, one setting in the project, a different command. Offer the bigger options only if the small ones don't work. Never suggest turning off a security protection (antivirus, Smart App Control, firewall) to make an exercise work.
+5. **Fix it together.** Default: guide the learner to make the fix (one step at a time). If the learner asks you to fix it directly, do it, then explain what changed.
+6. **Confirm it works** — ask the learner to run or check it again.
 
 ---
 

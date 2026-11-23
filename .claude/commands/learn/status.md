@@ -209,7 +209,7 @@ Open it in a browser to view your progress.
 [N] lessons complete · [N] in progress · [N] not started · [N] due for review
 ```
 
-Say how lessons became complete when it helps (e.g. "0.3 passed by skip quiz", "module 1 passed by its module quiz"), and never call a complete lesson "in progress" because it has no quiz — the quiz is optional. If you mention an average score, say it covers only quizzes taken after learning.
+Say how lessons became complete when it helps (e.g. "0.3 passed by skip quiz", "module 1 passed by its module quiz"), and never call a complete lesson "in progress" because it has no quiz — the quiz is optional. If you mention an average score, say it covers only quizzes taken after learning. For a skip quiz below 8, say "לא עברת את מבחן הדילוג" (didn't pass), never "נכשלת" (failed) — it's an optional shortcut, not a failure.
 
 If there are overdue lessons, add:
 ```

@@ -42,3 +42,5 @@ A note that comes back while you're building a module skip quiz (you read the mo
 ## Suggesting the next lesson
 
 The **next lesson** is always the first lesson in the course order that isn't complete. You may also suggest related lessons for **review** (e.g. from the knowledge map), but never suggest a later lesson as the next one to learn.
+
+**Name lessons only from `COURSE.md`.** Whenever you mention the next lesson — when suggesting it, or in a line like "all exercises before the next lesson" — take it from the lesson list in `COURSE.md`, never from a lesson script. Scripts sometimes mention a lesson or module that isn't in this course (e.g. "בשיעור הבא, 6.1"); leave such a mention out when you retell the script. After the course's **last** lesson, there's no next lesson: say the course's lessons are done and the next step is the final project (`/learn project`).

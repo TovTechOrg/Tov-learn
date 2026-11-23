@@ -23,7 +23,16 @@ All tracking lives in `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson
 **נדרשים:** [N]
 ```
 
-This marks the exercises as started. If the file already exists (e.g. the learner is coming back to finish), read it and continue from the first exercise that isn't recorded yet.
+Right under the header, save the **plan** — the exercises you're about to give, in order, under a heading that is not `## תרגיל` (so it isn't counted as done):
+
+```
+## תוכנית
+- [n] — [exercise title]
+```
+
+When the exercises are fresh ones you wrote yourself (slides mode), save each one's full text under its plan line, indented, so a later conversation gives exactly the same exercise. Nothing in the plan may start a line with `## תרגיל` — only done exercises use that heading, and the lesson-order check counts them.
+
+This marks the exercises as started. If the file already exists (e.g. the learner is coming back to finish), read it and continue with the first exercise in the plan that isn't recorded yet, under the same number and with the same text — never re-choose or rewrite the remaining exercises. (A file from before plans were saved has no plan: continue from the first exercise that isn't recorded.)
 
 **2. After each exercise's feedback has been shown to the learner** (never before it), silently append:
 

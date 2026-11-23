@@ -81,6 +81,8 @@ Update `~/skill-tutor-tutorials/topics/knowledge_map.md`:
 
 If the file exists — update only; do not delete previous entries.
 
+**Review suggestions come only from quizzes taken after learning** (as in `status.md`): a lesson skip-quiz or module-quiz score taken before learning never sets a review date or a "time to review" suggestion. If the map has an older review date that came from such a score, don't suggest that review.
+
 ---
 
 ## Update Learner Profile

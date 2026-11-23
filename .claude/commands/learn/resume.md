@@ -17,7 +17,7 @@ Silently read:
 Compute today's date. Classify each lesson:
 - **Overdue** — next review date is before today
 - **Due today** — next review date is today
-- **In progress** — learning started but the lesson isn't complete (`order.md`) — not judged by score, since quizzes are optional
+- **In progress** — learning started but the lesson isn't complete (`order.md`) — not judged by score, since quizzes are optional. Say what's missing only from what the files show: if the slides aren't finished, say so (e.g. "השקפים עוד לא הסתיימו") — never that none were covered, since teaching mode doesn't save how far the learner got
 - **Next new** — the first lesson in the course order that isn't complete (`order.md`): not started, slides not finished, or required exercises not done. Say which of these it is.
 
 Check final project eligibility: learner is ready to start the final project if they have progress files for lessons in module 2 (any lesson 2.x), or have completed all lessons through 1.8.

@@ -22,7 +22,7 @@ Respond in `session.language` throughout. Address the learner using `session.add
   2. Fallback: `exercises.md`
 - Progress file: `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`
 
-Split the script into sections by `[מעבר שקף]`.
+Split the script into sections by `[מעבר שקף]`. In text for the learner, call each section a **שקף** (slide), numbered as in the script — the same word in every reply, as in the style descriptions below — never "חלק".
 
 ---
 
@@ -30,7 +30,7 @@ Split the script into sections by `[מעבר שקף]`.
 
 Greet the learner. State the lesson topic and number of sections. Give the greeting, the short intro and the "learn or quiz first" choice below in the same reply — don't announce what a later reply will contain.
 
-**If the learner already started learning this lesson** (its progress file has `**Exercises required:** yes`): this is a return to a lesson in progress, not a new start. Continue from where they stopped — the next slide not covered yet, or the first exercise not recorded yet (`exercises.md`) — or restart the slides if they ask. Don't offer the lesson skip quiz: once learning started, the lesson is completed by its slides and required exercises (`order.md`).
+**If the learner already started learning this lesson** (its progress file has `**Exercises required:** yes`): this is a return to a lesson in progress, not a new start. Continue from where they stopped. If the slides are done (`**Slides covered:**` line), continue with the first exercise not recorded yet (`exercises.md`). If the slides aren't done, teaching mode doesn't save which slide the learner reached, so ask once, briefly, where to continue — e.g. "מאיפה נמשיך? כתבי את מספר השקף שעצרת בו, או **מההתחלה**." — and continue from there; if the file has a `**שקף אחרון:**` line (saved by slides mode), suggest the slide after it. Never restart from the first slide without asking. Don't offer the lesson skip quiz: once learning started, the lesson is completed by its slides and required exercises (`order.md`).
 
 **Mark the lesson as taught under the exercises rule** — when the learner **starts learning** it: right after they choose **learn**, or right after a lesson skip quiz is **not passed** (Step 3B), together with saving that result. Silently create or update `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md` so it contains the line `**Exercises required:** yes` (keep everything else already in the file). It tells the lesson-order check that learning started under the current rules — the lesson skip quiz is no longer offered for it, and its exercises are required — unlike lessons not started yet or learned before these rules. Do not tell the learner you are saving.
 
@@ -98,6 +98,10 @@ If yes — update `learning_style` in `settings.json`.
 
 **IMPORTANT: Every slide (section split by `[מעבר שקף]`) MUST be represented in the lesson output.** Never silently skip a slide. At minimum, include one sentence summarizing it.
 
+**Number slides from the script, not from memory.** Before each slide, take its number from its position in the split script (the Nth section is slide N), not from a running count in the conversation, and teach the slide that comes right after the last one shown. Before the last slide, check that every number up to it was shown; if one was missed, teach it first and say so in one sentence.
+
+**If the learner asks to skip** (e.g. "דלגי") and it isn't clear what they mean, ask once, and include every option: skip this slide (one-sentence summary, then the next slide), go faster through the rest, or continue as is. Skipping slides never reduces the required exercises.
+
 *After a failed skip quiz (Step 3B, any style) — cover only `session.weak_sections`; all other slides get a single-sentence acknowledgment.*
 
 For every slide, choose the format based on `session.mode`:
@@ -133,7 +137,7 @@ Use the full Journey Format:
 1. **The problem** — one sentence
 2. **The insight** — 2–3 sentences in your own words, not copied from the script
 3. **In your context** — one concrete connection to the learner's project or a real example
-4. **Question** — one thinking question; wait for an answer before continuing
+4. **Question** — one thinking question; wait for an answer before continuing. The learner must be able to answer it from this slide, an earlier slide, or an earlier lesson — if it builds on something earlier, name where (e.g. "כמו בתרגיל 3 בשיעור 2.5"). A "don't know" or partial answer gets a hint or a short explanation, never just "wrong".
 
 Each block: max 5 sentences total.
 
@@ -142,7 +146,7 @@ Use the full Journey Format plus:
 - Expand the insight to 4–5 sentences
 - Add bullet points for key facts, numbers, or comparisons from the slide
 - May include one extra "did you know" point not in the script if genuinely relevant
-- Still ask a question and wait for an answer
+- Still ask a question and wait for an answer (answerable from the material learned so far, as in level 2)
 
 **The learner can switch levels at any time** by saying "detail 1", "detail 2", or "detail 3".
 
@@ -181,6 +185,7 @@ After the learner has been shown the **last section**, do the following in order
    - Present each exercise exactly as written — do not rewrite or replace it — under its **original number** from the exercises file (after a failed skip quiz, e.g. exercises 1, 2 and 4 — not renumbered 1, 2, 3), and record it under the same number
    - **Never show a sample answer, solution or answer key before the learner answers.** If the exercises file includes one ("תשובה לדוגמה", a solution, a key), leave it out when presenting the exercise; use it only for your feedback afterwards
    - If the exercise says to submit something (homework, "הגישו עד השיעור הבא"), tell the learner that here, submitting means pasting it in this conversation for your feedback
+   - When you repeat or shorten an exercise's instructions later (a reminder, a summary), keep the exercise's own step numbers ("שלבים 2–4"), never a new numbering
    - Wait for the learner to respond before moving to the next
    - For exercises that require an external tool (tokenizer site, external API, drawing, etc.) — tell the learner to go do it and come back with their results. When they return, give feedback on what they found
    - For exercises that can be done in the conversation — do them together here
