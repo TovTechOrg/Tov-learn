@@ -10,7 +10,7 @@ Respond in `session.language` throughout. Address the learner using `session.add
 
 Silently read:
 - `~/skill-tutor-tutorials/learner_profile.md` — find `## Lessons Studied` for last lesson
-- All `~/skill-tutor-tutorials/progress/lesson-*.md` — extract next review dates (only ones set by a quiz taken after learning — a skip quiz, marked `מבחן דילוג`, sets none; `quiz.md`)
+- All `~/skill-tutor-tutorials/progress/lesson-*.md` — extract next review dates (only ones set by a quiz taken after learning — a skip quiz, marked `מבחן דילוג`, sets none; `quiz.md`). Ignore a review date when the only quiz in the file is a skip quiz, even if its row isn't labeled — e.g. the Sessions row or the summary calls it a skip quiz ("מבחן דילוג")
 - `~/skill-tutor-tutorials/topics/knowledge_map.md` — find in-progress lessons
 - `~/skill-tutor-tutorials/project/ai-dev-project.md` — final project state (may not exist)
 

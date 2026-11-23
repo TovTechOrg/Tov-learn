@@ -197,7 +197,10 @@ if resume_path.exists() and "never that none were covered" not in resume_path.re
 
 # 5c. Fixes from the main-version retest (2026-11-23)
 GUARDS_5C = [
-    (learn_path, "**Nothing after a save:**", "learn.md no longer forbids a closing message after a save"),
+    (learn_path, "**A reply that saves — always in this order:**", "learn.md no longer orders a saving reply: content, save, one closing line"),
+    (learn_path, "never ends with a save and no text", "learn.md may let a reply end with a save and no visible text"),
+    (LEARN_COMMANDS / "resume.md", "Ignore a review date when the only quiz in the file is a skip quiz",
+     "resume.md may suggest a review based on an unlabeled skip quiz"),
     (learn_path, "in files you save", "learn.md's no-escape rule no longer covers saved files"),
     (learn_path, "**No HTML in chat:**", "learn.md no longer forbids HTML tags in chat"),
     (learn_path, "**Next lesson — only from `COURSE.md`:**", "learn.md no longer names the next lesson from COURSE.md only"),
