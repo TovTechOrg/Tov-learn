@@ -6,8 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell.exe",
-            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden", "-File", "${CLAUDE_PROJECT_DIR}/.claude/scripts/auto-save-progress.ps1"]
+            "command": "command -v powershell >/dev/null 2>&1 || exit 0; powershell -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"$CLAUDE_PROJECT_DIR/.claude/scripts/auto-save-progress.ps1\" >/dev/null 2>&1 || true"
           }
         ]
       }

@@ -22,6 +22,9 @@
 | Export | `.claude/commands/learn/export.md` | ייצוא כל נתוני התלמיד ל-ZIP — גיבוי/מעבר למכשיר אחר |
 | Import | `.claude/commands/learn/import.md` | ייבוא נתוני תלמיד מ-ZIP — החלפה מלאה או הוספה בלבד |
 | Deploy | `.claude/commands/learn/deploy.md` | בחירת כלי פריסה (GitHub Pages / Cloudflare / Render / Vercel), CLI-first, תרומה ל-FAQ |
+| Project | `.claude/commands/learn/project.md` | פרויקט גמר: בחירה, repo ו-deploy URL מההתחלה, שלבים, checklist |
+| Security | `.claude/commands/learn/security.md` | סריקת אבטחה על הפרויקט החי אחרי deploy |
+| Display (ref) | `.claude/commands/learn/display.md` | שפה ויזואלית אחידה לפלט ללומד; נטען ע"י teaching, quiz, progress |
 | CLI-First (ref) | `.claude/commands/learn/cli-first.md` | עקרון משותף — העדפת CLI על דאשבורד; מודולים אחרים מפנים אליו |
 | Stuck | `.claude/commands/learn/stuck.md` | עזרה כשהלומד תקוע — לא הבין חומר / משהו לא עובד; מלמד איך לבקש עזרה טוב |
 | Lesson order (ref) | `.claude/commands/learn/order.md` | שיעורים לפי סדר הקורס: שיעור מתחיל רק כשכל השיעורים הקודמים הושלמו (שקפים + תרגילים נדרשים) או עברו מבחן דילוג (שיעור / מודול) |
@@ -37,7 +40,11 @@
 
 Hooks רצים ב-exec form לפי התיעוד (`"command": "powershell.exe"`, `"args": [..., "-File", "${CLAUDE_PROJECT_DIR}/..."]`). סקריפט עם טקסט בעברית נשמר ב-UTF-8 **עם BOM** (Windows PowerShell 5.1). הערות של hooks ל-Claude מנוסחות כעובדות, לא כפקודות (התיעוד מזהיר שניסוח פקודה עלול להפעיל הגנות prompt-injection).
 
-סקריפטים תומכים נמצאים ב-`.claude/scripts/` (PowerShell — slide server, HTML generator).
+סקריפטים תומכים נמצאים ב-`.claude/scripts/` (PowerShell — slide server, HTML generator, auto-save).
+
+**פלטפורמה:** TTS, viewer השקפים וה-Stop hook דורשים Windows (PowerShell). ב-Mac/Linux הלמידה עובדת, ה-hook מדלג בשקט, והשקפים מוקראים בצ'אט.
+
+**בדיקה:** `python tests/validate_structure.py` רץ ב-CI. הוא בודק שכל מודול בטבלת ה-routing וב-CLAUDE.md קיים, ש-COURSE.md תואם לתיקיות השיעורים, ושלכל שיעור יש script ו-exercises. מוסיפים מודול או שיעור ← מעדכנים את הטבלאות, אחרת ה-CI נכשל.
 
 **כלל פיתוח:** כל מודול עצמאי — לא מניחים שמודול אחר כבר נטען. מידע שמודול צריך — הוא קורא בעצמו. TTS helper מוגדר ב-`learn.md` ונטען לפני כל מודול.
 

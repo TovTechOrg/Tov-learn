@@ -40,6 +40,7 @@ Compute:
   - **not tracked** — the lesson was learned before the exercises rule (no `**Exercises required:**` line; `order.md` explains how such lessons count as finished)
   - **not yet** — otherwise
 - **Exercises incomplete** — count of lessons with exercises = incomplete
+- **Optional** — COURSE.md type `רשות` and not started. Show these greyed out with a "רשות" tag; do not count them in totals or as missing
 
 ---
 

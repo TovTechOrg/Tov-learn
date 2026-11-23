@@ -18,6 +18,8 @@ A lesson is **complete** when one of these is true:
 2. **Passed by a lesson skip quiz** — score 8+ (`teaching.md`, Step 3). Its progress file has `**Skip quiz passed:**`.
 3. **Passed by a module skip quiz** — its whole module was passed (`quiz.md`, "Module Skip Quiz"). `~/skill-tutor-tutorials/progress/module-{X}.md` has `**Skip quiz passed:**`.
 
+**Optional lessons** (type `רשות` in `COURSE.md`) are outside the order: they never block a later lesson, whether not started or unfinished, and a module skip quiz doesn't cover them. Offer them without blocking. An optional lesson itself starts only when the required lessons before it are complete.
+
 Reviewing an earlier lesson is always allowed.
 
 ---

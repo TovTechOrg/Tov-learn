@@ -16,6 +16,7 @@
 # started learning, and order.md offers the lesson skip quiz only for lessons not started. Likewise, a
 # module skip quiz is offered only for an earlier module none of whose lessons has a progress file and
 # whose module quiz was never taken (no module-M.md): one attempt only.
+# Optional lessons (type רשות in COURSE.md) are skipped: they never block a later lesson.
 # Fires every time such a lesson starts, in any session, until the earlier lessons are complete.
 # It never fires at the end of a lesson (there's no Stop hook for this), so once per attempt.
 # Any unexpected error -> exit 0 with no output (the read goes through as usual).
@@ -33,11 +34,17 @@ try {
     $courseDir  = Split-Path $lessonsDir -Parent
 
     # Lesson order: the course's COURSE.md lesson table; fall back to the lesson folders on disk
+    # Lessons whose type column says רשות are optional: they never block a later lesson
     $order = @()
+    $optional = @()
     $courseMd = Join-Path $courseDir "COURSE.md"
     if (Test-Path $courseMd) {
         $order = @(Get-Content $courseMd -Encoding UTF8 | ForEach-Object {
-            if ($_ -match '^\|\s*(\d+\.\d+)\s*\|') { $Matches[1] } })
+            if ($_ -match '^\|\s*(\d+\.\d+)\s*\|') {
+                $num = $Matches[1]
+                if ($_ -match '\|\s*רשות\s*\|\s*$') { $script:optional += $num }
+                $num
+            } })
     }
     if ($order -notcontains $lesson) {
         $order = @(Get-ChildItem $lessonsDir -Recurse -File -Filter "*_script.txt" | ForEach-Object {
@@ -59,6 +66,7 @@ try {
     $incomplete = @()
     $wholeModules = @()                              # earlier modules a module skip quiz can pass
     foreach ($l in $order[0..($i - 1)]) {
+        if ($optional -contains $l) { continue }
         $m = $l.Split('.')[0]
         $moduleText = Read-Text "module-$m.md"
         if ($moduleText -and $moduleText -match '\*\*Skip quiz passed:\*\*') { continue }

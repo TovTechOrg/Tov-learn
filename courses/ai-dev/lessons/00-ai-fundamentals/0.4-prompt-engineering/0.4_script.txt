@@ -1,6 +1,6 @@
-Lesson 0.3 — Prompt Engineering: Writing Effective Prompts
+Lesson 0.4 — Prompt Engineering: Writing Effective Prompts
 
-Welcome back, and welcome to Lesson 0.3 — the last lesson in Module Zero. In our previous lesson we took a deep dive into the leading AI tools: GPT-5.5, Claude Opus 4.7 and Sonnet 4.6, and Gemini 3.1 Pro. We explored what each one does best and when to reach for each. Today we take that knowledge one step further. Today we learn what may be the single most important skill in this entire course: Prompt Engineering — the art and science of writing instructions that get the best out of AI.
+Welcome back, and welcome to Lesson 0.4 — the last lesson in Module Zero. In our previous lesson we took a deep dive into the leading AI tools: GPT-5.5, Claude Opus 4.7 and Sonnet 4.6, and Gemini 3.1 Pro. We explored what each one does best and when to reach for each. Today we take that knowledge one step further. Today we learn what may be the single most important skill in this entire course: Prompt Engineering — the art and science of writing instructions that get the best out of AI.
 
 Why do I call it the most important skill? Because everything we do from this point forward — automations, chatbots, AI agents, marketing systems — is built on top of prompts. A great prompt delivers a great result. A vague prompt delivers a frustrating one. The AI is often not the problem. The prompt is. And that is entirely within your control.
 
@@ -205,7 +205,7 @@ Here is a practical example. When you build a WhatsApp chatbot for a retail busi
 
 Gartner projects that forty percent of enterprise applications will include task-specific AI agents by late 2026. All of them will require robust Context Engineering. And the same research organization projects that by 2027, eighty percent of AI failures inside organizations will stem from poor context management — not from model limitations. Context Engineering is not a nice-to-have. It is the foundation.
 
-We will build on this deeply in Modules Two and Five when we work on AI agents and API integrations.
+We will build on this deeply in Module One, when Claude Code works with CLAUDE.md, memory and sub-agents, and in Module Two, when we work with the API, structured output and MCP.
 
 [SLIDE TRANSITION]
 
@@ -262,7 +262,7 @@ And we learned two concepts that will recur throughout this entire course. Conte
 
 [SLIDE TRANSITION]
 
-In our next lesson, we begin Module One: Business Automations. We will move straight into hands-on work with Make.com and build our first real automation from scratch. You will see immediately how everything we covered today — prompt structure, production mindset, System Prompts — connects directly to building smart, reliable automations. The skills from this lesson are not abstract. They are the wiring behind everything we build next.
+In our next lesson, we begin Module One: Claude Code and Vibe Coding. We will move straight into hands-on work and build real software by describing what we want. You will see immediately how everything we covered today — prompt structure, production mindset, System Prompts — connects directly to getting reliable results from a coding agent. The skills from this lesson are not abstract. They are the wiring behind everything we build next.
 
 In the meantime, start your prompt library. Pick the ten use cases most relevant to your work or business. Write each one with RTCF. Test each one. Note which model performs best. The investment you make in that library now will pay dividends through every subsequent module.
 

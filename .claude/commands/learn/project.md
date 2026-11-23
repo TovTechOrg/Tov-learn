@@ -42,7 +42,11 @@ Agent Loop מאפס, 5+ Tools, Cloudflare Cron.
 איזה פרויקט בוחרים?
 ```
 
-After learner selects, load the full spec for their chosen project from `projects.md`. Then create `~/skill-tutor-tutorials/project/ai-dev-project.md`:
+After learner selects, ask two things before creating the state file:
+1. The GitHub repo URL for the project (create the repo now if it doesn't exist yet; offer to do it with `gh repo create`).
+2. The planned deploy URL or platform (fine to answer "not yet").
+
+Then load the full spec for their chosen project from `projects.md` and create `~/skill-tutor-tutorials/project/ai-dev-project.md`:
 
 ```markdown
 ---
@@ -52,6 +56,8 @@ selected_at: DD-MM-YYYY
 status: in_progress
 current_phase: 1
 total_phases: [N from project spec]
+github_repo: [URL, asked at selection]
+deploy_url: [planned or live URL, "not yet" is fine]
 ---
 
 ## Checklist
@@ -105,6 +111,7 @@ Display current state based on the state file:
 **סמן שלב כ-Done:**
 - Update the checklist in `ai-dev-project.md` — mark `[ ]` → `[x]`
 - Advance `current_phase` counter
+- Remind the learner to commit and push now, and if `deploy_url` is still "not yet" and the phase involved deployment, ask for it and save it
 - Show updated dashboard (Step 3)
 - If all phases done → go to Step 5
 

@@ -12,7 +12,7 @@ Respond in `session.language` throughout. Address the learner using `session.add
 |---------|-------|-----------|
 | `quiz me` | only the sections covered in this session | 4 multiple-choice + 1 free-text |
 | `quiz module X` (module skip quiz) | every lesson of module X — see **Module Skip Quiz** below | at least 1 multiple-choice per lesson (more for lessons with many important subjects; 8+ in total) + 1 free-text |
-| `quiz me full` / `quiz full` | the **entire** lesson script (load `{lesson_number}_script.txt`, split by `[מעבר שקף]`, use all sections — do not assume a fixed count) | 8 multiple-choice + 1 free-text |
+| `quiz me full` / `quiz full` | the **entire** lesson script (load `{lesson_number}_script.txt`, split by `[מעבר שקף]` or `[SLIDE TRANSITION]`, use all sections — do not assume a fixed count) | 8 multiple-choice + 1 free-text |
 
 Before building questions, read the **Quiz History** in `~/skill-tutor-tutorials/tutorials/lesson-{lesson_number}.md`. If the learner has quizzed this lesson before, **vary the questions** — different angles, different distractors, and bias toward previously-recorded weak points. Keep all questions factually correct and on the lesson's material.
 
@@ -84,7 +84,7 @@ For a learner who already knows a whole module and wants to skip it: one quiz fo
 
 **One attempt, offered only before the module's first lesson starts** — while no lesson of the module has a progress file in `~/skill-tutor-tutorials/progress/` (not learned, and no lesson skip quiz taken), and `~/skill-tutor-tutorials/progress/module-X.md` doesn't exist (no earlier attempt). After any attempt, or once any lesson of the module was started, its lessons are completed one by one; don't offer the module skip quiz again, even if the learner asks — explain why: a second attempt could be answered from the feedback on the first one instead of from real understanding.
 
-**Lessons covered:** every lesson in the course's `COURSE.md` lesson list (`## רשימת שיעורים`) whose number starts with `X.` — e.g. module 1 → 1.1, 1.2, … Load each lesson's `{lesson_number}_script.txt` and split it by `[מעבר שקף]`.
+**Lessons covered:** every lesson in the course's `COURSE.md` lesson list (`## רשימת שיעורים`) whose number starts with `X.` — e.g. module 1 → 1.1, 1.2, … — except optional lessons (type `רשות`). Load each lesson's `{lesson_number}_script.txt` and split it by `[מעבר שקף]` or `[SLIDE TRANSITION]`.
 
 **Questions:**
 - At least **one multiple-choice question per lesson**. Lessons with many important subjects get more questions, so each lesson is tested roughly in proportion to its key content. At least 8 multiple-choice questions in total.
@@ -150,7 +150,12 @@ Update frontmatter: `understanding_score: X` and `last_quizzed: DD-MM-YYYY`.
 - Score 9–10: review within 89 days
 
 Next recommended review: [date based on score — not for a skip quiz]
+Quiz mode: [normal / full]
 ```
+
+**Mastery rule.** A lesson counts as **Mastered** only after a `quiz me full` score of 8+ (or a normal `quiz me` of 8+ in a session where every slide was covered). A normal `quiz me` on part of the lesson can never mark it Mastered; at most it stays In progress. When the learner scores 8+ on a partial quiz, tell them: "כדי לסמן את השיעור כנשלט צריך `quiz me full`."
+
+**Tell the learner the next review date** right after the score table, in one line: "החזרה הבאה על שיעור X.Y: DD-MM-YYYY (בעוד N ימים). כשתריצו `/learn` באותו יום זה יופיע ראשון."
 
 ---
 

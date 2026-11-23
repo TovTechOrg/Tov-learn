@@ -18,9 +18,12 @@ Compute today's date. Classify each lesson:
 - **Overdue** — next review date is before today
 - **Due today** — next review date is today
 - **In progress** — learning started but the lesson isn't complete (`order.md`) — not judged by score, since quizzes are optional. Say what's missing only from what the files show: if the slides aren't finished, say so (e.g. "השקפים עוד לא הסתיימו") — never that none were covered, since teaching mode doesn't save how far the learner got
-- **Next new** — the first lesson in the course order that isn't complete (`order.md`): not started, slides not finished, or required exercises not done. Say which of these it is.
+- **Next new** — the first lesson in the course order that isn't complete (`order.md`), skipping lessons whose type is `רשות` (optional): not started, slides not finished, or required exercises not done. Say which of these it is.
+- **Optional available** — optional lessons with no progress file that come before the next new lesson. Offer them in one line, never as the main suggestion
+- **Upcoming review** — next review date within the next 3 days
+- **Exercises to finish** — a started lesson whose required exercises aren't all recorded (`exercises.md`)
 
-Check final project eligibility: learner is ready to start the final project if they have progress files for lessons in module 2 (any lesson 2.x), or have completed all lessons through 1.8.
+Check final project eligibility: learner is ready to start the final project if they have progress files for lessons in module 2 (any lesson 2.x), or have completed all required lessons through 1.8. Optional lessons never block eligibility.
 
 ---
 
@@ -33,7 +36,10 @@ Present options based on what you found. Show only options that actually apply.
 Welcome back. Here's where things stand:
 
 🔁 Due for review: Lesson [X.X] — [title] ([N] days overdue)
+🗓️ Coming up: Lesson [X.X] review on DD-MM ([N] days)   ← only if any
+✏️ Exercises to finish: Lesson [X.X] ([recorded] of [N])   ← only if any
 📖 Next new lesson: [X.X] — [title]
+➕ Optional: Lesson [X.X] — [title]   ← only if any
 🔍 Project analysis
 [if eligible: 🏗️ Final Project — [show "starting" or current phase if already selected]]
 

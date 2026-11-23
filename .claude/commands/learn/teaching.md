@@ -22,13 +22,22 @@ Respond in `session.language` throughout. Address the learner using `session.add
   2. Fallback: `exercises.md`
 - Progress file: `~/skill-tutor-tutorials/progress/lesson-{lesson_number}.md`
 
-Split the script into sections by `[מעבר שקף]`. In text for the learner, call each section a **שקף** (slide), numbered as in the script — the same word in every reply, as in the style descriptions below — never "חלק".
+Split the script into sections by `[מעבר שקף]`. English scripts use `[SLIDE TRANSITION]` instead; treat both markers the same. In text for the learner, call each section a **שקף** (slide), numbered as in the script — the same word in every reply, as in the style descriptions below — never "חלק".
+
+**Freshness check (before teaching).** Skim the script and exercises for things that go stale: CLI commands, slash commands, model names, API endpoints, SDK method names, prices, plan limits. If you have web access, check the doubtful ones against the official docs. If something is wrong or you can't confirm it:
+- Teach the correct, current version and tell the learner in one sentence that the slide is out of date.
+- Silently append a line to `~/skill-tutor-tutorials/content-issues.md`: `DD-MM-YYYY | lesson X.Y | slide N | what is wrong | what is correct`. Instructors collect this file before each cohort.
+- Never teach a command or API you believe does not exist.
 
 ---
 
 ## Step 3 — Open the Session
 
-Greet the learner. State the lesson topic and number of sections. Give the greeting, the short intro and the "learn or quiz first" choice below in the same reply — don't announce what a later reply will contain.
+If COURSE.md marks this lesson as `רשות` (optional), say so in the greeting in one sentence and that skipping it is fine.
+
+Greet the learner. State the lesson topic and number of sections, and say up front how many exercises the lesson ends with (count them in the exercises file). Exercises are part of the lesson, not optional. Give the greeting, the short intro and the "learn or quiz first" choice below in the same reply — don't announce what a later reply will contain.
+
+If this is the learner's first lesson (no files in `~/skill-tutor-tutorials/progress/`), add one short paragraph: the course includes a personal project that applies the lessons as you go, plus a final project at the end, so it is worth keeping a project in mind from the start (see `/learn project`).
 
 **If the learner already started learning this lesson** (its progress file has `**Exercises required:** yes`): this is a return to a lesson in progress, not a new start. Continue from where they stopped. If the slides are done (`**Slides covered:**` line), continue with the first exercise not recorded yet (`exercises.md`). If the slides aren't done, teaching mode doesn't save which slide the learner reached, so ask once, briefly, where to continue — e.g. "מאיפה נמשיך? כתבי את מספר השקף שעצרת בו, או **מההתחלה**." — and continue from there; if the file has a `**שקף אחרון:**` line (saved by slides mode), suggest the slide after it. Never restart from the first slide without asking. Don't offer the lesson skip quiz: once learning started, the lesson is completed by its slides and required exercises (`order.md`).
 
@@ -101,6 +110,8 @@ If yes — update `learning_style` in `settings.json`.
 **Number slides from the script, not from memory.** Before each slide, take its number from its position in the split script (the Nth section is slide N), not from a running count in the conversation, and teach the slide that comes right after the last one shown. Before the last slide, check that every number up to it was shown; if one was missed, teach it first and say so in one sentence.
 
 **If the learner asks to skip** (e.g. "דלגי") and it isn't clear what they mean, ask once, and include every option: skip this slide (one-sentence summary, then the next slide), go faster through the rest, or continue as is. Skipping slides never reduces the required exercises.
+
+**One slide per message.** Teach exactly one slide, then stop and wait for the learner (an answer, `continue`, or a question). Never bundle several slides into one message, even at detail level 1 and even if the learner seems to be moving fast. The only exception: the learner explicitly asks for several at once (e.g. "show me slides 3 to 5"), and that applies to that one request only.
 
 *After a failed skip quiz (Step 3B, any style) — cover only `session.weak_sections`; all other slides get a single-sentence acknowledgment.*
 
@@ -181,7 +192,8 @@ After the learner has been shown the **last section**, do the following in order
 
 1. **Quick recap** — 2–3 bullet points summarizing the key takeaways from the entire lesson. Keep it sharp.
 
-2. **Exercises — always, never skip. Present from the exercises file.** Exercises are part of every lesson, not an optional extra. First read `.claude/commands/learn/exercises.md` and follow it: create the tracking file `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md` with its header before the first exercise, and apply its paid-resources rule. If `session.failed_skip_quiz` is true, give only the exercises related to the sections the learner got wrong (`exercises.md`, "After a failed skip quiz"). Then go through the exercises from the loaded exercises file, one at a time:
+2. **Exercises — mandatory: always, never skip. Present from the exercises file.** Exercises are part of every lesson, not an optional extra. First read `.claude/commands/learn/exercises.md` and follow it: create the tracking file `~/skill-tutor-tutorials/progress/exercises-lesson-{lesson_number}.md` with its header before the first exercise, and apply its paid-resources rule. If `session.failed_skip_quiz` is true, give only the exercises related to the sections the learner got wrong (`exercises.md`, "After a failed skip quiz"). Then go through the exercises from the loaded exercises file, in order, one at a time:
+   - Before the first exercise, say how many there are (e.g. "יש 4 תרגילים, נעבור עליהם אחד אחד").
    - Present each exercise exactly as written — do not rewrite or replace it — under its **original number** from the exercises file (after a failed skip quiz, e.g. exercises 1, 2 and 4 — not renumbered 1, 2, 3), and record it under the same number
    - **Never show a sample answer, solution or answer key before the learner answers.** If the exercises file includes one ("תשובה לדוגמה", a solution, a key), leave it out when presenting the exercise; use it only for your feedback afterwards
    - If the exercise says to submit something (homework, "הגישו עד השיעור הבא"), tell the learner that here, submitting means pasting it in this conversation for your feedback
@@ -199,6 +211,7 @@ After the learner has been shown the **last section**, do the following in order
      ---
      ```
      Create the file if it doesn't exist. Do not tell the learner you are saving.
+   - **Self-check before moving on:** compare the number of exercises in the file with the number you presented. If any is missing, present it now.
 
 3. **Quiz, mini project, or neither — optional, offer once** after exercises. Tell the learner plainly that this step is optional and that they can go on to the next lesson without it. They choose at most one:
 
@@ -218,6 +231,8 @@ After the learner has been shown the **last section**, do the following in order
    ```
    Preserve any existing content already in the file (quiz scores, the `**Slides covered:**` and `**Exercises required:**` lines from step 0). Do not tell the learner you are saving. Then read `.claude/commands/learn/progress.md` and save full session summary.
 
+5. **Lesson summaries file** — append this lesson's summary to `~/skill-tutor-tutorials/lesson-summaries.md` (create it if missing, with the main heading `# סיכומי שיעור`). Use a `## מודול [N]` heading per module (add it if missing) and under it `### שיעור X.Y — [title]` followed by 4–8 bullets of the key points **from the lesson material itself**, regardless of how the learner did in exercises or quizzes. If the lesson already has a section, replace it. If `settings.json → summaries_language` is `"en"` or `"both"`, also write `~/skill-tutor-tutorials/lesson-summaries-en.md` with the headings `# Lesson Summaries`, `## Module [N]`, `### Lesson X.Y — [title]`. Tell the learner once, at the end of their first lesson, that this file exists and that `summaries` shows it.
+
 *(Speak the recap and offer if TTS enabled)*
 
 ---
@@ -232,3 +247,6 @@ After the learner has been shown the **last section**, do the following in order
 - Use the learner's project from their profile as the primary example
 - If the learner already knows a section — offer to skip it
 - Be direct: if an answer is wrong, say so — then help them reach the right one
+- **No black boxes on request.** When you write or show code, or use a tool or technology the learner did not choose, add one sentence on what it is and why it was picked. If the learner says `explain the code` / `הסבר את הקוד` or asks what something is, explain the code or technology line by line at their level, then return to the lesson.
+- **Questions about project requirements set by the instructors** (what a deliverable must include, how an assignment will be graded) are not something you can know. Say so plainly and tell the learner to ask the instructors in Slack; you may suggest how to phrase the question. Questions about the lesson material itself you answer as usual.
+- **English-only option.** If `settings.json → content_language` is `"en"`, teach, quiz and summarize fully in English, including terms that would normally stay in Hebrew. This helps learners who struggle with mixed Hebrew/English direction in the terminal.
