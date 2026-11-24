@@ -46,6 +46,8 @@ Hooks רצים ב-exec form לפי התיעוד (`"command": "powershell.exe"`, 
 
 **בדיקה:** `python tests/validate_structure.py` רץ ב-CI. הוא בודק שכל מודול בטבלת ה-routing וב-CLAUDE.md קיים, ש-COURSE.md תואם לתיקיות השיעורים, ושלכל שיעור יש script ו-exercises. מוסיפים מודול או שיעור ← מעדכנים את הטבלאות, אחרת ה-CI נכשל.
 
+**בדיקת ה-hooks:** `python tests/test_hooks.py` מריץ כל hook כמו ש-Claude Code מריץ אותו, עם קורס ותיקיית לומד מזויפים (לא נוגע בנתונים אמיתיים). רץ ב-CI על Windows. משנים hook ← מוסיפים לו מקרה בדיקה.
+
 **כלל פיתוח:** כל מודול עצמאי — לא מניחים שמודול אחר כבר נטען. מידע שמודול צריך — הוא קורא בעצמו. TTS helper מוגדר ב-`learn.md` ונטען לפני כל מודול.
 
 ---

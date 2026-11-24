@@ -16,3 +16,13 @@ jobs:
           python-version: "3.11"
       - name: Run structural validation
         run: python tests/validate_structure.py
+
+  hooks:
+    runs-on: windows-latest   # the hooks are Windows PowerShell
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run hook tests
+        run: python tests/test_hooks.py
