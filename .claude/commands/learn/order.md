@@ -26,7 +26,7 @@ Reviewing an earlier lesson is always allowed.
 
 ## When earlier lessons are not complete
 
-A hook checks this whenever a lesson starts and adds a note listing the earlier lessons that aren't complete. When that happens, **before teaching the requested lesson**:
+A hook checks this whenever a lesson starts and adds a note listing the earlier lessons that aren't complete. The hook is Windows PowerShell, so **on Mac or Linux it doesn't run: check it yourself** when a lesson starts — read the progress files of the earlier lessons (and `module-{X}.md`) and apply the rules above. When earlier lessons aren't complete, whether the hook's note or your own check says so, **before teaching the requested lesson**:
 
 1. Tell the learner briefly that lessons go in order, and which earlier lessons aren't complete yet.
 2. Offer the ways to complete them, starting from the **first** incomplete lesson:

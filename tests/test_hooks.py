@@ -1,8 +1,9 @@
 """Hook tests for the stuck and lesson-order hooks (.claude/scripts).
 
-Runs each hook the way Claude Code does (documented exec form: powershell.exe -NoProfile
--ExecutionPolicy Bypass -WindowStyle Hidden -File <script>), with the hook input as UTF-8 JSON on
-stdin. Uses a fake course and a fake USERPROFILE in a temporary folder (with Hebrew in the path, like
+Runs each hook script with PowerShell (-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File
+<script>), with the hook input as UTF-8 JSON on stdin. A last section runs the exact commands from
+.claude/settings.json through Git Bash, as Claude Code does on Windows, including a machine without
+PowerShell (Mac/Linux). Uses a fake course and a fake USERPROFILE in a temporary folder (with Hebrew in the path, like
 real installs), so real learner data is never touched.
 
 Windows only (the hooks are PowerShell). Run: python tests/test_hooks.py
@@ -180,7 +181,69 @@ with tempfile.TemporaryDirectory() as tmp:
     (prog / "lesson-0.5.md").write_text("**Exercises required:** yes\n", encoding="utf-8")
     check("optional: 0.5 started but unfinished still doesn't block 1.1", start("1.1") == "", start("1.1"))
 
+# ---- .claude/settings.json: the exact hook commands (shell form) ----
+# Claude Code runs a shell-form hook with Git Bash on Windows and sh on Mac/Linux. These run the
+# commands from settings.json through Git Bash: Hebrew round trip, the "_script.txt" pre-filter, and a
+# machine without PowerShell (Mac/Linux), where every hook must exit 0 silently.
+REPO = SCRIPTS.parent.parent
+def git_bash():
+    git = shutil.which("git")
+    cands = [Path(os.environ.get("ProgramFiles", r"C:\Program Files"), "Git", "bin", "bash.exe")]
+    if git:
+        cands += [Path(git).resolve().parent.parent / "bin" / "bash.exe", Path(git).resolve().parent.parent.parent / "bin" / "bash.exe"]
+    return next((c for c in cands if c.is_file()), None)
+
+BASH = git_bash()
+if BASH is None:
+    results.append("[SKIP] settings.json commands: Git Bash not found")
+else:
+    hooks = json.loads((REPO / ".claude" / "settings.json").read_text(encoding="utf-8"))["hooks"]
+    STUCK_CMD = hooks["UserPromptSubmit"][0]["hooks"][0]["command"]
+    ORDER_CMD = next(h["hooks"][0]["command"] for h in hooks["PostToolUse"] if h.get("matcher") == "Read")
+    usr_bin = BASH.parent.parent / "usr" / "bin"           # cat etc., without the Windows folders (no PowerShell)
+
+    def sh(cmd, payload, path=None, extra=None):
+        e = dict(os.environ, CLAUDE_PROJECT_DIR=str(REPO), **(extra or {}))
+        if path is not None: e["PATH"] = path
+        p = subprocess.run([str(BASH), "-c", cmd], input=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+                           capture_output=True, env=e, timeout=60)
+        out = p.stdout.decode("utf-8", errors="replace").strip()
+        return p.returncode, out, p.stderr.decode("utf-8", errors="replace").strip()
+
+    code, out, _ = sh(STUCK_CMD, {"hook_event_name": "UserPromptSubmit", "prompt": "נתקעתי בתרגיל"})
+    check("settings: stuck command via Git Bash, Hebrew round trip", code == 0 and "stuck.md" in out and "נתקעתי" in out, out)
+    code, out, _ = sh(STUCK_CMD, {"hook_event_name": "UserPromptSubmit", "prompt": "continue"})
+    check("settings: stuck command, ordinary prompt -> nothing", code == 0 and out == "", out)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp, "טוב טק", "Tov-learn"); lessons = root / "courses" / "demo" / "lessons"
+        for l in ("0.1", "0.2"):
+            d = lessons / "00-a" / f"{l}-x"; d.mkdir(parents=True)
+            (d / f"{l}_script.txt").write_text("Title: x", encoding="utf-8")
+        (root / "courses" / "demo" / "COURSE.md").write_text("| מספר | שם |\n|---|---|\n| 0.1 | a |\n| 0.2 | b |\n", encoding="utf-8")
+        home = Path(tmp, "home"); (home / "skill-tutor-tutorials" / "progress").mkdir(parents=True)
+        s02 = str(lessons / "00-a" / "0.2-x" / "0.2_script.txt")
+        code, out, _ = sh(ORDER_CMD, read(s02), extra={"USERPROFILE": str(home)})
+        check("settings: order command via Git Bash, Hebrew path -> note", code == 0 and "0.1 (not started)" in out, out)
+
+        # A stand-in "powershell" that only records that it was started
+        shim = Path(tmp, "shim"); shim.mkdir(); mark = Path(tmp, "started")
+        (shim / "powershell").write_text(f"#!/bin/sh\ncat >/dev/null\n: > '{mark.as_posix()}'\n", encoding="utf-8", newline="\n")
+        shim_path = f"{shim};{usr_bin}"
+        sh(ORDER_CMD, read(str(root / "CLAUDE.md")), path=shim_path)
+        check("settings: order command, non-script read -> PowerShell not started", not mark.exists())
+        sh(ORDER_CMD, read(s02), path=shim_path)
+        check("settings: order command, script read -> PowerShell started", mark.exists())
+
+    # Mac/Linux: no PowerShell on PATH -> exit 0, no output, no error text
+    for name, cmd, payload in [("stuck", STUCK_CMD, {"prompt": "נתקעתי"}),
+                               ("order", ORDER_CMD, read("/home/x/Tov-learn/courses/c/lessons/m/0.2-x/0.2_script.txt"))]:
+        code, out, err = sh(cmd, payload, path=str(usr_bin))
+        check(f"settings: {name} command without PowerShell (Mac/Linux) -> silent exit 0",
+              code == 0 and out == "" and err == "", (code, out, err))
+
 print("\n".join(results))
 passed = sum(r.startswith("[OK") for r in results)
-print(f"\n{passed}/{len(results)} passed")
-sys.exit(0 if passed == len(results) else 1)
+failed = sum(r.startswith("[FAIL") for r in results)
+print(f"\n{passed}/{passed + failed} passed" + (f", {len(results) - passed - failed} skipped" if passed + failed < len(results) else ""))
+sys.exit(1 if failed else 0)

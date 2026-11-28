@@ -241,6 +241,7 @@ GUARDS_5C = [
     (learn_path, "in files you save", "learn.md's no-escape rule no longer covers saved files"),
     (learn_path, "**No HTML in chat:**", "learn.md no longer forbids HTML tags in chat"),
     (learn_path, "**Next lesson — only from `COURSE.md`:**", "learn.md no longer names the next lesson from COURSE.md only"),
+    (order_path, "on Mac or Linux it doesn't run: check it yourself", "order.md no longer has the Mac/Linux fallback for the lesson-order hook"),
     (order_path, "**Name lessons only from `COURSE.md`.**", "order.md no longer ignores a script's mention of other lessons"),
     (teaching_path, "**Number slides from the script, not from memory.**", "teaching.md no longer numbers slides from the script"),
     (teaching_path, "skip this slide", "teaching.md's skip question no longer offers skipping one slide"),
@@ -255,9 +256,25 @@ GUARDS_5C = [
     (order_path, "**Optional lessons** (type `רשות`", "order.md no longer exempts optional lessons from the order"),
     (ROOT / ".claude" / "scripts" / "check-lesson-order.ps1", "רשות", "check-lesson-order.ps1 may block on optional lessons again"),
 ]
+AI_DEV_COURSE = ROOT / "courses" / "ai-dev" / "COURSE.md"
+GUARDS_5C += [
+    (AI_DEV_COURSE, "מחליפים את ההוראה הישנה", "COURSE.md no longer says exercises.md replaces the old 'contact the mentor' instruction"),
+    (exercises_rules, "these rules replace that instruction", "exercises.md no longer overrides the exercise files' 'contact the mentor' instruction"),
+]
 for path, needed, message in GUARDS_5C:
     if path.exists() and needed not in path.read_text(encoding="utf-8"):
         error(f"Regression: {message}")
+# The no-escape rule's examples must stay escape sequences. Tools can silently decode an escape into
+# the letter itself, which is the bug the rule describes. Hebrew range built with chr() for that reason.
+_hebrew_letter_span = re.compile("`[" + chr(0x05D0) + "-" + chr(0x05EA) + "]`")
+for path in (learn_path, LEARN_COMMANDS / "quiz.md"):
+    if path.exists() and _hebrew_letter_span.search(path.read_text(encoding="utf-8")):
+        error(f"Regression: {path.name}'s escape-sequence example is a literal Hebrew letter, not an escape sequence")
+if AI_DEV_COURSE.exists():
+    course_text = AI_DEV_COURSE.read_text(encoding="utf-8")
+    for bad in ("מדיניות הקורס (מתוך קבצי התרגילים)", "לאישור"):
+        if bad in course_text:
+            error(f"Regression: COURSE.md contains '{bad}' again (contradicts exercises.md or isn't for outside users)")
 if exercises_rules.exists():
     for line in exercises_rules.read_text(encoding="utf-8").splitlines():
         if line.startswith("- [n]") and "## תרגיל" in line:
@@ -275,6 +292,10 @@ if settings_path.exists():
                 for script in re.findall(r"\.claude[\\/]+scripts[\\/]+([\w.-]+\.ps1)", cmd):
                     if not (ROOT / ".claude" / "scripts" / script).exists():
                         error(f"{event} hook references missing script: .claude/scripts/{script}")
+                # PowerShell hooks must skip silently where PowerShell is missing (Mac/Linux)
+                if ".ps1" in cmd and "command -v powershell >/dev/null 2>&1 || exit 0" not in cmd:
+                    error(f"{event} hook runs PowerShell without the Mac/Linux guard "
+                          "('command -v powershell >/dev/null 2>&1 || exit 0')")
 
 # --- Report ---
 if errors:

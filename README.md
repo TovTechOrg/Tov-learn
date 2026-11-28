@@ -219,7 +219,11 @@ CLAUDE.md                   ← architecture overview for contributors
 - Windows, Mac or Linux for learning. Some extras are **Windows-only** because they are written in PowerShell:
   - TTS voice (`read aloud`, auto TTS)
   - The slide viewer and slide server (`slides` falls back to reading in the chat)
-  - The auto-save Stop hook (on Mac/Linux it skips silently; progress is still saved by the tutor itself)
+  - The hooks, which skip silently on Mac/Linux:
+    - auto-save (Stop): progress is still saved by the tutor itself
+    - lesson order (PostToolUse on Read): the tutor checks the order itself, from the progress files (`order.md`)
+    - stuck detection (UserPromptSubmit): the learner can still type "נתקעתי" / "stuck"
+  - On Windows, the hooks run through Git Bash (installed with [Git for Windows](https://git-scm.com/downloads/win)). Without Git Bash, Claude Code runs hooks in PowerShell, where they show an error instead of running.
 
 ## License
 

@@ -35,7 +35,7 @@ Each question: **1 correct option + 2–3 plausible distractors**, all in `sessi
 
 **IMPORTANT — vary correct answer position:** The correct option must appear in a different position for each question. Never place the correct answer in the same slot across all questions (e.g. always first). Distribute across positions — for example: Q1→3rd, Q2→1st, Q3→2nd, Q4→3rd. This prevents pattern-guessing.
 
-**IMPORTANT — options must read clearly in Hebrew.** In a Hebrew question or option, a Latin term in the middle of the sentence can flip the word order on screen, so two options can look the same. When the difference between options depends on such terms, write them in Hebrew ("טוקני קלט" / "טוקני פלט", not Input / Output), or put the Latin term at the start of the option. Never write escape sequences such as `\u200F` or `ש` in questions or options (`learn.md`): the quiz interface may turn them into a character. If a question is about such a code, describe it in words.
+**IMPORTANT — options must read clearly in Hebrew.** In a Hebrew question or option, a Latin term in the middle of the sentence can flip the word order on screen, so two options can look the same. When the difference between options depends on such terms, write them in Hebrew ("טוקני קלט" / "טוקני פלט", not Input / Output), or put the Latin term at the start of the option. Never write escape sequences such as `\u200F` or `\u05E9` in questions or options (`learn.md`): the quiz interface may turn them into a character. If a question is about such a code, describe it in words.
 
 **Step 2 — One free-text recall question at the end.**
 
