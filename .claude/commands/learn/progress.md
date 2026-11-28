@@ -81,6 +81,8 @@ Update `~/skill-tutor-tutorials/topics/knowledge_map.md`:
 
 If the file exists — update only; do not delete previous entries.
 
+**Review suggestions come only from quizzes taken after learning** (as in `status.md`): a lesson skip-quiz or module-quiz score taken before learning never sets a review date or a "time to review" suggestion. If the map has an older review date that came from such a score, don't suggest that review.
+
 ---
 
 ## Update Learner Profile
@@ -101,4 +103,4 @@ Update `~/skill-tutor-tutorials/learner_profile.md` — add/update `## Lessons S
 After saving all files, display a session summary:
 - What was covered
 - What remains
-- Recommended next step based on knowledge map
+- Recommended next step: the next lesson is the first lesson in the course order that isn't complete (`order.md`); the knowledge map can add related earlier lessons to review

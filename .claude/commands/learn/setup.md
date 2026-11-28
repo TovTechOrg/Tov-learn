@@ -223,7 +223,7 @@ options:
   - label: "standard — הסבר ואז שאלה (ברירת מחדל)"
     description: "אסביר כל נושא ואז אשאל שאלה לבדיקת הבנה"
   - label: "diagnostic — בחן אותי קודם"
-    description: "תבחן אותי על כל השיעור קודם, ותלמד אותי רק את מה שטעיתי"
+    description: "תבחן אותי קודם על כל שיעור: 8 ומעלה — השיעור עובר; פחות — תלמד רק את מה שטעיתי ונתרגל רק אותו"
   - label: "socratic — הדרך אותי בשאלות"
     description: "תשאל שאלות שיובילו אותי לגלות את התשובות בעצמי"
 ```
@@ -239,6 +239,8 @@ options:
   - label: "detail 3 — עומק מלא"
     description: "כל הפרטים, תוספות, השוואות"
 ```
+
+Before or with these questions, tell the learner in two short lines (in `session.language`): "בכל סגנון אפשר לבחור לכל שיעור בנפרד: ללמוד אותו, או להיבחן עליו קודם (8 ומעלה מתוך 10 — השיעור עובר). בתחילת מודול אפשר גם מבחן אחד על כל המודול." and "את הסגנון ואת רמת הפירוט אפשר לשנות בכל שלב בקורס, גם באמצע שיעור — פשוט כתבו את שם הסגנון או 'detail 1/2/3'."
 
 Map to values:
 - mode: `"standard"` / `"diagnostic"` / `"socratic"`
@@ -317,7 +319,7 @@ Copy-Item -Force "$PWD\.claude\commands\learn\*.md" "$moduleDest\"
 Send a summary message in `session.language` that includes:
 1. A confirmation that setup is complete and settings are saved.
 2. A one-line recap of the chosen settings (language, course, TTS on/off).
-3. A prompt asking what they'd like to do next — offer to start the first lesson or jump to a specific one.
+3. A prompt asking what they'd like to do next — offer to start the first lesson. Lessons go in course order (`order.md`); a learner who already knows some of the material can move ahead by passing skip quizzes (one per whole module, or one per lesson).
 
 Example (English):
 ```
@@ -326,7 +328,7 @@ Setup complete! Here's your configuration:
 - Course: AI Dev
 - Voice: Off
 
-Ready to start learning. Would you like to begin with Lesson 0.1, or jump somewhere specific?
+Ready to start learning. Shall we begin with Lesson 0.1? If you already know some of the material, you can move ahead by passing a skip quiz — one per module or one per lesson.
 ```
 
 Do not skip this step even if any previous section was skipped or the learner said "no" to optional features.

@@ -10,6 +10,27 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); command -v powershell >/dev/null 2>&1 || exit 0; printf '%s' \"$input\" | powershell -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"$CLAUDE_PROJECT_DIR/.claude/scripts/detect-stuck.ps1\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); case \"$input\" in *_script.txt*) ;; *) exit 0 ;; esac; command -v powershell >/dev/null 2>&1 || exit 0; printf '%s' \"$input\" | powershell -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"$CLAUDE_PROJECT_DIR/.claude/scripts/check-lesson-order.ps1\""
+          }
+        ]
+      }
     ]
   }
 }

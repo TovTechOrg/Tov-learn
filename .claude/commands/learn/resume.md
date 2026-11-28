@@ -10,18 +10,18 @@ Respond in `session.language` throughout. Address the learner using `session.add
 
 Silently read:
 - `~/skill-tutor-tutorials/learner_profile.md` — find `## Lessons Studied` for last lesson
-- All `~/skill-tutor-tutorials/progress/lesson-*.md` — extract next review dates
+- All `~/skill-tutor-tutorials/progress/lesson-*.md` — extract next review dates (only ones set by a quiz taken after learning — a skip quiz, marked `מבחן דילוג`, sets none; `quiz.md`). Ignore a review date when the only quiz in the file is a skip quiz, even if its row isn't labeled — e.g. the Sessions row or the summary calls it a skip quiz ("מבחן דילוג")
 - `~/skill-tutor-tutorials/topics/knowledge_map.md` — find in-progress lessons
 - `~/skill-tutor-tutorials/project/ai-dev-project.md` — final project state (may not exist)
 
 Compute today's date. Classify each lesson:
 - **Overdue** — next review date is before today
 - **Due today** — next review date is today
-- **In progress** — started, score under 8, not yet due
-- **Next new** — first lesson in COURSE.md with no progress file, skipping lessons whose type is `רשות` (optional)
+- **In progress** — learning started but the lesson isn't complete (`order.md`) — not judged by score, since quizzes are optional. Say what's missing only from what the files show: if the slides aren't finished, say so (e.g. "השקפים עוד לא הסתיימו") — never that none were covered, since teaching mode doesn't save how far the learner got
+- **Next new** — the first lesson in the course order that isn't complete (`order.md`), skipping lessons whose type is `רשות` (optional): not started, slides not finished, or required exercises not done. Say which of these it is.
 - **Optional available** — optional lessons with no progress file that come before the next new lesson. Offer them in one line, never as the main suggestion
 - **Upcoming review** — next review date within the next 3 days
-- **Skipped exercises** — any `~/skill-tutor-tutorials/progress/exercises-lesson-*.md` entry with `דילג`
+- **Exercises to finish** — a started lesson whose required exercises aren't all recorded (`exercises.md`)
 
 Check final project eligibility: learner is ready to start the final project if they have progress files for lessons in module 2 (any lesson 2.x), or have completed all required lessons through 1.8. Optional lessons never block eligibility.
 
@@ -37,7 +37,7 @@ Welcome back. Here's where things stand:
 
 🔁 Due for review: Lesson [X.X] — [title] ([N] days overdue)
 🗓️ Coming up: Lesson [X.X] review on DD-MM ([N] days)   ← only if any
-✏️ Skipped exercises: Lesson [X.X], exercise [N]   ← only if any
+✏️ Exercises to finish: Lesson [X.X] ([recorded] of [N])   ← only if any
 📖 Next new lesson: [X.X] — [title]
 ➕ Optional: Lesson [X.X] — [title]   ← only if any
 🔍 Project analysis
@@ -74,7 +74,7 @@ What would you like to do?
 
 | Answer | Action |
 |--------|--------|
-| Picks a lesson number | Read `.claude/commands/learn/teaching.md` with that lesson |
+| Picks a lesson number | Read `.claude/commands/learn/teaching.md` with that lesson (lessons go in course order — if an earlier lesson isn't complete, `order.md` applies) |
 | "review" / picks a due lesson | Read `.claude/commands/learn/teaching.md` with that lesson |
 | "project analysis" | Read `.claude/commands/learn/project-analysis.md` |
 | "final project" / "project" / picks 🏗️ | Read `.claude/commands/learn/project.md` |

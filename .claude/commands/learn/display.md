@@ -113,3 +113,5 @@ Show this once at session start, after the greeting:
 ```markdown
 > **Available:** continue · quiz me · explain again · summary · exercises · stop · read aloud · settings
 ```
+
+For a Hebrew learner, write the words they type in Hebrew where `learn.md` gives one (**המשך** instead of `continue`, **נתקעתי** for stuck).

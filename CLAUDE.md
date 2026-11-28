@@ -16,7 +16,7 @@
 | Teaching | `.claude/commands/learn/teaching.md` | טעינת שיעור, Journey format, לולאת הוראה |
 | Quiz | `.claude/commands/learn/quiz.md` | בחינה, ציונים, spaced repetition |
 | Progress | `.claude/commands/learn/progress.md` | שמירת tutorials, knowledge map |
-| Status | `.claude/commands/learn/status.md` | HTML dashboard — all lessons, scores, due reviews |
+| Status | `.claude/commands/learn/status.md` | HTML dashboard — all lessons by completion (complete / in progress / not started), scores as extra info, due reviews |
 | Project Analysis | `.claude/commands/learn/project-analysis.md` | סריקת קוד, ראיון ארכיטקט, מפת HTML |
 | Slides | `.claude/commands/learn/slides.md` | קריאה מילה במילה מסקריפטים, viewer אינטראקטיבי, TTS אוטומטי |
 | Export | `.claude/commands/learn/export.md` | ייצוא כל נתוני התלמיד ל-ZIP — גיבוי/מעבר למכשיר אחר |
@@ -26,12 +26,27 @@
 | Security | `.claude/commands/learn/security.md` | סריקת אבטחה על הפרויקט החי אחרי deploy |
 | Display (ref) | `.claude/commands/learn/display.md` | שפה ויזואלית אחידה לפלט ללומד; נטען ע"י teaching, quiz, progress |
 | CLI-First (ref) | `.claude/commands/learn/cli-first.md` | עקרון משותף — העדפת CLI על דאשבורד; מודולים אחרים מפנים אליו |
+| Stuck | `.claude/commands/learn/stuck.md` | עזרה כשהלומד תקוע — לא הבין חומר / משהו לא עובד; מלמד איך לבקש עזרה טוב |
+| Lesson order (ref) | `.claude/commands/learn/order.md` | שיעורים לפי סדר הקורס: שיעור מתחיל רק כשכל השיעורים הקודמים הושלמו (שקפים + תרגילים נדרשים) או עברו מבחן דילוג (שיעור / מודול) |
+| Exercises (ref) | `.claude/commands/learn/exercises.md` | כללי תרגילים משותפים ל-teaching ו-slides: כל התרגילים לפני השיעור הבא, קובץ מעקב, תרגילים בתשלום (דרך חינמית ← גרסה מותאמת לכלים חינמיים ← רק אז דילוג ודגל למנחים; בלי לחכות למנחה, ניסיון חינם לא נחשב חינמי) |
+
+**Hooks** (`.claude/settings.json`, סקריפטים ב-`.claude/scripts/`):
+
+| Hook | סקריפט | תפקיד |
+|------|--------|-------|
+| Stop | `auto-save-progress.ps1` | שמירת שיעור/שקף נוכחי (מצב שקפים) |
+| UserPromptSubmit | `detect-stuck.ps1` | הודעה כמו "לא הבנתי" / "לא עובד" ← הערה ל-Claude על `stuck.md` |
+| PostToolUse (Read) | `check-lesson-order.ps1` | כש-Claude קורא סקריפט של שיעור (תחילת שיעור) ושיעור קודם כלשהו לפי סדר הקורס לא הושלם ← הערה ל-Claude לפי `order.md` (בכל פעם שמתחילים את השיעור, בכל סשן, עד שהשיעורים הקודמים הושלמו) |
+
+כל hook של PowerShell כתוב ב-shell form עם אותה שמירה כמו ה-Stop hook: `command -v powershell >/dev/null 2>&1 || exit 0; ...`. לפי התיעוד, shell form רץ ב-Git Bash ב-Windows וב-`sh` ב-Mac/Linux, כך שב-Mac/Linux ה-hook מדלג בשקט (ה-validator בודק שהשמירה קיימת). ה-hook של סדר השיעורים מפעיל את PowerShell רק כשהקובץ שנקרא הוא `_script.txt`, כדי לא להפעיל אותו בכל Read. ב-Windows בלי Git Bash, \Claude Code מריץ hooks ב-PowerShell, והשמירה נכשלת שם (גם ב-Stop hook). סקריפט עם טקסט בעברית נשמר ב-UTF-8 **עם BOM** (Windows PowerShell 5.1). הערות של hooks ל-Claude מנוסחות כעובדות, לא כפקודות (התיעוד מזהיר שניסוח פקודה עלול להפעיל הגנות prompt-injection).
 
 סקריפטים תומכים נמצאים ב-`.claude/scripts/` (PowerShell — slide server, HTML generator, auto-save).
 
-**פלטפורמה:** TTS, viewer השקפים וה-Stop hook דורשים Windows (PowerShell). ב-Mac/Linux הלמידה עובדת, ה-hook מדלג בשקט, והשקפים מוקראים בצ'אט.
+**פלטפורמה:** TTS, viewer השקפים וה-hooks דורשים Windows (PowerShell). ב-Mac/Linux הלמידה עובדת, ה-hooks מדלגים בשקט, והשקפים מוקראים בצ'אט. את סדר השיעורים Claude בודק שם בעצמו (`order.md`), ואת "נתקעתי" הלומד כותב בעצמו.
 
 **בדיקה:** `python tests/validate_structure.py` רץ ב-CI. הוא בודק שכל מודול בטבלת ה-routing וב-CLAUDE.md קיים, ש-COURSE.md תואם לתיקיות השיעורים, ושלכל שיעור יש script ו-exercises. מוסיפים מודול או שיעור ← מעדכנים את הטבלאות, אחרת ה-CI נכשל.
+
+**בדיקת ה-hooks:** `python tests/test_hooks.py` מריץ כל hook כמו ש-Claude Code מריץ אותו, עם קורס ותיקיית לומד מזויפים (לא נוגע בנתונים אמיתיים). רץ ב-CI על Windows. משנים hook ← מוסיפים לו מקרה בדיקה.
 
 **כלל פיתוח:** כל מודול עצמאי — לא מניחים שמודול אחר כבר נטען. מידע שמודול צריך — הוא קורא בעצמו. TTS helper מוגדר ב-`learn.md` ונטען לפני כל מודול.
 
